@@ -1,0 +1,5 @@
+C = clang
+
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
+
+PKG_CFLAGS = $(C_VISIBILITY)
