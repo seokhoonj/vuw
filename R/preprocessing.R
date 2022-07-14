@@ -5,6 +5,25 @@ calc_ins_age <- function(birth, now) {
   ifelse(now < bottom, year(now)-year(birth)-1, year(now)-year(birth))
 }
 
+set_age_band <- function(df, age_var, interval, right = FALSE) {
+  age_var <- match_cols(df, vapply(substitute(age_var), deparse, "character"))
+  age <- df[[age_var]]
+  mn <- floor(min(age) / interval) * interval
+  mx <- ceiling(max(age) / interval) * interval
+  if (max(age) == mx) mx <- ceiling(max(age) / interval + 1) * interval
+  age_band <- cut(age, breaks = seq(mn, mx, interval), right = right)
+  # levels
+  l <- levels(age_band)
+  r <- gregexpr("[0-9]+", l, perl = TRUE)
+  m <- regmatches(l, r)
+  s <- as.integer(sapply(m, function(x) x[1L]))
+  e <- as.integer(sapply(m, function(x) x[2L]))-1
+  g <- sprintf("%d-%d", s, e)
+  levels(age_band) <- g
+  set(df, j = "age_band", value = age_band)
+  setcolafter_(df, "age_band", age_var)
+}
+
 split_date <- function(df, from_var, to_var, udate, all = TRUE, verbose = TRUE) {
   from_var <- deparse(substitute(from_var))
   to_var <- deparse(substitute(to_var))
