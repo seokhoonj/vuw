@@ -138,7 +138,7 @@ count_stay <- function(df, id_var, from_var, to_var) {
   return(z)
 }
 
-modify_stay <- function(df, id_var, from_var, to_var, limit, waiting) {
+limit_stay <- function(df, id_var, from_var, to_var, limit, waiting) {
   id_var   <- match_cols(df, vapply(substitute(id_var)  , deparse, "character"))
   from_var <- match_cols(df, vapply(substitute(from_var), deparse, "character"))
   to_var   <- match_cols(df, vapply(substitute(to_var)  , deparse, "character"))
@@ -158,7 +158,7 @@ modify_stay <- function(df, id_var, from_var, to_var, limit, waiting) {
     to   = max(get(to_var))
   ), id_var]
   set(dm, j = "len", value = as.numeric(dm$to - dm$from + 1))
-  stay_mod <- .Call(vuw_modify_stay_in_the_interval,
+  stay_mod <- .Call(vuw_limit_stay_in_the_interval,
                     stay, dm$len, limit, waiting)
   from <- num2date(expand_date(dm$from, dm$to))
   dm_id <- reprow(dm[, ..id_var], times = dm$len)

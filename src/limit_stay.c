@@ -47,7 +47,7 @@ SEXP expand_date(SEXP from, SEXP to) {
   return z;
 }
 
-SEXP modify_stay(SEXP x, SEXP limit, SEXP waiting) {
+SEXP limit_stay(SEXP x, SEXP limit, SEXP waiting) {
   // limit: 90, waiting: 90
   // ex) x = c(rep(1, 5), rep(0, 5), rep(1, 8), rep(0, 5), rep(1, 5))
   // ex) count_limit(x, 3, 6)
@@ -109,7 +109,7 @@ SEXP modify_stay(SEXP x, SEXP limit, SEXP waiting) {
   return z;
 }
 
-SEXP modify_stay_in_the_interval(SEXP x, SEXP p, SEXP limit, SEXP waiting) {
+SEXP limit_stay_in_the_interval(SEXP x, SEXP p, SEXP limit, SEXP waiting) {
   // limit = 90; waiting = 90
   // ex) x = rep(1, 100)
   // ex) p = c(30, 40, 30) # split
