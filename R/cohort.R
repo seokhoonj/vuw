@@ -151,7 +151,7 @@ id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var, udate, ...)
   return(z)
 }
 
-kcd_in_ith_mon <- function (df, id_var, kcd_var, from_var, to_var,
+kcd_in_months <- function (df, id_var, kcd_var, from_var, to_var,
                             kcd_code, udate, mon, col) {
   id_var   <- match_cols(df, vapply(substitute(id_var)  , deparse, "character"))
   kcd_var  <- match_cols(df, vapply(substitute(kcd_var) , deparse, "character"))
@@ -173,7 +173,7 @@ kcd_in_ith_mon <- function (df, id_var, kcd_var, from_var, to_var,
   return(z)
 }
 
-kcd_in_ith_year <- function (df, id_var, kcd_var, from_var, to_var,
+kcd_in_years <- function (df, id_var, kcd_var, from_var, to_var,
                              kcd_code, udate, year, col) {
   id_var   <- match_cols(df, vapply(substitute(id_var)  , deparse, "character"))
   kcd_var  <- match_cols(df, vapply(substitute(kcd_var) , deparse, "character"))
