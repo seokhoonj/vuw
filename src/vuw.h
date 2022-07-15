@@ -93,7 +93,7 @@ SEXP modify_stay_in_the_interval(SEXP x, SEXP p, SEXP limit, SEXP waiting);
 SEXP replace_vec_in_mat(SEXP mat, SEXP col, SEXP vec);
 SEXP replace_val_in_mat(SEXP mat, SEXP val, SEXP refmat, SEXP refval);
 SEXP index_date_overlap(SEXP id, SEXP from, SEXP to, SEXP interval);
-SEXP expand_dates(SEXP from, SEXP to);
+SEXP expand_date(SEXP from, SEXP to);
 
 #endif // VUW_VUW_H
 

@@ -149,7 +149,7 @@ export(add_year)
 export(add_mon)
 export(bmonth)
 export(emonth)
-export(expand_dates)
+export(expand_date)
 export(sec_to_hms)
 export(proc_time)
 

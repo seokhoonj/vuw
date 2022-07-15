@@ -42,7 +42,7 @@ static const R_CallMethodDef callEntries[] = {
   CALLDEF(replace_vec_in_mat, 3),
   CALLDEF(replace_val_in_mat, 4),
   CALLDEF(index_date_overlap, 4),
-  CALLDEF(expand_dates, 2),
+  CALLDEF(expand_date, 2),
   {NULL, NULL, 0}
 };
 

@@ -194,12 +194,12 @@ add_mon <- function(date, mon) {
 }
 bmonth <- function(x) as.Date(format(x, format = "%Y-%m-01"))
 emonth <- function(x) add_mon(x, 1L) - 1L
-expand_dates <- function(from, to) {
+expand_date <- function(from, to) {
   if (inherits(from, "character"))
     from <- as.Date(from)
   if (inherits(to, "character"))
     to <- as.Date(to)
-  num2date(.Call(vuw_expand_dates, from, to)) # not a unique value
+  num2date(.Call(vuw_expand_date, from, to)) # not a unique value
 }
 
 # time --------------------------------------------------------------------

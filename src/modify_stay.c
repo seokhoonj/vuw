@@ -1,6 +1,6 @@
 #include "vuw.h"
 
-SEXP expand_dates(SEXP from, SEXP to) {
+SEXP expand_date(SEXP from, SEXP to) {
   R_xlen_t n, s, i, j, k;
   SEXP z, stay;
   n = XLENGTH(from);

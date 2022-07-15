@@ -144,28 +144,38 @@ modify_stay <- function(df, id_var, from_var, to_var, limit, waiting) {
   to_var   <- match_cols(df, vapply(substitute(to_var)  , deparse, "character"))
   trvs <- traverse(df[[from_var]], df[[to_var]])
   diff <- c(diff(trvs), 1)
-  id_trv <- rep(df[[id_var]], each = 2L)
-  pt_stt <- c(1, change_point(id_trv))
-  pt_end <- change_point(id_trv) - 1
+  id_trv <- reprow(df[, ..id_var], each = 2L)
+  pt <- sort_group_by(id_trv)
+  pt_stt <- nolast(pt+1)
+  pt_end <- pt[2:(length(pt)-1)]
   diff[pt_end] <- 1
   adjs <- rep(c(1, -1), times = length(diff)/2)
   diff <- diff + adjs
-  bins <- rep(c(1, 0), times = length(diff)/2)
+  bins <- rep(c(1,  0), times = length(diff)/2)
   stay <- rep(bins, diff)
-  df_len <- df[, .(sdate = min(get(from_var)), edate = max(get(to_var)),
-                   len = as.numeric(max(get(to_var)) - min(get(from_var)) + 1L)),
-               .(id = get(id_var))]
-  stay_mod <- .Call(vuw_modify_stay_in_the_interval, stay, df_len$len, limit, waiting)
-  pd <- num2date(with(df_len, expand_dates(sdate, edate)))
-  id_len <- with(df_len, rep(id, times = len))
-  z <- data.table(id = id_len, sdate = pd, stay, stay_mod)
+  dm <- df[, .(
+    from = min(get(from_var)),
+    to   = max(get(to_var))
+  ), id_var]
+  set(dm, j = "len", value = as.numeric(dm$to - dm$from + 1))
+  stay_mod <- .Call(vuw_modify_stay_in_the_interval,
+                    stay, dm$len, limit, waiting)
+  from <- num2date(expand_date(dm$from, dm$to))
+  dm_id <- reprow(dm[, ..id_var], times = dm$len)
+  z <- data.table(dm_id, from = from, stay, stay_mod)
   z <- z[!(stay == 0 & stay_mod == 0)]
-  z <- z[, .(sdate = min(sdate), stay = sum(stay), stay_mod = sum(stay_mod)),
-         .(id = id, period = bmonth(sdate))]
-  set(z, j = "edate", value = num2date(
-    ifelse(z$stay_mod > 0, z$sdate + z$stay_mod - 1L, z$sdate)
+  set(z, j = "period", value = bmonth(z$from))
+  id_vars <- c(id_var, "period")
+  z <- z[, .(
+    from     = min(from),
+    stay     = sum(stay),
+    stay_mod = sum(stay_mod)
+  ), id_vars]
+  set(z, j = "to", value = num2date(
+    ifelse(z$stay_mod > 0, z$from + z$stay_mod - 1L, z$from)
   ))
-  setcolafter(z, edate, sdate)
+  setcolafter(z, to, from)
+  setnames(z, c("from", "to"), c(from_var, to_var))
   return(z)
 }
 
@@ -198,3 +208,29 @@ set_kcd_name <- function(df, col, dots = TRUE, lang = c("ko", "en")) {
     df[copybook, on = col, (new_col) := i.en]
   }
 }
+
+to_monthly_data <- function(df, id_var, kcd_var, from_var, to_var) {
+  # variables
+  id_var   <- match_cols(df, vapply(substitute(id_var), deparse, "character"))
+  kcd_var  <- match_cols(df, deparse(substitute(kcd_var)))
+  from_var <- match_cols(df, deparse(substitute(from_var)))
+  to_var   <- match_cols(df, deparse(substitute(to_var)))
+  # id
+  stay <- df[[to_var]] - df[[from_var]] + 1
+  id <- lapply(seq_along(id_var), function(x) rep(df[[id_var[x]]], stay))
+  id <- as.data.table(data.frame(id))
+  setnames(id, id_var)
+  # kcd and period
+  kcd <- rep(df[[kcd_var]], stay)
+  period <- expand_date(df[[from_var]], df[[to_var]])
+  # merge and group
+  ans <- data.table(id, kcd, period)
+  ans[, period := bmonth(period)]
+  ans <- unique(ans)
+  id_cols <- c(id_var, "period")
+  ans <- ans[, .(kcd = glue_code(kcd)), id_cols]
+  ans[, kcd := sapply(kcd, function(x) glue_code(splt_code(x)))]
+  return(ans[])
+}
+
+
