@@ -1,6 +1,6 @@
 
-#ifndef RAUM_RAUM_H
-#define RAUM_RAUM_H
+#ifndef VUW_VUW_H
+#define VUW_VUW_H
 
 #include <R.h>
 #include <Rinternals.h>
@@ -24,7 +24,7 @@
 /* for a message translation */
 #ifdef ENABLE_NLS
 #include <libintl.h>
-#define _(String) dgettext ("raum", String)
+#define _(String) dgettext ("vuw", String)
 #else
 #define _(String) (String)
 #endif
@@ -92,10 +92,10 @@ SEXP modify_stay(SEXP x, SEXP limit, SEXP waiting);
 SEXP modify_stay_in_the_interval(SEXP x, SEXP p, SEXP limit, SEXP waiting);
 SEXP replace_vec_in_mat(SEXP mat, SEXP col, SEXP vec);
 SEXP replace_val_in_mat(SEXP mat, SEXP val, SEXP refmat, SEXP refval);
-SEXP index_overlapping_date_range(SEXP id, SEXP from, SEXP to, SEXP interval);
+SEXP index_date_overlap(SEXP id, SEXP from, SEXP to, SEXP interval);
 SEXP expand_dates(SEXP from, SEXP to);
 
-#endif // RAUM_RAUM_H
+#endif // VUW_VUW_H
 
 #ifdef __cplusplus
 }

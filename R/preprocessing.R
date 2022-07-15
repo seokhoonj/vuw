@@ -84,7 +84,7 @@ subset_time_ <- function(df, from_var, to_var, udate, start, end) {
   z[edate >= fdate & sdate < tdate]
 }
 
-merge_overlapping_date_range <- function(df, id_var, merge_var, from_var, to_var, interval = 0) {
+merge_date_overlap <- function(df, id_var, merge_var, from_var, to_var, interval = 0) {
   id_var    <- match_cols(df, vapply(substitute(id_var)   , deparse, "character"))
   merge_var <- match_cols(df, vapply(substitute(merge_var), deparse, "character"))
   from_var  <- match_cols(df, vapply(substitute(from_var) , deparse, "character"))
@@ -94,7 +94,7 @@ merge_overlapping_date_range <- function(df, id_var, merge_var, from_var, to_var
   setnames(tmp, c(id_var, merge_var, "from", "to"))
   setorderv(tmp, c(id_var, "from", "to"))
   set(tmp, j = "sub_stay", value = 0)
-  ind <- .Call(vuw_index_overlapping_date_range, tmp[, ..id_var],
+  ind <- .Call(vuw_index_date_overlap, tmp[, ..id_var],
                as_integer(tmp$from),
                as_integer(tmp$to),
                as_integer(interval))
@@ -106,7 +106,7 @@ merge_overlapping_date_range <- function(df, id_var, merge_var, from_var, to_var
            keyby = group]
   z <- m[s, on = group]
   set(z, j = "loc", value = NULL)
-  set(z, j = "stay", value = as.nu(z$to - z$from + 1 - z$sub_stay))
+  set(z, j = "stay", value = as.numeric(z$to - z$from + 1 - z$sub_stay))
   set(z, j = "sub_stay", value = NULL)
   setnames(z, c(vars, "stay"))
   return(z)
@@ -133,7 +133,7 @@ count_stay <- function(df, id_var, from_var, to_var) {
   to <- as.integer(df[[to_var]])
   if (any(to - from < 0))
     stop("Some `from_var` are greater than `to_var`.")
-  stay <- .Call(`vuw_count_stay`, id, from, to)
+  stay <- .Call(vuw_count_stay, id, from, to)
   z <- cbind(unique(id), stay = stay)
   return(z)
 }

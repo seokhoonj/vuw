@@ -41,12 +41,12 @@ static const R_CallMethodDef callEntries[] = {
   CALLDEF(setmul_num, 2),
   CALLDEF(replace_vec_in_mat, 3),
   CALLDEF(replace_val_in_mat, 4),
-  CALLDEF(index_overlapping_date_range, 4),
+  CALLDEF(index_date_overlap, 4),
   CALLDEF(expand_dates, 2),
   {NULL, NULL, 0}
 };
 
-void attribute_visible R_init_raum(DllInfo *info) {
+void attribute_visible R_init_vuw(DllInfo *info) {
   R_registerRoutines(info, NULL, callEntries, NULL, NULL);
   R_useDynamicSymbols(info, FALSE);
   R_forceSymbols(info, TRUE);

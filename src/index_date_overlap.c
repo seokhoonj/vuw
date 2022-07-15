@@ -1,6 +1,6 @@
 #include "vuw.h"
 
-SEXP index_overlapping_date_range(SEXP id, SEXP from, SEXP to, SEXP interval) {
+SEXP index_date_overlap(SEXP id, SEXP from, SEXP to, SEXP interval) {
   R_xlen_t m, n, i, j;
   SEXP loc, sub, v, z;
   m = XLENGTH(VECTOR_ELT(id, 0)), n = XLENGTH(id);

@@ -3,12 +3,15 @@
 SEXP ratio_by_period(SEXP x, SEXP start, SEXP end, SEXP ratio) {
   if (!isMatrix(x))
     error("not a matrix");
+
   R_xlen_t i, j, m, n, s, e, r, col;
   SEXP ans;
   m = nrows(x), n = ncols(x);
   s = XLENGTH(start), e = XLENGTH(end), r = XLENGTH(ratio);
+
   if (n != s || n != e || n != r)
     error("different length");
+
   switch(TYPEOF(x)) {
   case INTSXP:{
     PROTECT(ans = allocMatrix(REALSXP, m, n));
@@ -58,11 +61,14 @@ SEXP ratio_by_period(SEXP x, SEXP start, SEXP end, SEXP ratio) {
 SEXP set_ratio_by_period(SEXP x, SEXP start, SEXP end, SEXP ratio) {
   if (!isMatrix(x))
     error("not a matrix");
+
   R_xlen_t i, j, m, n, s, e, r, col;
   m = nrows(x), n = ncols(x);
   s = XLENGTH(start), e = XLENGTH(end), r = XLENGTH(ratio);
+
   if (n != s || n != e || n != r)
     error("different length");
+
   switch(TYPEOF(x)) {
   case INTSXP:{
     int* ix = INTEGER(x);
