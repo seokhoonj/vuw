@@ -100,10 +100,10 @@ equal <- function(x, y) {
 }
 
 setcolafter <- function(df, cols, after = NA) {
-  cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
-  after <- deparse(substitute(after))
+  cols  <- match_cols(df, vapply(substitute(cols) , deparse, "character"))
+  after <- match_cols(df, vapply(substitute(after), deparse, "character"))
   all_cols <- colnames(df)
-  cols_pos <- sapply(cols, function(x) which(all_cols == x), USE.NAMES = F)
+  cols_pos <- sapply(cols, function(x) which(all_cols == x), USE.NAMES = FALSE)
   rest_pos <- which(!all_cols %in% cols)
   if (missing(after)) {
     neworder <- c(cols_pos, rest_pos)
@@ -119,7 +119,7 @@ setcolafter <- function(df, cols, after = NA) {
 
 setcolafter_ <- function(df, cols, after = NA) {
   all_cols <- colnames(df)
-  cols_pos <- sapply(cols, function(x) which(all_cols == x), USE.NAMES = F)
+  cols_pos <- sapply(cols, function(x) which(all_cols == x), USE.NAMES = FALSE)
   rest_pos <- which(!all_cols %in% cols)
   if (missing(after)) {
     neworder <- c(cols_pos, rest_pos)
