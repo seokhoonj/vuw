@@ -113,7 +113,7 @@ apply_expiration <- function(x, expiration) {
   rn <- colnames(x)
   ur <- unique(rn)
   ex <- structure(rowvec(expiration), dimnames = list(NULL, colnames(x))) # 0, 1, 2
-  em <- row_max_by_cn(ex) # maximum expiration
+  em <- as_integer(row_max_by_cn(ex)) # maximum expiration
 
   z <- vector(mode = "list", length = length(ur))
   for (i in seq_along(ur)) {

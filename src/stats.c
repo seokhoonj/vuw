@@ -249,7 +249,7 @@ SEXP row_min_by_rn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP maxval) {
     int value = asInteger(maxval);
     fillValue(ans, value);
     for (int i = 0; i < p; i++) {
-      int *pa = INTEGER0(ans);
+      int *pa = INTEGER(ans);
       for(int j = 0; j < n; j++) {
         int xjpo = INTEGER_ELT(x, j + offset);
         if (!narm || xjpo != NA_INTEGER)
@@ -263,7 +263,7 @@ SEXP row_min_by_rn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP maxval) {
     double value = asReal(maxval);
     fillValue(ans, value);
     for (int i = 0; i < p; i++) {
-      double *pa = REAL0(ans);
+      double *pa = REAL(ans);
       for(int j = 0; j < n; j++) {
         double xjpo = REAL_ELT(x, j + offset);
         if (!narm || !ISNAN(xjpo))
@@ -314,7 +314,7 @@ SEXP row_max_by_rn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP minval) {
     int value = asInteger(minval);
     fillValue(ans, value);
     for (int i = 0; i < p; i++) {
-      int *pa = INTEGER0(ans);
+      int *pa = INTEGER(ans);
       for(int j = 0; j < n; j++) {
         int xjpo = INTEGER_ELT(x, j + offset);
         if (!narm || xjpo != NA_INTEGER)
@@ -328,7 +328,7 @@ SEXP row_max_by_rn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP minval) {
     double value = asReal(minval);
     fillValue(ans, value);
     for (int i = 0; i < p; i++) {
-      double *pa = REAL0(ans);
+      double *pa = REAL(ans);
       for(int j = 0; j < n; j++) {
         double xjpo = REAL_ELT(x, j + offset);
         if (!narm || !ISNAN(xjpo))
@@ -376,9 +376,9 @@ SEXP row_sum_by_rn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm) {
 
   switch(TYPEOF(x)){
   case INTSXP:{
-    Memzero(INTEGER0(ans), ng*p);
+    Memzero(INTEGER(ans), ng*p);
     for(int i = 0; i < p; i++) {
-      int *pa = INTEGER0(ans);
+      int *pa = INTEGER(ans);
       for(int j = 0; j < n; j++) {
         int xjpo = INTEGER_ELT(x, j + offset);
         if (xjpo == NA_INTEGER) {
@@ -399,9 +399,9 @@ SEXP row_sum_by_rn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm) {
     }
   } break;
   case REALSXP:{
-    Memzero(REAL0(ans), ng*p);
+    Memzero(REAL(ans), ng*p);
     for(int i = 0; i < p; i++) {
-      double *pa = REAL0(ans);
+      double *pa = REAL(ans);
       for(int j = 0; j < n; j++) {
         double xjpo = REAL_ELT(x, j + offset);
         if(!narm || !ISNAN(xjpo))
@@ -449,8 +449,8 @@ SEXP row_min_by_cn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP maxval) {
   case INTSXP:{
     int value = asInteger(maxval);
     fillValue(z, value);
-    int* iz = INTEGER0(z);
-    int* ix = INTEGER0(x);
+    int* iz = INTEGER(z);
+    int* ix = INTEGER(x);
     for (int i = 0; i < n; i++) {
       int colz = (pmatches[i] - 1) * p;
       int colx = i*p;
@@ -462,8 +462,8 @@ SEXP row_min_by_cn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP maxval) {
   case REALSXP:{
     double value = asReal(maxval);
     fillValue(z, value);
-    double* iz = REAL0(z);
-    double* ix = REAL0(x);
+    double* iz = REAL(z);
+    double* ix = REAL(x);
     for (int i = 0; i < n; i++) {
       int colz = (pmatches[i] - 1) * p;
       int colx = i*p;
@@ -509,8 +509,8 @@ SEXP row_max_by_cn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP minval) {
   case INTSXP:{
     int value = asInteger(minval);
     fillValue(z, value);
-    int* iz = INTEGER0(z);
-    int* ix = INTEGER0(x);
+    int* iz = INTEGER(z);
+    int* ix = INTEGER(x);
     for (int i = 0; i < n; i++) {
       int colz = (pmatches[i] - 1) * p;
       int colx = i*p;
@@ -522,8 +522,8 @@ SEXP row_max_by_cn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP minval) {
   case REALSXP:{
     double value = asReal(minval);
     fillValue(z, value);
-    double* iz = REAL0(z);
-    double* ix = REAL0(x);
+    double* iz = REAL(z);
+    double* ix = REAL(x);
     for (int i = 0; i < n; i++) {
       int colz = (pmatches[i] - 1) * p;
       int colx = i*p;
@@ -568,9 +568,9 @@ SEXP row_sum_by_cn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm) {
 
   switch(TYPEOF(x)){
   case INTSXP:{
-    Memzero(INTEGER0(z), p*ng);
-    int* iz = INTEGER0(z);
-    int* ix = INTEGER0(x);
+    Memzero(INTEGER(z), p*ng);
+    int* iz = INTEGER(z);
+    int* ix = INTEGER(x);
     for (int i = 0; i < n; i++) {
       int colz = (pmatches[i] - 1) * p;
       int colx = i*p;
@@ -580,9 +580,9 @@ SEXP row_sum_by_cn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm) {
     }
   } break;
   case REALSXP:{
-    Memzero(REAL0(z), p*ng);
-    double* iz = REAL0(z);
-    double* ix = REAL0(x);
+    Memzero(REAL(z), p*ng);
+    double* iz = REAL(z);
+    double* ix = REAL(x);
     for (int i = 0; i < n; i++) {
       int colz = (pmatches[i] - 1) * p;
       int colx = i*p;
