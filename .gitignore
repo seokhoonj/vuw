@@ -294,7 +294,14 @@ sample_data/
 sample_data_kor/
 tests/
 
+### R rds ###
+*.rds
+
+### zip ###
+*.zip
+
 ### Microsoft office ###
+*.csv
 *.xls
 *.xlsx
 *.xlsb
