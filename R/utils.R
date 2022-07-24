@@ -225,3 +225,14 @@ proc_time <- function(expr) {
   etime <- as.numeric(Sys.time())
   sec_to_hms(etime - stime)
 }
+
+# comma utils -------------------------------------------------------------
+
+# quote_comma(x, y, z)
+# paste_comma(c("x", "y", "z"))
+
+quote_comma <- function(...)
+  cat(paste0("\"", paste(vapply(substitute(list(...)), deparse, "character")[-1L], collapse = '", "'), "\""))
+
+paste_comma <- function(x)
+  cat(paste0("\"", paste(x, collapse = '", "'), "\""))
