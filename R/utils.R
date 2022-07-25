@@ -231,8 +231,18 @@ proc_time <- function(expr) {
 # quote_comma(x, y, z)
 # paste_comma(c("x", "y", "z"))
 
-quote_comma <- function(...)
-  cat(paste0("\"", paste(vapply(substitute(list(...)), deparse, "character")[-1L], collapse = '", "'), "\""))
+quote_comma <- function(..., newline = FALSE) {
+  if (newline) {
+    cat(paste0("\"", paste(vapply(substitute(list(...)), deparse, "character")[-1L], collapse = '",\n"'), "\""))
+  } else {
+    cat(paste0("\"", paste(vapply(substitute(list(...)), deparse, "character")[-1L], collapse = '", "'), "\""))
+  }
+}
 
-paste_comma <- function(x)
-  cat(paste0("\"", paste(x, collapse = '", "'), "\""))
+paste_comma <- function(x, newline = FALSE) {
+  if (newline) {
+    cat(paste0("\"", paste(x, collapse = '",\n"'), "\""))
+  } else {
+    cat(paste0("\"", paste(x, collapse = '", "'), "\""))
+  }
+}
