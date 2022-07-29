@@ -133,15 +133,20 @@ setcolafter_ <- function(df, cols, after = NA) {
   setcolorder(df, new_cols)
 }
 
-replace_num_na <- function(df) {
+replace_na_with_zero <- function(df) {
   class <- sapply(df, class)
   cols <- names(class)[which(class %in% c("numeric", "integer"))]
   df[, (cols) := lapply(.SD, function(x) ifelse(is.na(x), 0, x)), .SDcols = cols]
 }
-replace_chr_na <- function(df) {
+replace_na_with_empty <- function(df) {
   class <- sapply(df, class)
   cols <- names(class)[which(class == "character")]
   df[, (cols) := lapply(.SD, function(x) ifelse(is.na(x), "", x)), .SDcols = cols]
+}
+replace_empty_with_na <- function(df) {
+  class <- sapply(df, class)
+  cols <- names(class)[which(class == "character")]
+  df[, (cols) := lapply(.SD, function(x) ifelse(x == "", NA, x)), .SDcols = cols]
 }
 set_sum <- function(df, cols, value_name = "sum") {
   cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))

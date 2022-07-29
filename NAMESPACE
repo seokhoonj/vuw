@@ -104,8 +104,9 @@ export(set_one_upper_first)
 
 export(replace_vec_in_mat)
 export(replace_val_in_mat)
-export(replace_num_na)
-export(replace_chr_na)
+export(replace_na_with_zero)
+export(replace_na_with_empty)
+export(replace_empty_with_na)
 
 export(calc_ins_age)
 export(set_age_band)
@@ -209,4 +210,3 @@ export(mv_cell)
 export(nu_cell)
 export(di_cell)
 export(get_rp_table)
-
