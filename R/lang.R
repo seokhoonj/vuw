@@ -1,7 +1,7 @@
 
-jap2kor <- function(text, api_key_id, api_key) {
-  import("jap2kor")$jap2kor(text, api_key_id, api_key)
-}
+# jap2kor <- function(text, api_key_id, api_key) {
+#   import("jap2kor")$jap2kor(text, api_key_id, api_key)
+# }
 jap2kor4dat <- function(text, api_key_id, api_key) {
   import("jap2kor")$jap2kor4dat(text, api_key_id, api_key)
 }

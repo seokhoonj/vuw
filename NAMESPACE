@@ -29,6 +29,7 @@ importFrom(RColorBrewer, brewer.pal)
 import(ggplot2)
 importFrom(plotly, plot_ly)
 importFrom(reticulate, import)
+importFrom(reticulate, source_python)
 
 #exportPattern("^[[:alpha:]]+")
 
