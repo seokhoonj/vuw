@@ -200,6 +200,7 @@ export(id_with_kcd_terms)
 export(kcd_in_years)
 export(kcd_in_months)
 
+export(set_translate)
 export(is_korean)
 export(is_english)
 export(is_japanese)
