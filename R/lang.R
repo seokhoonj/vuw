@@ -25,4 +25,5 @@ zen2han4dat <- function(df) {
   setnames(df, zen2han(names(df)))
   cols <- names(which(sapply(df, function(x) any(is_japanese(x)))))
   df[, (cols) := lapply(.SD, zen2han), .SDcols = cols]
+  return(df[])
 }
