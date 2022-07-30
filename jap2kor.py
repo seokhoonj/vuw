@@ -54,11 +54,11 @@ def jap2kor(text_obj, api_key_id, api_key):
             translated.append(translated_text)
     return translated
 
-def jap2kor4dat(data):
+def jap2kor4dat(data, api_key_id, api_key):
     '''jap2kor for data'''
-    return data.apply(lambda x: jap2kor(x))
+    return data.apply(lambda x: jap2kor(x, api_key_id, api_key))
 
-def jap2kor4uni(data):
+def jap2kor4uni(data, api_key_id, api_key):
     '''jap2kor for unique data columns'''
     columns = data.columns
     data_unique = []
@@ -68,7 +68,7 @@ def jap2kor4uni(data):
         if np.nan in column_data_unique:
             column_data_unique.remove(np.nan)
         data_unique.append(column_data_unique)
-        translated_text = jap2kor(column_data_unique)
+        translated_text = jap2kor(column_data_unique, api_key_id, api_key)
         translated.append(translated_text)
         print(column)
     translated_data = pd.DataFrame()
