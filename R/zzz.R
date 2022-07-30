@@ -7,7 +7,7 @@
   options(vuw.gender.colors = c("#00BFC4", "#F8766D"))
   source_python(
     paste(system.file(package = "vuw"), "python/jap2kor.py", sep = "/"),
-    envir = parent.frame()
+    envir = globalenv()
   )
   if (Sys.info()[["sysname"]] == "Linux")
     Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
