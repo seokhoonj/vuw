@@ -206,6 +206,7 @@ export(is_english)
 export(is_japanese)
 export(set_translate)
 export(zen2han)
+export(zen2han4dat)
 
 export(to_a1_col)
 export(to_r1c1_col)

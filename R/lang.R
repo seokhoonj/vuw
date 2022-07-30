@@ -19,3 +19,10 @@ zen2han <- function(x) {
     intToUtf8(ifelse(i >= 65281 & i <= 65374, i-65248, i))
   })
 }
+
+zen2han4dat <- function(df) {
+  assert_class(df, "data.table")
+  setnames(df, zen2han(names(df)))
+  cols <- names(which(sapply(df, function(x) any(is_japanese(x)))))
+  df[, (cols) := lapply(.SD, zen2han), .SDcols = cols]
+}
