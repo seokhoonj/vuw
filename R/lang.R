@@ -1,13 +1,7 @@
 
-# jap2kor <- function(text, api_key_id, api_key) {
-#   import("jap2kor")$jap2kor(text, api_key_id, api_key)
-# }
-# jap2kor4dat <- function(text, api_key_id, api_key) {
-#   import("jap2kor")$jap2kor4dat(text, api_key_id, api_key)
-# }
-# jap2kor4uni <- function(text, api_key_id, api_key) {
-#   import("jap2kor")$jap2kor4uni(text, api_key_id, api_key)
-# }
+is_korean <- function(x) grepl("[ㄱ-ㅎㅏ-ㅣ가-힣]", x, perl = TRUE)
+is_english <- function(x) grepl("[a-zA-Z]", x, perl = TRUE)
+is_japanese <- function(x) grepl("[一-龯ぁ-んァ-ン]", x, perl = TRUE)
 
 set_translate <- function() {
   source_python(
@@ -15,6 +9,13 @@ set_translate <- function() {
     envir = globalenv()
   )
 }
-is_korean <- function(x) grepl("[ㄱ-ㅎㅏ-ㅣ가-힣]", x, perl = TRUE)
-is_english <- function(x) grepl("[a-zA-Z]", x, perl = TRUE)
-is_japanese <- function(x) grepl("[一-龯ぁ-んァ-ン]", x, perl = TRUE)
+
+zen2han <- function(x) {
+  if (any(Encoding(x) != "UTF-8"))
+    x <- iconv(x, from = "", to = "UTF-8")
+  s <- strsplit(x, split = "")
+  sapply(seq_along(s), function(x) {
+    i <- unlist(stri_enc_toutf32(s[[x]]))
+    intToUtf8(ifelse(i >= 65281 & i <= 65374, i-65248, i))
+  })
+}
