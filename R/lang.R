@@ -10,8 +10,23 @@ set_translate <- function() {
   )
 }
 
+clean_zen <- function(x) {
+  if (Encoding(x[1]) != "UTF-8")
+    x <- iconv(x, from = "", to = "UTF-8")
+  zenEisu <- paste0(intToUtf8(65295 + 1:10), intToUtf8(65312 + 1:26),
+                    intToUtf8(65344 + 1:26))
+  zenKigo <- c(65281, 65283, 65284, 65285, 65286, 65290, 65291,
+               65292, 12540, 65294, 65295, 65306, 65307, 65308,
+               65309, 65310, 65311, 65312, 65342, 65343, 65372,
+               65374)
+  x <- chartr(zenEisu,"0-9A-Za-z", x)
+  x <- chartr(intToUtf8(zenKigo), '!#$%&*+,-./:;<=>?@^_|~', x)
+  x <- gsub(intToUtf8(12288), "", x)
+  return(x)
+}
+
 zen2han <- function(x) {
-  if (any(Encoding(x) != "UTF-8"))
+  if (Encoding(x[1]) != "UTF-8")
     x <- iconv(x, from = "", to = "UTF-8")
   s <- strsplit(x, split = "")
   sapply(seq_along(s), function(x) {

@@ -205,6 +205,7 @@ export(is_korean)
 export(is_english)
 export(is_japanese)
 export(set_translate)
+export(clean_zen)
 export(zen2han)
 export(zen2han4dat)
 
