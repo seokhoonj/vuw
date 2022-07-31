@@ -40,7 +40,7 @@ prop_table <- function(x, digits = 2) {
 
 group_binary <- function(df, cols) {
   if (!missing(cols)) {
-    cols <- match_cols(df, vapply(substitute(cols), depasre, "character"))
+    cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
   } else {
     cols <- names(df)[which(sapply(df, function(x) any(is.na(x))))]
   }
