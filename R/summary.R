@@ -50,7 +50,7 @@ group_stats_ <- function(df, group_var, value_var, fun.aggregate = sum) {
   df[, lapply(.SD, fun.aggregate), keyby = group_var, .SDcols = value_var]
 }
 
-get_prop <- function(df, group_var, uniq_var, sum_var, multiple = 100) {                                                                                group_var <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
+get_prop <- function(df, group_var, uniq_var, sum_var, multiple = 1) {                                                                                group_var <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
   assert_class(df, "data.table")
   if (!missing(uniq_var)) {
     uniq_var <- match_cols(df, vapply(substitute(uniq_var), deparse, "character"))
@@ -86,7 +86,7 @@ get_prop <- function(df, group_var, uniq_var, sum_var, multiple = 100) {        
   return(z)
 }
 
-get_prop_ <- function(df, group_var, uniq_var, sumivar, multiple = 100) {
+get_prop_ <- function(df, group_var, uniq_var, sumivar, multiple = 1) {
   group_var <- match_cols(df, group_var)
   if (!missing(uniq_var)) {
     if (!missing(sum_var)) {
