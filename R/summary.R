@@ -38,6 +38,25 @@ prop_table <- function(x, digits = 2) {
   round(prop.table(table(x, useNA = "ifany")) * 100, digits = digits)
 }
 
+group_binary <- function(df, cols) {
+  if (!missing(cols)) {
+    cols <- match_cols(df, vapply(substitute(cols), depasre, "character"))
+  } else {
+    cols <- names(df)
+  }
+  nrows <- nrow(df)
+  z <- data.table(sapply(df, function(x) as.factor(ifelse(is.na(x), 1, 0))))
+  z[, .(n = .N, prop = .N / nrows), cols]
+}
+
+group_binary_ <- function(df, cols) {
+  if (missing(cols))
+    cols <- names(df)
+  nrows <- nrow(df)
+  z <- data.table(sapply(df, function(x) as.factor(ifelse(is.na(x), 1, 0))))
+  z[, .(n = .N, prop = .N / nrows), cols]
+}
+
 group_stats <- function(df, group_var, value_var, fun.aggregate = sum) {
   assert_class(df, "data.table")
   group_var <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
