@@ -45,7 +45,7 @@ group_binary <- function(df, cols) {
     cols <- names(df)
   }
   nrows <- nrow(df)
-  z <- data.table(sapply(df, function(x) as.factor(ifelse(is.na(x), 1, 0))))
+  z <- data.table(sapply(df, function(x) as.factor(ifelse(is.na(x), 0, 1))))
   z[, .(n = .N, prop = .N / nrows), cols]
 }
 
@@ -53,7 +53,7 @@ group_binary_ <- function(df, cols) {
   if (missing(cols))
     cols <- names(df)
   nrows <- nrow(df)
-  z <- data.table(sapply(df, function(x) as.factor(ifelse(is.na(x), 1, 0))))
+  z <- data.table(sapply(df, function(x) as.factor(ifelse(is.na(x), 0, 1))))
   z[, .(n = .N, prop = .N / nrows), cols]
 }
 
