@@ -37,7 +37,7 @@ zen2han <- function(x) {
 
 zen2han4dat <- function(df) {
   assert_class(df, "data.table")
-  setnames(df, zen2han(names(df)))
+  setnames(df, zen2han(clean_zen(names(df))))
   cols <- names(which(sapply(df, function(x) any(is_japanese(x)))))
   df[, (cols) := lapply(.SD, clean_zen), .SDcols = cols]
   df[, (cols) := lapply(.SD, zen2han), .SDcols = cols]
