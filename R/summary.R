@@ -42,7 +42,7 @@ group_binary <- function(df, cols) {
   if (!missing(cols)) {
     cols <- match_cols(df, vapply(substitute(cols), depasre, "character"))
   } else {
-    cols <- names(df)
+    cols <- names(df)[which(sapply(df, function(x) any(is.na(x))))]
   }
   nrows <- nrow(df)
   z <- data.table(sapply(df, function(x) as.factor(ifelse(is.na(x), 0, 1))))
@@ -51,7 +51,7 @@ group_binary <- function(df, cols) {
 
 group_binary_ <- function(df, cols) {
   if (missing(cols))
-    cols <- names(df)
+    cols <- names(df)[which(sapply(df, function(x) any(is.na(x))))]
   nrows <- nrow(df)
   z <- data.table(sapply(df, function(x) as.factor(ifelse(is.na(x), 0, 1))))
   z[, .(n = .N, prop = .N / nrows), cols]
