@@ -163,6 +163,8 @@ export(get_info)
 export(prop_table)
 export(group_stats)
 export(group_stats_)
+export(get_prop)
+export(get_prop_)
 
 export(get_kcd)
 export(get_claim)
