@@ -40,6 +40,10 @@ set_age_band <- function(df, age_var, interval = 5, right = FALSE) {
   setcolafter_(df, "age_band", age_var)
 }
 
+calc_bmi <- function(height, weight) {
+  weight / (height / 100)^2
+}
+
 # kcd code functions ------------------------------------------------------
 
 pste_code <- function(x, collapse = "|") paste0(x, collapse = collapse)
