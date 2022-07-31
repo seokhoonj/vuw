@@ -39,6 +39,7 @@ prop_table <- function(x, digits = 2) {
 }
 
 group_binary <- function(df, cols) {
+  assert_class(df, "data.table")
   if (!missing(cols)) {
     cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
   } else {
@@ -50,6 +51,7 @@ group_binary <- function(df, cols) {
 }
 
 group_binary_ <- function(df, cols) {
+  assert_class(df, "data.table")
   if (missing(cols))
     cols <- names(df)[which(sapply(df, function(x) any(is.na(x))))]
   nrows <- nrow(df)
