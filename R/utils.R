@@ -197,7 +197,7 @@ add_mon <- function(date, mon) {
   date$mon <- date$mon + mon
   as.Date(date)
 }
-bmonth <- function(x) as.Date(format(x, format = "%Y-%m-01"))
+bmonth <- function(x) as.Date(format(as.Date(x), format = "%Y-%m-01"))
 emonth <- function(x) add_mon(x, 1L) - 1L
 expand_date <- function(from, to) {
   if (inherits(from, "character"))
