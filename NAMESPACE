@@ -158,6 +158,8 @@ export(emonth)
 export(expand_date)
 export(sec_to_hms)
 export(proc_time)
+export(quote_comma)
+export(paste_comma)
 
 export(get_mode)
 export(get_class)
