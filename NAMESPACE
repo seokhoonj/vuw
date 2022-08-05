@@ -112,6 +112,7 @@ export(replace_empty_with_na)
 
 export(calc_ins_age)
 export(set_age_band)
+export(calc_bmi)
 export(split_date)
 export(split_date_)
 export(subset_time)
