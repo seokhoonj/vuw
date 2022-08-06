@@ -3,24 +3,34 @@ pad  <- function(x, width =  2) str_pad(x, width = width, pad = "0")
 pad0 <- function(x, width = 14) str_pad(x, width = width, pad = " ")
 decimal <- function(x, digit = 1) sprintf(paste0("%.", digit, "f"), x)
 
-theme_view <- function(family = "Cascade Code", x.angle = 0, y.angle = 0) {
-  theme(
-    text  = element_text(family = family),
-    title = element_text(family = family),
-    strip.text.x = element_text(face = "bold"),
-    axis.text.x  = element_text(face = "bold", angle = x.angle),
-    axis.text.y  = element_text(face = "bold", angle = y.angle),
-    legend.position = "bottom"
+theme_view <- function(family = "Cascade Code",
+                       x.size = NULL, y.size = NULL, t.size = NULL, s.size = NULL,
+                       x.angle = 0, y.angle = 0, y.comma = TRUE) {
+  list(
+    theme(
+      text  = element_text(family = family),
+      title = element_text(family = family, size = t.size, face = "bold"),
+      strip.text.x = element_text(size = s.size, face = "bold"),
+      axis.text.x  = element_text(size = x.size, face = "bold", angle = x.angle),
+      axis.text.y  = element_text(size = y.size, face = "bold", angle = y.angle),
+      legend.position = "bottom"
+    ),
+    if (y.comma) scale_y_continuous(labels = comma)
   )
 }
 
-theme_save <- function(family = "Cascade Code", x.angle = 0, y.angle = 0) {
-  theme(
-    text  = element_text(family = family),
-    title = element_text(family = family),
-    strip.text.x = element_text(size = 17, face = "bold"),
-    axis.text.x  = element_text(size = 12, face = "bold", angle = x.angle),
-    axis.text.y  = element_text(size = 12, face = "bold", angle = y.angle),
-    legend.position = "bottom"
+theme_save <- function(family = "Cascade Code",
+                       x.size = 12, y.size = 12, t.size = NULL, s.size = 17,
+                       x.angle = 0, y.angle = 0, y.comma = TRUE) {
+  list(
+    theme(
+      text  = element_text(family = family),
+      title = element_text(family = family, size = t.size, face = "bold"),
+      strip.text.x = element_text(size = s.size, face = "bold"),
+      axis.text.x  = element_text(size = x.size, face = "bold", angle = x.angle),
+      axis.text.y  = element_text(size = y.size, face = "bold", angle = y.angle),
+      legend.position = "bottom"
+    ),
+    if (y.comma) scale_y_continuous(labels = comma)
   )
 }
