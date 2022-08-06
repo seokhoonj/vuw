@@ -1,6 +1,6 @@
 
 get_period_inforce <- function(df, group_var, policy_var, policy_date, last_date, group = 1L) {
-  group_var   <- match_cols(df, vapply(institute(group_var), deparse, "character"))
+  group_var   <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
   policy_var  <- match_cols(df, deparse(substitute(policy_var)))
   policy_date <- match_cols(df, deparse(substitute(policy_date)))
   last_date   <- match_cols(df, deparse(substitute(last_date)))
