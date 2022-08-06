@@ -230,3 +230,5 @@ export(get_rp_table)
 export(theme_view)
 export(theme_save)
 
+export(get_period_inforce)
+
