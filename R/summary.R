@@ -59,6 +59,25 @@ group_binary_ <- function(df, cols) {
   z[, .(n = .N, prop = .N / nrows), cols]
 }
 
+group_missing <- function(df, cols, type = c("percent", "number")) {
+  cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
+  value_cols <- diff_cols(df, cols)
+  if (type[[1L]] == "percent") {
+    df[, lapply(.SD, function(x) sum(is.na(x))/.N), by = cols, .SDcols = value_cols]
+  } else {
+    df[, lapply(.SD, function(x) sum(is.na(x))), by = cols, .SDcols = value_cols]
+  }
+}
+
+group_missing_ <- function(df, cols, type = c("percent", "number")) {
+  value_cols <- diff_cols(df, cols)
+  if (type[[1L]] == "percent") {
+    df[, lapply(.SD, function(x) sum(is.na(x))/.N), by = cols, .SDcols = value_cols]
+  } else {
+    df[, lapply(.SD, function(x) sum(is.na(x))), by = cols, .SDcols = value_cols]
+  }
+}
+
 group_stats <- function(df, group_var, value_var, fun.aggregate = sum) {
   assert_class(df, "data.table")
   group_var <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
