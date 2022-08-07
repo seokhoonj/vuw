@@ -5,7 +5,8 @@ decimal <- function(x, digit = 1) sprintf(paste0("%.", digit, "f"), x)
 
 theme_view <- function(family = "Cascade Code",
                        x.size = NULL, y.size = NULL, t.size = NULL, s.size = NULL,
-                       x.angle = 0, y.angle = 0, y.comma = TRUE) {
+                       x.angle = 0, y.angle = 0, y.comma = TRUE,
+                       legend.position = "bottom") {
   list(
     theme(
       text  = element_text(family = family),
@@ -13,7 +14,7 @@ theme_view <- function(family = "Cascade Code",
       strip.text.x = element_text(size = s.size, face = "bold"),
       axis.text.x  = element_text(size = x.size, face = "bold", angle = x.angle),
       axis.text.y  = element_text(size = y.size, face = "bold", angle = y.angle),
-      legend.position = "bottom"
+      legend.position = legend.position
     ),
     if (y.comma) scale_y_continuous(labels = comma)
   )
@@ -21,7 +22,8 @@ theme_view <- function(family = "Cascade Code",
 
 theme_save <- function(family = "Cascade Code",
                        x.size = 12, y.size = 12, t.size = NULL, s.size = 17,
-                       x.angle = 0, y.angle = 0, y.comma = TRUE) {
+                       x.angle = 0, y.angle = 0, y.comma = TRUE,
+                       legend.position = "bottom") {
   list(
     theme(
       text  = element_text(family = family),
@@ -29,7 +31,7 @@ theme_save <- function(family = "Cascade Code",
       strip.text.x = element_text(size = s.size, face = "bold"),
       axis.text.x  = element_text(size = x.size, face = "bold", angle = x.angle),
       axis.text.y  = element_text(size = y.size, face = "bold", angle = y.angle),
-      legend.position = "bottom"
+      legend.position = legend.position
     ),
     if (y.comma) scale_y_continuous(labels = comma)
   )
