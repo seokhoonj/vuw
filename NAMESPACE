@@ -229,7 +229,9 @@ export(di_cell)
 export(get_rp_table)
 
 export(theme_view)
+export(theme_shiny)
 export(theme_save)
+export(scale_gender_manual)
 
 export(get_period_inforce)
 export(get_period_inforce_by_policy_ym)
