@@ -129,6 +129,7 @@ export(melt_code)
 export(excl_code)
 export(remv_code)
 export(pull_code)
+export(pull_code_all)
 export(set_kcd_name)
 
 export(get_options)
