@@ -87,7 +87,7 @@ id_with_kcd <- function(df, id_var, kcd_var, from_var, to_var, udate, start, end
     set(d, j = col, value = 1L)
   })
   z <- Reduce(function(...) merge(..., by = id_var, all = TRUE), id_list)
-  replace_num_na(z)
+  replace_na_with_zero(z)
   return(z[])
 }
 
@@ -105,7 +105,7 @@ id_with_kcd_ <- function(df, id_var, kcd_var, from_var, to_var, udate, start, en
     set(d, j = col, value = 1L)
   })
   z <- Reduce(function(...) merge(..., by = id_var, all = TRUE), id_list)
-  replace_num_na(z)
+  replace_na_with_zero(z)
   return(z[])
 }
 
@@ -128,7 +128,7 @@ id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var, udate, ...)
     set(d, j = col, value = 1L)
   })
   z <- Reduce(function(...) merge(..., by = id_var, all = TRUE), id_list)
-  replace_num_na(z)
+  replace_na_with_zero(z)
 
   # column names
   if (!is.null(names(kcd_terms)))
