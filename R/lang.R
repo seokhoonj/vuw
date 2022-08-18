@@ -29,10 +29,11 @@ zen2han <- function(x) {
   if (Encoding(x[1]) != "UTF-8")
     x <- iconv(x, from = "", to = "UTF-8")
   s <- strsplit(x, split = "")
-  sapply(seq_along(s), function(x) {
+  v <- sapply(seq_along(s), function(x) {
     i <- unlist(stri_enc_toutf32(s[[x]]))
     intToUtf8(ifelse(i >= 65281 & i <= 65374, i-65248, i))
   })
+  gsub(intToUtf8(12288), " ", v)
 }
 
 zen2han4dat <- function(df) {
