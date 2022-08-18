@@ -28,6 +28,7 @@ clean_zen <- function(x) {
 zen2han <- function(x) {
   if (Encoding(x[1]) != "UTF-8")
     x <- iconv(x, from = "", to = "UTF-8")
+  x <- stri_trans_general(x, "Halfwidth-Fullwidth")
   s <- strsplit(x, split = "")
   v <- sapply(seq_along(s), function(x) {
     i <- unlist(stri_enc_toutf32(s[[x]]))
@@ -40,7 +41,7 @@ zen2han4dat <- function(df) {
   assert_class(df, "data.table")
   setnames(df, zen2han(names(df)))
   cols <- names(which(sapply(df, function(x) any(is_japanese(x)))))
-  df[, (cols) := lapply(.SD, clean_zen), .SDcols = cols]
+  #df[, (cols) := lapply(.SD, clean_zen), .SDcols = cols]
   df[, (cols) := lapply(.SD, zen2han), .SDcols = cols]
   return(df[])
 }
