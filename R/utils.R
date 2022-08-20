@@ -74,6 +74,11 @@ regmatch_cols <- function(df, pattern) {
   colnames(df)[grepl(pattern, names(df), perl = TRUE)]
 }
 
+factor_cols <- function(df, cols) {
+  cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
+  df[, (cols) := lapply(.SD, factor), .SDcols = cols]
+}
+
 diff_cols <- function(df, cols) {
   setdiff(colnames(df), cols)
 }
