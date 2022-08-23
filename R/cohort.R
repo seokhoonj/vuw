@@ -64,7 +64,7 @@ subset_id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var,
                           (grepl(diz, df[[kcd_var]], perl = TRUE)), ..id_var]), on = id_var]
     }
   }
-  return(z)
+  return(df)
 }
 
 # id with kcd for a certain period ----------------------------------------

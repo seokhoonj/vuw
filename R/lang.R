@@ -4,6 +4,7 @@ is_english <- function(x) grepl("[a-zA-Z]", x, perl = TRUE)
 is_japanese <- function(x) grepl("[一-龯ぁ-んァ-ン]", x, perl = TRUE)
 
 set_translate <- function() {
+  # use_python(__python_path__)
   source_python(
     paste(system.file(package = "vuw"), "python/jap2kor.py", sep = "/"),
     envir = globalenv()

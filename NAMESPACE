@@ -239,5 +239,3 @@ export(scale_gender_manual)
 
 export(get_period_inforce)
 export(get_period_inforce_by_policy_ym)
-
-
