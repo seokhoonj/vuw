@@ -52,10 +52,10 @@ subset_id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var,
   to_var   <- match_cols(df, vapply(substitute(to_var)  , deparse, "character"))
   kcd_terms <- list(...)
   for (i in seq_along(kcd_terms)) {
-    fdate <- add_mon(udate, kcd_terms[[i]][[1L]])
-    tdate <- add_mon(udate, kcd_terms[[i]][[2L]])
-    key <- pull_code("^!" , kcd_terms[[i]][[3L]])
-    diz <- remv_code("^!" , kcd_terms[[i]][[3L]])
+    fdate <- add_mon(udate, kcd_terms[[i]][[1L]][[1L]])
+    tdate <- add_mon(udate, kcd_terms[[i]][[2L]][[1L]])
+    key <- pull_code("^!" , kcd_terms[[i]][[3L]][[1L]])
+    diz <- remv_code("^!" , kcd_terms[[i]][[3L]][[1L]])
     if (is.na(key)) {
       df <- df[unique(df[(df[[to_var]] >= fdate & df[[from_var]] < tdate) &
                          (grepl(diz, df[[kcd_var]], perl = TRUE)), ..id_var]), on = id_var]
