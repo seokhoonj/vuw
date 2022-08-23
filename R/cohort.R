@@ -44,7 +44,7 @@ subset_id_with_kcd_ <- function(df, id_var, kcd_var, from_var, to_var,
 }
 
 subset_id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var,
-                                     udate, start, end, ...) {
+                                     udate, ...) {
   # "": any diz, "!": no diz
   id_var   <- match_cols(df, vapply(substitute(id_var)  , deparse, "character"))
   kcd_var  <- match_cols(df, vapply(substitute(kcd_var) , deparse, "character"))
