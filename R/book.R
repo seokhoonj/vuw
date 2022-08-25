@@ -106,7 +106,7 @@ get_risk <- function(risk_info, x) {
   risk_info_sub[, scale := draw_line(minmax_scaler(rate) * 20)]
   cat(draw_line(), "\n")
   cat(paste0(paste0(x, collapse = "\n"), "\n"))
-  view_cols = match_cols(risk_info_sub, c("gender", "age", "grade", "rate", "scale", "risk"))
+  view_cols <- match_cols(risk_info_sub, c("gender", "age", "grade", "rate", "scale", "risk"))
   hprint(risk_info_sub[, ..view_cols])
   invisible(risk_info_sub)
 }

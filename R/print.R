@@ -5,7 +5,9 @@ draw_line <- function(width, mark = "=") {
   if (missing(width))
     width <- options()$width
   sapply(width, function(x)
-    paste0(paste0(rep(mark, times = min(x, options()$width)), collapse = "")))
+    paste0(paste0(rep(mark, times = ifelse(
+      !is.na(x), min(x, options()$width), 0)), collapse = "")
+    ))
 }
 
 reduce_rows <- function(x, n = 242L) {
