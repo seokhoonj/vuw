@@ -98,6 +98,17 @@ rm_dots <- function (df, cols) {
   df[, `:=`((cols), lapply(.SD, function(x) gsub("\\.", "", x))), .SDcols = cols]
 }
 
+trim_ws <- function(x, ws = "[ \t\r\n]", perl = FALSE) {
+  re <- sprintf("^%s+|%s+$", ws, ws)
+  gsub(re, "", x, perl = perl)
+}
+
+rm_ws <- function(df, ws = "[ \t\r\n]", perl = FALSE) {
+  col <- names(sapply(df, class)[sapply(df, class) == "character"])
+  if (length(col) > 0)
+    df[, (col) := lapply(.SD, trim_ws, ws = ws, perl = perl), .SDcols = col]
+}
+
 equal <- function(x, y) {
   if (any(colnames(x) != colnames(y)))
     stop("different column names")
