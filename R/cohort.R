@@ -151,13 +151,13 @@ id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var, udate, ...)
   return(z)
 }
 
-kcd_in_months <- function (df, id_var, kcd_var, from_var, to_var,
-                            kcd_code, udate, mon, col) {
+kcd_in_months <- function (df, id_var, kcd_var, from_var, to_var, udate, start, end,
+                           kcd_code, col) {
   id_var   <- match_cols(df, vapply(substitute(id_var)  , deparse, "character"))
   kcd_var  <- match_cols(df, vapply(substitute(kcd_var) , deparse, "character"))
   from_var <- match_cols(df, vapply(substitute(from_var), deparse, "character"))
   to_var   <- match_cols(df, vapply(substitute(to_var)  , deparse, "character"))
-  dm <- subset_id_with_kcd_(df, id_var, kcd_var, kcd_code)
+  dm <- subset_id_with_kcd_(df, id_var, kcd_var, udate, start, end, kcd_code)
   if (mon < 0) {
     if (missing(col))
       col <- sprintf("%s_PST_%s", kcd_code, abs(mon))
@@ -173,13 +173,13 @@ kcd_in_months <- function (df, id_var, kcd_var, from_var, to_var,
   return(z)
 }
 
-kcd_in_years <- function (df, id_var, kcd_var, from_var, to_var,
-                             kcd_code, udate, year, col) {
+kcd_in_years <- function (df, id_var, kcd_var, from_var, to_var, udate, start, end,
+                          kcd_code, col) {
   id_var   <- match_cols(df, vapply(substitute(id_var)  , deparse, "character"))
   kcd_var  <- match_cols(df, vapply(substitute(kcd_var) , deparse, "character"))
   from_var <- match_cols(df, vapply(substitute(from_var), deparse, "character"))
   to_var   <- match_cols(df, vapply(substitute(to_var)  , deparse, "character"))
-  dm <- subset_id_with_kcd_(df, id_var, kcd_var, kcd_code)
+  dm <- subset_id_with_kcd_(df, id_var, kcd_var, udate, start, end, kcd_code)
   if (year < 0) {
     if (missing(col))
       col <- sprintf("%s_PST_%s", kcd_code, abs(year))
