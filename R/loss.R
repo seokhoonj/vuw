@@ -210,8 +210,8 @@ loss_simulation <- function(claim_info, df, udate, mon = 60, group = 1, unit = 1
   # multiplication (clm * clm_red * clm_exp * unit)
   cat("calculating...\n")
   clm <- as_double(clm)
-  setmul(clm, clm_red); #rm(clm_red); gc()
-  setmul(clm, as_double(clm_exp)); #rm(clm_exp); gc()
+  setmul(clm, clm_red); # rm(clm_red); gc()
+  setmul(clm, as_double(clm_exp)); # rm(clm_exp); gc()
   setmul(clm, as_double(clm_amt), axis = 1)
   setmul(clm, unit)
   # hospitalization
@@ -220,7 +220,7 @@ loss_simulation <- function(claim_info, df, udate, mon = 60, group = 1, unit = 1
     setmul(clm, clm_hos, axis = 2)
   }
   # name label to rd
-  setcolnames(clm    , pull_code(glue_code(rd), colnames(clm)))
+  setcolnames(clm, pull_code(glue_code(rd), colnames(clm)))
   # setcolnames(clm_exp, pull_code(glue_code(rd), colnames(clm_exp)))
   clm <- row_max_by_cn(clm)
   if (match.arg(type) == "data.table") {

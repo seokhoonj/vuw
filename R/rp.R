@@ -202,7 +202,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   # order
   setorder(df, id, sdate, edate, kcd)
   # the insured having claim data
-  insured <- unique(df[, .(id, age, gender, grade)])
+  insured <- unique(df[, .(id, gender, age, grade)])
   demo <- insured[, .(count = .N), keyby = .(gender, age, grade)]
   set(demo, j = "scale", value = minmax_scaler(demo$count))
   # count risk premium payment
@@ -245,11 +245,10 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     # print
     cat(sprintf("Group %3d (gender: %d, age: %2d, grade: %d): %s %s\n",
                 i, igender, iage, max(igrade),
-                str_pad(comma(count), width = 9L), draw_line(scale*20)))
+                stri_pad_left(comma(count), width = 9L), draw_line(scale*20)))
   }
   z <- do.call("rbind", rp_list)
-  pre_cols <- match_cols(df, c("id", "gender", "age_band", "age", "grade", "period"))
-  setnames(z, c(pre_cols, stri_pad_left(colnames(rp), width = max(nchar(claim_info$rn)), pad = "0")))
+  setnames(z, c("id", "period", stri_pad_left(colnames(rp), width = max(nchar(claim_info$rn)), pad = "0")))
   return(z)
 }
 
