@@ -248,7 +248,8 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
                 str_pad(comma(count), width = 9L), draw_line(scale*20)))
   }
   z <- do.call("rbind", rp_list)
-  setnames(z, c("id", "period", sprintf(paste0("rp%0", max(nchar(claim_info$rn)), "s"), colnames(rp))))
+  pre_cols <- match_cols(df, c("id", "gender", "age_band", "age", "grade", "period"))
+  setnames(z, c(pre_cols, stri_pad_left(colnames(rp), width = max(nchar(claim_info$rn)), pad = "0")))
   return(z)
 }
 
