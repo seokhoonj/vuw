@@ -70,7 +70,7 @@ create_rp_matrix <- function(risk_info, claim_info, igender, iage, igrade, mon, 
                            reduction_period_start == rider_info$reduction_period_start[i] &
                            reduction_period_end   == rider_info$reduction_period_end[i] &
                            reduction_period_ratio == rider_info$reduction_period_ratio[i])]
-      rp_mon <- with(sub_tbl, rate * rate2 * amount_mean / 12)
+      rp_mon <- with(sub_tbl, rate * rate2 * amount_mean * rp_times / 12)
       rp  <- reprow(rowvec(rp_mon), 12L)
       prd <- numbers(dim(rp))
       rat <- ratio_by_period(prd,
@@ -211,7 +211,8 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   if (!missing(lapse)) {
     cat("Applying random lapse...\n")
     lapse_point <- random_pay_num(df, lapse, mon, seed = seed)
-    lapse_point <- structure(repcol(lapse_point, each = ncol(pay_count)), dimnames = dimnames(pay_count))
+    lapse_point <- structure(repcol(lapse_point, each = ncol(pay_count)),
+                             dimnames = dimnames(pay_count))
     pay_count <- pmin(lapse_point, pay_count)
   }
   pay_count <- cbind(insured, pay_count)
@@ -226,7 +227,8 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     igender <- demo$gender[i]
     igrade  <- unique(c(0, demo$grade[i]))
     # risk premium matrix
-    rp  <- create_rp_matrix(risk_info, claim_info, igender, iage, igrade, mon, waiting = waiting, unit = unit) # Male: 1, Female: 2
+    rp  <- create_rp_matrix(risk_info, claim_info, igender, iage, igrade,
+                            mon, waiting = waiting, unit = unit) # Male: 1, Female: 2
     # subset pay_count
     ipay <- pay_count[age == iage & gender == igender & grade %in% igrade]
     # create variables
@@ -235,7 +237,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     id_pd  <- rep(ipay$id, each = unilen(pd)) # by period (months grouped)
     pd_pd  <- rep(unique(pd), times = nrow(ipay))
     # subset ipay
-    cols <- diff_cols(ipay, c("id", "age", "gender", "grade"))
+    cols <- diff_cols(ipay, c("id", "gender", "age", "grade"))
     pay <- as.matrix(ipay[, ..cols])
     pay <- upper(rp, pay[,, drop = F])
     pay <- structure(pay, dimnames = list(paste(id_mon, pd), colnames(rp)))
