@@ -72,7 +72,7 @@ create_rp_matrix <- function(risk_info, claim_info, igender, iage, igrade, mon, 
                            reduction_period_ratio == rider_info$reduction_period_ratio[i])]
       rp_mon <- with(sub_tbl, rate * rate2 * amount_mean * rp_times / 12)
       rp  <- reprow(rowvec(rp_mon), 12L)
-      prd <- numbers(dim(rp))
+      prd <- (numbers(dim(rp))-1) %% mon + 1
       rat <- ratio_by_period(prd,
                              sub_tbl$reduction_period_start,
                              sub_tbl$reduction_period_end,
