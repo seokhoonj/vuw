@@ -7,6 +7,9 @@ get_options <- function(param) {
   options()[sub_names]
 }
 
+get_files <- function(pattern, folder = getwd())
+  sort(dir(folder)[grepl(pattern, dir(folder))])
+
 load_rds <- function(file, refhook = NULL)
   alloc.col(readRDS(file, refhook))
 

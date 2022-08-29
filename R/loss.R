@@ -146,7 +146,8 @@ loss_simulation <- function(claim_info, df, udate, mon = 60, group = 1, unit = 1
   claim_times            <- claim_info$claim_times
   # claim information variables derived
   width <- max(nchar(rn))
-  rd    <- sprintf(paste0("loss%0", width, "s"), rn) # for expiration table
+  rd <- paste0("loss", stri_pad_left(rn, width, pad = "0")) # for expiration table
+
   if (missing(level_var)) {
     label <- sprintf("%s_%s", rd, cvd_kcd)
   } else {

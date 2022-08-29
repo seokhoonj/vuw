@@ -136,6 +136,7 @@ export(pull_code_all)
 export(set_kcd_name)
 
 export(get_options)
+export(get_files)
 export(assert_type)
 export(assert_class)
 export(match_class)
