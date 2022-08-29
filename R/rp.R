@@ -66,7 +66,7 @@ create_rp_matrix <- function(risk_info, claim_info, igender, iage, igrade, mon, 
       stop("The insured has no risk rate")
     risk_list <- vector(mode = "list", nrow(rider_info))
     for (i in seq_len(nrow(rider_info))) {
-      sub_tbl <- sub_info[(risk == rider_info$risk[i] &
+      sub_tbl <- sub_info[(risk == rider_info$risk[i] & risk2 == rider_info$risk2[i] &
                            reduction_period_start == rider_info$reduction_period_start[i] &
                            reduction_period_end   == rider_info$reduction_period_end[i] &
                            reduction_period_ratio == rider_info$reduction_period_ratio[i])]
