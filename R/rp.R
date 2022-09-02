@@ -197,7 +197,7 @@ count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
   return(z)
 }
 
-rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L, waiting = T,
+rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L, waiting = FALSE,
                           lapse, unit = 1L, seed = 123) {
   # check columns
   has_cols(df, c("id", "gender", "age", "grade"))
