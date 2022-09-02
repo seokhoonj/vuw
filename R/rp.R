@@ -146,7 +146,7 @@ apply_expiration <- function(x, expiration) {
   return(do.call("cbind", z))
 }
 
-count_pay_num <- function(claim_info, df, udate, mon, waiting = T) {
+count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
   # check claim information
   has_cols(claim_info, c("cvd_kcd", "rider", "rn", "one_time"))
   has_cols(df, c("id", "sdate", "edate", "kcd"))
@@ -230,7 +230,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     igrade  <- unique(c(0, demo$grade[i]))
     # risk premium matrix
     rp  <- create_rp_matrix(risk_info, claim_info, igender, iage, igrade,
-                            mon, waiting = waiting, unit = unit) # Male: 1, Female: 2
+                            mon, waiting = FALSE, unit = unit) # Male: 1, Female: 2
     # subset pay_count
     ipay <- pay_count[age == iage & gender == igender & grade %in% igrade]
     # create variables
@@ -241,7 +241,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     # subset ipay
     cols <- diff_cols(ipay, c("id", "gender", "age", "grade"))
     pay <- as.matrix(ipay[, ..cols])
-    pay <- upper(rp, pay[,, drop = F])
+    pay <- upper(rp, pay[,, drop = FALSE])
     pay <- structure(pay, dimnames = list(paste(id_mon, pd), colnames(rp)))
     pay <- row_sum_by_rn(pay)
     # sum by scenario
