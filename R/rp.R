@@ -259,13 +259,15 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
 apply_weight <- function(df, weight) {
   # columns
   loss_cols <- regmatch_cols(df, "^loss[0-9]+")
-  rp_cols   <- regmatch_cols(df, "^rp[0-9]+")
-  pre_cols  <- diff_cols(df, c(loss_cols, rp_cols))
-  # weighted
+  rp_cols <- regmatch_cols(df, "^rp[0-9]+")
+  pre_cols <- diff_cols(df, c(loss_cols, rp_cols))
   loss <- as.matrix(df[, ..loss_cols])
   rp <- as.matrix(df[, ..rp_cols])
-  setmul(loss, weight, axis = 1)
-  setmul(rp, weight, axis = 1)
+  # weighted
+  if (length(loss_cols) > 0)
+    setmul(loss, weight, axis = 1)
+  if (length(rp_cols) > 0)
+    setmul(rp, weight, axis = 1)
   cbind(df[, ..pre_cols], data.table(loss), data.table(rp))
 }
 

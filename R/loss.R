@@ -231,5 +231,6 @@ loss_simulation <- function(claim_info, df, udate, mon = 60, group = 1, unit = 1
     diff_cols <- diff_cols(clm, cols)
     clm <- clm[, lapply(.SD, sum), keyby = cols, .SDcols = diff_cols]
   }
+  cat("complete!\n")
   return(clm)
 }
