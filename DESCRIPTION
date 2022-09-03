@@ -12,7 +12,7 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
 Imports: data.table (>= 1.13.0), openssl (>= 1.4.1), openxlsx (>= 4.2.3), 
-         stringi (>= 1.7.8), stringr (>= 1.4.0), lubridate (>= 1.8.0), 
+         stringi (>= 1.7.6), stringr (>= 1.4.0), lubridate (>= 1.8.0), 
          scales (>= 1.1.1), epiR (>= 2.0.26), ggplot2 (>= 3.3.3), 
          RColorBrewer (>= 1.1), plotly (>= 4.10.0), reticulate (>= 1.25)
 Suggests: 
