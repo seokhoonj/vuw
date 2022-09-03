@@ -245,6 +245,9 @@ export(scale_gender_manual)
 export(get_period_inforce)
 export(get_period_inforce_by_policy_ym)
 
+export(get_packages)
+export(install_packages)
+
 export(CI333)
 export(CI10)
 export(CANCER)
