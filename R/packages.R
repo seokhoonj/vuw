@@ -40,6 +40,7 @@ install_packages <- function(packages) {
   pkgs_list <- sort(unique(c(pkgs_db$package, unlist(pkgs_db$dependencies))))
   pkgs_add <- unlist(sapply(.libPaths(), function(x) dir(x), USE.NAMES = FALSE))
   pkgs_list <- pkgs_list[!pkgs_list %in% pkgs_add]
+
   while (length(pkgs_list) > 0) {
     cat(sprintf("\n%d package(s) left.\n", length(pkgs_list)))
     pkg <- pkgs_list[1L]
@@ -50,7 +51,7 @@ install_packages <- function(packages) {
     }
     pkgs_add <- unlist(sapply(.libPaths(), function(x) dir(x), USE.NAMES = FALSE))
     pkgs_list <- pkgs_list[!pkgs_list %in% pkgs_add]
-    if (pkgs_list[1L] == pkg)
+    if (length(pkgs_list) > 1 & pkgs_list[1L] == pkg)
       stop("Installing '", pkg, "' is failed.")
   }
 
