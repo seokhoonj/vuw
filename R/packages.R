@@ -51,7 +51,7 @@ install_packages <- function(packages) {
     }
     pkgs_add <- unlist(sapply(.libPaths(), function(x) dir(x), USE.NAMES = FALSE))
     pkgs_list <- pkgs_list[!pkgs_list %in% pkgs_add]
-    if (pkgs_list == pkg)
+    if (pkgs_list[1L] == pkg)
       stop("Installing '", pkg, "' is failed.")
   }
 
