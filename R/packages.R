@@ -11,10 +11,9 @@ install_packages <- function(packages) {
     , "data.table", "DBI", "devtools", "DiagrammeR", "dplyr", "DT", "dygraphs"
     , "e1071", "earth", "epiR", "extrafont", "faraway", "fastAdaboost", "feather"
     , "forcats", "forecast", "foreign", "formattable", "fortunes", "gamlss"
-    , "gbm", "genridge", "ggalluvial", "gganimate", "ggbump"
-    , "ggdark", "ggExtra", "ggfortify", "ggmap", "ggnetwork", "ggparliament"
-    , "ggplot2", "ggridges", "ggsankey", "ggstream", "ggteck"
-    , "ggthemes", "ggVennDiagram", "ggvoronoi", "ggwordcloud", "glmnet"
+    , "gbm", "genridge", "ggalluvial", "gganimate", "ggbump", "ggdark", "ggExtra"
+    , "ggfortify", "ggmap", "ggnetwork", "ggparliament", "ggplot2", "ggridges"
+    , "ggstream", "ggthemes", "ggVennDiagram", "ggvoronoi", "ggwordcloud", "glmnet"
     , "gridExtra", "gvlma", "haven", "highcharter", "Hmisc", "htmlwidgets"
     , "imager", "InformationValue", "installr", "investr", "ISLR", "jsonlite"
     , "kernlab", "kknn", "KMsurv", "leaflet", "leaps", "lightgbm", "lmtest"
@@ -56,12 +55,14 @@ install_packages <- function(packages) {
   }
 
   # suppressPackageStartupMessages({
-  #   if (!require(vuw))         install_github("seokhoonj/vuw"         , upgrade = "never")
-  #   if (!require(lineprof))    install_github("hadley/lineprof"       , upgrade = "never")
-  #   if (!require(ggbiplot))    install_github("vqv/ggbiplot"          , upgrade = "never")
-  #   if (!require(ggradar))     install_github("vqv/ggradar"           , upgrade = "never")
-  #   if (!require(twidlr))      install_github("drsimonj/twidlr"       , upgrade = "never")
-  #   if (!require(gganatogram)) install_github("jespermaag/gganatogram", upgrade = "never")
-  #   if (!require(KoNLP))       install_github("haven-jeon/KoNLP", upgrade = "never", INSTALL_opts = c("--no-multiarch"))
+  #   if (!require(vuw))         devtools::install_github("seokhoonj/vuw"         , upgrade = "never")
+  #   if (!require(lineprof))    devtools::install_github("hadley/lineprof"       , upgrade = "never")
+  #   if (!require(ggbiplot))    devtools::install_github("vqv/ggbiplot"          , upgrade = "never")
+  #   if (!require(ggradar))     devtools::install_github("ricardo-bion/ggradar"  , upgrade = "never")
+  #   if (!require(ggsankey))    devtools::install_github("davidsjoberg/ggsankey" , upgrade = "never")
+  #   if (!require(ggtech))      devtools::install_github("ricardo-bion/ggtech"   , upgrade = "never")
+  #   if (!require(gganatogram)) devtools::install_github("jespermaag/gganatogram", upgrade = "never")
+  #   if (!require(twidlr))      devtools::install_github("drsimonj/twidlr"       , upgrade = "never")
+  #   if (!require(KoNLP))       devtools::install_github("haven-jeon/KoNLP", upgrade = "never", INSTALL_opts = c("--no-multiarch"))
   # })
 }
