@@ -148,8 +148,8 @@ apply_expiration <- function(x, expiration) {
 
 count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
   # check claim information
-  has_cols(claim_info, c("cvd_kcd", "rider", "rn", "one_time"))
-  has_cols(df, c("id", "sdate", "edate", "kcd"))
+  has_cols(claim_info, c("rn", "rider", "cvd_kcd", "one_time"))
+  has_cols(df, c("id", "kcd", "sdate", "edate", "ldate"))
   # variables (claim_info)
   rn         <- claim_info$rn
   rider      <- claim_info$rider
@@ -164,12 +164,15 @@ count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
   id    <- df$id
   kcd   <- df$kcd
   sdate <- df$sdate
+  ldate <- df$ldate
   # check the last claim point
   clm <- check_cvd_kcd(cvd_kcd, kcd)
   set_only_first(clm, id, one_time)
   # check the month from the underwriting
   period <- diff_period(udate, sdate)
-  period[is.na(period)] <- mon # no sdate (for the data with no claims)
+  latest <- diff_period(udate, ldate)
+  loc <- which(is.na(period))
+  period[loc] <- latest[loc] # no sdate (for the data with no claims)
   clm_prd <- as_integer(repcol(colvec(period), length(rn)))
   # check waiting period
   if (waiting) {
