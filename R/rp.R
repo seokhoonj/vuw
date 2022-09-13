@@ -199,7 +199,7 @@ count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
   clm_prd_max[clm_prd_max == 0] <- clm_prd_cap[clm_prd_max == 0]
   m <- overlap_matrix(clm_prd_cap, clm_prd_max, one_time)
   z <- apply_expiration(m, expiration)
-  as_numeric(z)
+  as_double(z)
 }
 
 rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L, waiting = FALSE,
