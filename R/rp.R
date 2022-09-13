@@ -245,7 +245,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     id_pd  <- rep(ipay$id, each = unilen(pd)) # by period (months grouped)
     pd_pd  <- rep(unique(pd), times = nrow(ipay))
     # subset ipay
-    cols <- diff_cols(ipay, c("id", "gender", "age", "grade"))
+    cols <- diff_cols(ipay, c("id", "gender", "age", "grade", "mon"))
     pay <- as.matrix(ipay[, ..cols])
     pay <- upper(rp, pay[,, drop = FALSE])
     pay <- structure(pay, dimnames = list(paste(id_mon, pd), colnames(rp)))
