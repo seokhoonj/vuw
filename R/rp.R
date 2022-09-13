@@ -205,12 +205,12 @@ count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
 rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L, waiting = FALSE,
                           lapse, unit = 1L, seed = 123) {
   # check columns
-  has_cols(df, c("id", "gender", "age", "grade"))
+  has_cols(df, c("id", "gender", "age", "grade", "kcd", "sdate", "edate", "ldate"))
   # order
   setorder(df, id, sdate, edate, kcd)
   # the insured having claim data
-  insured <- unique(df[, .(id, gender, age, grade)])
-  demo <- insured[, .(count = .N), keyby = .(gender, age, grade)]
+  insured <- unique(df[, .(id, gender, age, grade, mon = diff_period(udate, ldate))])
+  demo <- insured[, .(count = .N), keyby = .(gender, age, grade, mon)]
   set(demo, j = "scale", value = minmax_scaler(demo$count))
   # count risk premium payment
   cat("Counting number of payments...\n")
@@ -230,6 +230,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     # variables
     count   <- demo$count[i]
     scale   <- demo$scale[i]
+    mon     <- demo$mon
     iage    <- demo$age[i]
     igender <- demo$gender[i]
     igrade  <- unique(c(0, demo$grade[i]))
@@ -252,8 +253,8 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     # sum by scenario
     rp_list[[i]] <- data.table(id = id_pd, period = pd_pd, pay)
     # print
-    cat(sprintf("Group %3d (gender: %d, age: %2d, grade: %d): %s %s\n",
-                i, igender, iage, max(igrade),
+    cat(sprintf("Group %3d (gender: %d, age: %2d, grade: %d, mon: %2d): %s %s\n",
+                i, igender, iage, max(igrade), mon,
                 stri_pad_left(comma(count), width = 9L), draw_line(scale*20)))
   }
   z <- do.call("rbind", rp_list)
