@@ -191,9 +191,14 @@ count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
   replace_val_in_mat(clm_prd, 0L, clm, 0L)
   setdimnames(clm_prd, list(id, rn))
   clm_prd_max <- row_max_by_rn(clm_prd) # 한 ID에 여러 개의 month 가 있으면 가장 큰 월도를 가져옴 (one_time이 아닌 column이므로 추후 통일 됨)
-  replace_val_in_mat(clm_prd_max, as_integer(mon), clm_prd_max, 0L)
+  # calculate claim period cap from ldate
+  clm_lat <- as_integer(repcol(colvec(latest), length(rn)))
+  setdimnames(clm_lat, list(id, rn))
+  clm_prd_cap <- row_max_by_rn(clm_lat)
+  clm_prd_max[clm_prd_max == 0] <- clm_prd_cap[clm_prd_max == 0]
+  # replace_val_in_mat(clm_prd_max, as_integer(mon), clm_prd_max, 0L)
   # modify no of premium payment by method of benefit payment
-  clm_prd_cap <- structure(ones(dim(clm_prd_max)) * mon, dimnames = dimnames(clm_prd_max))
+  # clm_prd_cap <- structure(ones(dim(clm_prd_max)) * mon, dimnames = dimnames(clm_prd_max))
   m <- overlap_matrix(clm_prd_cap, clm_prd_max, one_time)
   z <- apply_expiration(m, expiration)
   z[z > mon] <- mon # set maximum month
