@@ -199,7 +199,7 @@ count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
   clm_prd_max[clm_prd_max == 0] <- clm_prd_cap[clm_prd_max == 0]
   m <- overlap_matrix(clm_prd_cap, clm_prd_max, one_time)
   z <- apply_expiration(m, expiration)
-  return(z)
+  as_numeric(z)
 }
 
 rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L, waiting = FALSE,
@@ -230,10 +230,10 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     # variables
     count   <- demo$count[i]
     scale   <- demo$scale[i]
-    mon     <- demo$mon[i]
     iage    <- demo$age[i]
     igender <- demo$gender[i]
     igrade  <- unique(c(0, demo$grade[i]))
+    mon     <- demo$mon[i]
     # risk premium matrix
     rp  <- create_rp_matrix(risk_info, claim_info, igender, iage, igrade,
                             mon, waiting = FALSE, unit = unit) # Male: 1, Female: 2
