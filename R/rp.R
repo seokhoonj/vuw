@@ -230,7 +230,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     # variables
     count   <- demo$count[i]
     scale   <- demo$scale[i]
-    mon     <- demo$mon
+    mon     <- demo$mon[i]
     iage    <- demo$age[i]
     igender <- demo$gender[i]
     igrade  <- unique(c(0, demo$grade[i]))
