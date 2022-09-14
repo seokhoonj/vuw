@@ -233,12 +233,12 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     iage    <- demo$age[i]
     igender <- demo$gender[i]
     igrade  <- unique(c(0, demo$grade[i]))
-    mon     <- demo$mon[i]
+    imon     <- demo$mon[i]
     # risk premium matrix
     rp  <- create_rp_matrix(risk_info, claim_info, igender, iage, igrade,
                             mon, waiting = FALSE, unit = unit) # Male: 1, Female: 2
     # subset pay_count
-    ipay <- pay_count[age == iage & gender == igender & grade %in% igrade]
+    ipay <- pay_count[age == iage & gender == igender & grade %in% igrade & mon == imon]
     # create variables
     pd <- rep((seq_len(mon)-1L) %/% group + 1L, nrow(ipay))
     id_mon <- rep(ipay$id, each = mon) # by month
