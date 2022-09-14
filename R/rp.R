@@ -233,7 +233,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     iage    <- demo$age[i]
     igender <- demo$gender[i]
     igrade  <- unique(c(0, demo$grade[i]))
-    imon     <- demo$mon[i]
+    imon    <- demo$mon[i]
     # risk premium matrix
     rp  <- create_rp_matrix(risk_info, claim_info, igender, iage, igrade,
                             mon, waiting = FALSE, unit = unit) # Male: 1, Female: 2
@@ -254,7 +254,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
     rp_list[[i]] <- data.table(id = id_pd, period = pd_pd, pay)
     # print
     cat(sprintf("Group %3d (gender: %d, age: %2d, grade: %d, mon: %2d): %s %s\n",
-                i, igender, iage, max(igrade), mon,
+                i, igender, iage, max(igrade), imon,
                 stri_pad_left(comma(count), width = 9L), draw_line(scale*20)))
   }
   z <- do.call("rbind", rp_list)
