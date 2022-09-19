@@ -81,7 +81,7 @@ get_kcd <- function(x, lang = c("ko", "en"), type = c("kcd", "ko", "en")) {
 
 get_claim <- function(claim_info, x) {
   if (missing(x)) {
-    hprint(unique(claim_info[, .(rn, main_category, sub_category, rd_category,
+    hprint(unique(claim_info[, .(rn, main_category, sub_category, rider_category,
                                  proportion = sprintf("%.2f", proportion), rider)]))
     x <- splt_code(readline("Please insert rider: "))
   }
