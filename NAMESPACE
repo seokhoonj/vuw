@@ -182,6 +182,8 @@ export(group_missing)
 export(group_missing_)
 export(group_stats)
 export(group_stats_)
+export(group_stats_terms)
+export(group_stats_terms_)
 export(get_prop)
 export(get_prop_)
 
