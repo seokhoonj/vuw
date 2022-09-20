@@ -103,6 +103,18 @@ group_stats_terms <- function(df, group_var, ...) {
   do.call(function(x, y) merge(x, y, by = group_var, all = TRUE), df_list)
 }
 
+group_stats_terms_ <- function(df, group_var, ...) {
+  # group_stats_terms(df, "kcd", list("id", uniqueN), list(c("loss", "rp"), sum))
+  stats_terms <- list(...)
+  df_list <- vector(mode = "list", length = length(value_var))
+  for (i in seq_along(stats_terms)) {
+    value_var <- stats_terms[[i]][[1L]]
+    fun.aggregate <- stats_terms[[i]][[2L]]
+    df_list[[i]] <- df[, lapply(.SD, fun.aggregate), keyby = group_var, .SDcols = value_var]
+  }
+  do.call(function(x, y) merge(x, y, by = group_var, all = TRUE), df_list)
+}
+
 get_prop <- function(df, group_var, uniq_var, sum_var, multiple = 1) {                                                                                group_var <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
   assert_class(df, "data.table")
   if (!missing(uniq_var)) {
