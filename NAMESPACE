@@ -114,6 +114,7 @@ export(replace_empty_with_na)
 
 export(calc_ins_age)
 export(set_age_band)
+export(set_age_cut)
 export(calc_bmi)
 export(judge_bmi)
 export(split_date)
