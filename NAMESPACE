@@ -172,6 +172,8 @@ export(sec_to_hms)
 export(proc_time)
 export(quote_comma)
 export(paste_comma)
+export(setlowernames)
+export(setuppernames)
 
 export(get_mode)
 export(get_class)

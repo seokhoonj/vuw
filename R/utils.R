@@ -270,3 +270,10 @@ paste_comma <- function(x, newline = FALSE) {
     cat(paste0("\"", paste(x, collapse = '", "'), "\""))
   }
 }
+
+# setnames ----------------------------------------------------------------
+
+setlowernames <- function(x) setnames(x, colnames(x), tolower(colnames(x)))
+setuppernames <- function(x) setnames(x, colnames(x), toupper(colnames(x)))
+
+
