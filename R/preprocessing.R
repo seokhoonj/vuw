@@ -1,7 +1,7 @@
 
 calc_ins_age <- function(birth, now) {
   birth6 <- add_mon(birth, 6L)
-  bottom <- as.Date(ISOdate(year(now), month(birth6), day(birth6)))
+  bottom <- add_year(birth6, year(now) - year(birth6))
   ifelse(now < bottom, year(now)-year(birth)-1, year(now)-year(birth))
 }
 
