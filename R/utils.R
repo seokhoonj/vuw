@@ -96,8 +96,18 @@ rm_cols <- function(df, cols) {
   df[, `:=`((cols), NULL)]
 }
 
-rm_dots <- function (df, cols) {
+rm_cols_ <- function(df, cols) {
+  cols <- match_cols(df, cols)
+  df[, `:=`((cols), NULL)]
+}
+
+rm_dots <- function(df, cols) {
   cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
+  df[, `:=`((cols), lapply(.SD, function(x) gsub("\\.", "", x))), .SDcols = cols]
+}
+
+rm_dots_ <- function(df, cols) {
+  cols <- match_cols(df, cols)
   df[, `:=`((cols), lapply(.SD, function(x) gsub("\\.", "", x))), .SDcols = cols]
 }
 
