@@ -92,6 +92,8 @@ diff_period <- function(start, end, group = 1) {
   return(z)
 }
 
+group_period <- function(x, group = 12) (x - 1) %/% group + 1
+
 period_to_binary_loss <- function(period, one_time, expiration) { # period after period[clm == 0] <- 0
   # row names
   rn <- rownames(period)
