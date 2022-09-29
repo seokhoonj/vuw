@@ -283,7 +283,7 @@ set_lr <- function(df) {
   rp_cols   <- regmatch_cols(dm, "^rp")
   rp_type   <- gsub("^rp", "", rp_cols)
 
-  lr_type   <- intersect(loss_type, lr_type)
+  lr_type   <- intersect(loss_type, rp_type)
   lr_cols   <- sprintf("lr%s"  , lr_type)
   rp_cols   <- sprintf("rp%s"  , lr_type)
   loss_cols <- sprintf("loss%s", lr_type)
