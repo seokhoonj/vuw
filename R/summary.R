@@ -94,7 +94,7 @@ group_stats_terms <- function(df, group_var, ...) {
   # group_stats_terms(df, "kcd", list("id", uniqueN), list(c("loss", "rp"), sum))
   group_var <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
   stats_terms <- list(...)
-  df_list <- vector(mode = "list", length = length(value_var))
+  df_list <- vector(mode = "list", length = length(stats_terms))
   for (i in seq_along(stats_terms)) {
     value_var <- stats_terms[[i]][[1L]]
     fun.aggregate <- stats_terms[[i]][[2L]]
@@ -106,7 +106,7 @@ group_stats_terms <- function(df, group_var, ...) {
 group_stats_terms_ <- function(df, group_var, ...) {
   # group_stats_terms(df, "kcd", list("id", uniqueN), list(c("loss", "rp"), sum))
   stats_terms <- list(...)
-  df_list <- vector(mode = "list", length = length(value_var))
+  df_list <- vector(mode = "list", length = length(stats_terms))
   for (i in seq_along(stats_terms)) {
     value_var <- stats_terms[[i]][[1L]]
     fun.aggregate <- stats_terms[[i]][[2L]]
