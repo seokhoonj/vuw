@@ -278,9 +278,17 @@ apply_weight <- function(df, weight) {
 }
 
 set_lr <- function(df) {
-  loss_cols <- regmatch_cols(df, "^loss[0-9_]")
-  rp_cols <- regmatch_cols(df, "^rp[0-9_]")
-  lr_cols <- paste0("lr", gsub("^loss", "", loss_cols))
-  for (i in seq_along(lr_cols))
+  loss_cols <- regmatch_cols(dm, "^loss[0-9_]")
+  loss_type <- gsub("^loss_", "", loss_cols)
+  rp_cols   <- regmatch_cols(dm, "^rp[0-9_]")
+  rp_type   <- gsub("^rp_", "", rp_cols)
+
+  lr_type   <- intersect(loss_type, lr_type)
+  lr_cols   <- sprintf("lr_%s"  , lr_type)
+  rp_cols   <- sprintf("rp_%s"  , lr_type)
+  loss_cols <- sprintf("loss_%s", lr_type)
+
+  for (i in seq_along(lr_cols)) {
     set(df, j = lr_cols[i], value = df[[loss_cols[i]]] / df[[rp_cols[i]]])
+  }
 }

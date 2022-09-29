@@ -221,6 +221,7 @@ export(apply_expiration)
 export(count_pay_num)
 export(rp_simulation)
 export(apply_weight)
+export(set_lr)
 
 export(subset_id_with_kcd)
 export(subset_id_with_kcd_)
