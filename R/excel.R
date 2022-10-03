@@ -155,3 +155,83 @@ get_rp_table <- function(xlsxFile, sheet, risk_range, rate_range, skipEmptyRows 
   z <- cbind(risk_tbl, rate_tbl)
   return(z)
 }
+
+write_data <- function(wb, sheet, x, startCell = c(2, 2), rowNames = TRUE,
+                       fontName = "Cascadia Code", borderColour = "#4F81BD",
+                       widths = 8.43) {
+  headerStyle1 <- createStyle(
+    fontName = fontName,
+    fontSize = 14,
+    fontColour = "#FFFFFF",
+    halign = "center",
+    valign = "center",
+    fgFill = "#4F81BD",
+    border = "TopRightBottom",
+    borderColour = "#000000",
+    borderStyle = c("thick", "thin", "double")
+  )
+  headerStyle2 <- createStyle(
+    fontName = fontName,
+    fontSize = 14,
+    fontColour = "#FFFFFF",
+    halign = "center",
+    valign = "center",
+    fgFill = "#4F81BD",
+    border = "TopBottom",
+    borderColour = "#000000",
+    borderStyle = c("thick", "double")
+  )
+  bodyStyle1  <- createStyle(
+    fontName = fontName,
+    border = "TopRightBottom",
+    borderColour = borderColour
+  )
+  bodyStyle2 <- createStyle(
+    fontName = fontName,
+    border = "TopBottom",
+    borderColour = borderColour
+  )
+  footerStyle1 <- createStyle(
+    fontName = fontName,
+    border = "TopRightBottom",
+    borderColour = c(borderColour, borderColour, "#000000"),
+    borderStyle = c("thin", "thin", "thick")
+  )
+  footerStyle2 <- createStyle(
+    fontName = fontName,
+    border = "TopBottom",
+    borderColour = c(borderColour, "#000000"),
+    borderStyle = c("thin", "thick")
+  )
+
+  endCell <- startCell + dim(x)
+  writeData(wb = wb, sheet = sheet, x = x, startCol = startCell[2L], startRow = startCell[1L], rowNames = TRUE)
+
+  srow <- startCell[1L]
+  scol <- startCell[2L]
+  erow <- endCell[1L]
+  ecol <- endCell[2L]
+
+  headerCols  <- scol:ecol
+  headerRows1 <- srow
+  headerCols1 <- scol:(ecol-1)
+  headerRows2 <- srow
+  headerCols2 <- ecol
+  bodyRows1   <- (srow+1):(erow-1)
+  bodyCols1   <- scol:(ecol-1)
+  bodyRows2   <- (srow+1):(erow-1)
+  bodyCols2   <- ecol
+  footerRows1 <- erow
+  footerCols1 <- scol:(ecol-1)
+  footerRows2 <- erow
+  footerCols2 <- ecol
+
+  addStyle(wb, sheet = sheet, headerStyle1, rows = headerRows1, cols = headerCols1, gridExpand = TRUE)
+  addStyle(wb, sheet = sheet, headerStyle2, rows = headerRows2, cols = headerCols2, gridExpand = TRUE)
+  addStyle(wb, sheet = sheet, bodyStyle1  , rows = bodyRows1  , cols = bodyCols1  , gridExpand = TRUE)
+  addStyle(wb, sheet = sheet, bodyStyle2  , rows = bodyRows2  , cols = bodyCols2  , gridExpand = TRUE)
+  addStyle(wb, sheet = sheet, footerStyle1, rows = footerRows1, cols = footerCols1, gridExpand = TRUE)
+  addStyle(wb, sheet = sheet, footerStyle2, rows = footerRows2, cols = footerCols2, gridExpand = TRUE)
+  setColWidths(wb, sheet, cols = headerCols, widths = widths)
+}
+

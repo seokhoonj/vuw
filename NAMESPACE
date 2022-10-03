@@ -246,6 +246,7 @@ export(mv_cell)
 export(nu_cell)
 export(di_cell)
 export(get_rp_table)
+export(write_data)
 
 export(theme_view)
 export(theme_shiny)
