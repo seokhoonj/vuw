@@ -196,6 +196,7 @@ export(get_kcd)
 export(get_claim)
 export(get_risk)
 export(risk_plot)
+export(ratio_plot)
 
 export(strat_sampling)
 export(k_fold)

@@ -128,3 +128,47 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y")
     scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
     facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
 }
+
+ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales = "fixed") {
+  x <- risk_info[risk == risk1]
+  y <- risk_info[risk == risk2]
+  z <- merge(x, y, by = c("age", "gender"), all.x = TRUE)
+  setorder(z, gender, age)
+  setnames(z, gsub("\\.", "_", names(z)))
+  set(z, j = "ratio", value = z$rate_x / z$rate_y)
+
+  m <- melt(z,
+            id.vars       = c("age", "gender"),
+            measure.vars  = c("rate_x", "rate_y", "ratio"),
+            variable.name = c("risk"),
+            value.name    = c("rate"))
+  set(m, i = which(m$risk == "rate_x"), j = "risk", value = risk1)
+  set(m, i = which(m$risk == "rate_y"), j = "risk", value = risk2)
+  set(m, j = "label", value = paste(m$risk, "(", m$gender, ")"))
+
+  # plot
+  colours <- rev(scales::hue_pal()(2)) # show_col(hue_pal()(2))
+
+  g1 <- ggplot(m[risk != "ratio"], aes(x = age, y = rate, ymin = 0, group = label, linetype = risk)) +
+    geom_line() +
+    scale_x_continuous(n.breaks = floor(unilen(m$age) / 10)) +
+    scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+    scale_color_manual(values = colours) +
+    facet_wrap(~ gender, scales = scales) +
+    theme(legend.position = "top")
+
+  g2 <- ggplot(m[risk == "ratio"], aes(x = age, y = rate, ymin = 0, group = gender, col = gender)) +
+    geom_line() +
+    geom_hline(yintercept = 1, color = "red", linetype = "dashed") +
+    scale_x_continuous(n.breaks = floor(unilen(m$age) / 10)) +
+    scale_color_manual(values = colours) +
+    ylab("ratio") +
+    facet_wrap(~ risk) +
+    theme(legend.position = "top", plot.title = element_text(size = 7, hjust = .5))
+
+  grid.arrange(g1, g2, widths = c(1, 1, 1),
+               layout_matrix = cbind(1, 1, 2),
+               top = textGrob(bquote("Risk ratio = " ~ frac(.(risk1), .(risk2)))))
+
+  return(z)
+}
