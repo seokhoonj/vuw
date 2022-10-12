@@ -168,7 +168,7 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales
 
   grid.arrange(g1, g2, widths = c(1, 1, 1),
                layout_matrix = cbind(1, 1, 2),
-               top = textGrob(bquote("Risk ratio = " ~ frac(.(risk1), .(risk2)))))
+               top = grid::textGrob(bquote("Risk ratio = " ~ frac(.(risk1), .(risk2)))))
 
   return(z)
 }
