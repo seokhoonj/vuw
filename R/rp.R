@@ -277,16 +277,32 @@ apply_weight <- function(df, weight) {
   cbind(df[, ..pre_cols], data.table(loss), data.table(rp))
 }
 
-set_lr <- function(df) {
-  loss_cols <- regmatch_cols(dm, "^loss|")
-  loss_type <- gsub("^loss", "", loss_cols)
-  rp_cols   <- regmatch_cols(dm, "^rp")
-  rp_type   <- gsub("^rp", "", rp_cols)
+# set_lr <- function(df) {
+#   loss_cols <- regmatch_cols(dm, "^loss")
+#   loss_type <- gsub("^loss", "", loss_cols)
+#   rp_cols   <- regmatch_cols(dm, "^rp")
+#   rp_type   <- gsub("^rp", "", rp_cols)
+#
+#   lr_type   <- intersect(loss_type, rp_type)
+#   lr_cols   <- sprintf("lr%s"  , lr_type)
+#   rp_cols   <- sprintf("rp%s"  , lr_type)
+#   loss_cols <- sprintf("loss%s", lr_type)
+#
+#   for (i in seq_along(lr_cols)) {
+#     set(df, j = lr_cols[i], value = df[[loss_cols[i]]] / df[[rp_cols[i]]])
+#   }
+# }
+
+set_lr <- function(df, prefix = "") {
+  loss_cols <- regmatch_cols(dm, sprintf("^%sloss", prefix))
+  loss_type <- gsub(sprintf("^%sloss", prefix), "", loss_cols)
+  rp_cols   <- regmatch_cols(dm, sprintf("^%srp", prefix))
+  rp_type   <- gsub(sprintf("^%srp", prefix), "", rp_cols)
 
   lr_type   <- intersect(loss_type, rp_type)
-  lr_cols   <- sprintf("lr%s"  , lr_type)
-  rp_cols   <- sprintf("rp%s"  , lr_type)
-  loss_cols <- sprintf("loss%s", lr_type)
+  lr_cols   <- sprintf("%slr%s"    , prefix, lr_type)
+  rp_cols   <- sprintf("%srp%s"  , prefix, lr_type)
+  loss_cols <- sprintf("%sloss%s", prefix, lr_type)
 
   for (i in seq_along(lr_cols)) {
     set(df, j = lr_cols[i], value = df[[loss_cols[i]]] / df[[rp_cols[i]]])
