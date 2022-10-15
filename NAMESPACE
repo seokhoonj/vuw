@@ -60,6 +60,8 @@ export(vprint)
 export(aprint)
 export(ggbar)
 export(ggbar_)
+export(ggline)
+export(ggline_)
 export(data2treemap)
 
 export(unilen)

@@ -135,6 +135,28 @@ ggbar_ <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, s
       })
 }
 
+ggline <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, size = 4, hjust = 0.5, vjust = -0.25) {
+  x <- deparse(substitute(x))
+  y <- deparse(substitute(y))
+  group <- deparse(substitute(group))
+  color <- deparse(substitute(color))
+  fill <- deparse(substitute(fill))
+  ggplot(data = data, aes_string(x = x, y = y, group = group, color = color, fill = fill)) +
+    geom_line() + list(
+      if (!missing(label)) {
+        label <- deparse(substitute(label))
+        geom_text(aes_string(label = label), position = position_dodge2(width = .9, preserve = "single"), size = size, hjust = hjust, vjust = vjust)
+      })
+}
+
+ggline_ <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, size = 4, hjust = 0.5, vjust = -0.25) {
+  ggplot(data = data, aes_string(x = x, y = y, group = group, color = color, fill = fill)) +
+    geom_line() + list(
+      if (!missing(label)) {
+        geom_text(aes_string(label = label), position = position_dodge2(width = .9, preserve = "single"), size = size, hjust = hjust, vjust = vjust)
+      })
+}
+
 data2treemap <- function(df, group_var, value_var, fig = TRUE, add_names = FALSE, sep = " / ") {
   assert_class(df, "data.table")
   group_cols <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
