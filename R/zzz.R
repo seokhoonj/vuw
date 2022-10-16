@@ -3,8 +3,11 @@
   packageStartupMessage("Written by Joo, Seokhoon.")
   options(scipen = 14)
   options(vuw.eps = 1e-8)
-  options(vuw.triple.colors = c("#E41A1C", "#377EB8", "#4DAF4A"))
-  options(vuw.gender.colors = c("#00BFC4", "#F8766D"))
+  options(vuw.double.colors1 = c("#377EB8", "#E41A1C"))
+  options(vuw.double.colors2 = c("#00BFC4", "#F8766D"))
+  options(vuw.double.colors3 = c("#80B1D3", "#FB8072"))
+  options(vuw.triple.colors1 = c("#4DAF4A", "#377EB8", "#E41A1C"))
+  options(vuw.triple.colors2 = c("#8DD3C7", "#80B1D3", "#FB8072"))
   if (Sys.info()[["sysname"]] == "Linux")
     Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
 }

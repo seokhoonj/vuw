@@ -54,32 +54,32 @@ theme_save <- function(family = "Cascade Code",
   )
 }
 
-scale_gender_manual <- function(x, gender = c("男性", "女性")) {
+scale_gender_manual <- function(x, gender = c("男性", "女性"), colors = "vuw.double.colors1") {
   list(
     if (unilen(x) == 2) {
       scale_color_manual(
-        values = options()$vuw.gender.color
+        values = options()[[colors]]
       )
     } else if (unique(x) == gender[1L]) {
       scale_color_manual(
-        values = options()$vuw.gender.color[1L]
+        values = options()[[colors]][1L]
       )
     } else if (unique(x) == gender[2L]) {
       scale_color_manual(
-        values = options()$vuw.gender.color[2L]
+        values = options()[[colors]][2L]
       )
     },
     if (unilen(x) == 2) {
       scale_fill_manual(
-        values = options()$vuw.gender.color
+        values = options()[[colors]]
       )
     } else if (unique(x) == gender[1L]) {
       scale_fill_manual(
-        values = options()$vuw.gender.color[1L]
+        values = options()[[colors]][1L]
       )
     } else if (unique(x) == gender[2L]) {
       scale_fill_manual(
-        values = options()$vuw.gender.color[2L]
+        values = options()[[colors]][2L]
       )
     }
   )
