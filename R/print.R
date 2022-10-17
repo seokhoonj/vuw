@@ -107,14 +107,14 @@ aprint <- function(x, hchar = 4, vchar = 16) {
   cat(draw_line(), "\n")
 }
 
-ggbar <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = .5, vjust = -.25) {
+ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = .5, vjust = -.25) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
   group <- deparse(substitute(group))
   color <- deparse(substitute(color))
   fill  <- deparse(substitute(fill))
   ggplot(data = data, aes_string(
-    x = x, y = y, group = group, color = color, fill = fill)) +
+    x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
       if (!missing(label)) {
         label <- deparse(substitute(label))
@@ -124,9 +124,9 @@ ggbar <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, si
       })
 }
 
-ggbar_ <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = .5, vjust = -.25) {
+ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = .5, vjust = -.25) {
   ggplot(data = data, aes_string(
-    x = x, y = y, group = group, color = color, fill = fill)) +
+    x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
       if (!missing(label)) {
         geom_text(aes_string(label = label),
@@ -135,13 +135,13 @@ ggbar_ <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, s
       })
 }
 
-ggline <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = 0.5, vjust = -0.25) {
+ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = 0.5, vjust = -0.25) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
   group <- deparse(substitute(group))
   color <- deparse(substitute(color))
   fill <- deparse(substitute(fill))
-  ggplot(data = data, aes_string(x = x, y = y, group = group, color = color, fill = fill)) +
+  ggplot(data = data, aes_string(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
     geom_line() + list(
       if (!missing(label)) {
         label <- deparse(substitute(label))
@@ -151,8 +151,8 @@ ggline <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, s
       })
 }
 
-ggline_ <- function(data, x, y, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = 0.5, vjust = -0.25) {
-  ggplot(data = data, aes_string(x = x, y = y, group = group, color = color, fill = fill)) +
+ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = 0.5, vjust = -0.25) {
+  ggplot(data = data, aes_string(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
     geom_line() + list(
       if (!missing(label)) {
         geom_text(aes_string(label = label),
