@@ -6,7 +6,7 @@ decimal <- function(x, digit = 1) sprintf(paste0("%.", digit, "f"), x)
 theme_view <- function(family = "Cascade Code",
                        x.size = NULL, y.size = NULL, t.size = NULL, s.size = NULL,
                        x.angle = 0, y.angle = 0, y.comma = TRUE,
-                       legend.position = "bottom") {
+                       legend.position = "right") {
   list(
     theme(
       text  = element_text(family = family),
@@ -54,7 +54,7 @@ theme_save <- function(family = "Cascade Code",
   )
 }
 
-scale_gender_manual <- function(x, gender = c("男性", "女性"), colors = "vuw.double.colors1") {
+scale_gender_manual <- function(x, gender = c("1", "2"), colors = "vuw.double.colors1") {
   list(
     if (unilen(x) == 2) {
       scale_color_manual(
