@@ -21,23 +21,25 @@ cut_age <- function(x, interval = 5, right = FALSE) {
   return(z)
 }
 
-set_age_band <- function(df, age_var, interval = 5, right = FALSE) {
+set_age_band <- function(df, age_var, interval = 5, right = FALSE, col_nm = "age_band", labels) {
   age_var <- match_cols(df, vapply(substitute(age_var), deparse, "character"))
   age <- df[[age_var]]
-  mn <- floor(min(age) / interval) * interval
-  mx <- ceiling(max(age) / interval) * interval
-  if (max(age) == mx) mx <- ceiling(max(age) / interval + 1) * interval
+  mn <- floor(min(age)/interval) * interval
+  mx <- ceiling(max(age)/interval) * interval
+  if (max(age) == mx)
+    mx <- ceiling(max(age)/interval + 1) * interval
   age_band <- cut(age, breaks = seq(mn, mx, interval), right = right)
-  # levels
-  l <- levels(age_band)
-  r <- gregexpr("[0-9]+", l, perl = TRUE)
-  m <- regmatches(l, r)
-  s <- as.integer(sapply(m, function(x) x[1L]))
-  e <- as.integer(sapply(m, function(x) x[2L]))-1
-  g <- sprintf("%d-%d", s, e)
-  levels(age_band) <- g
-  set(df, j = "age_band", value = age_band)
-  setcolafter_(df, "age_band", age_var)
+  if (missing(labels)) {
+    l <- levels(age_band)
+    r <- gregexpr("[0-9]+", l, perl = TRUE)
+    m <- regmatches(l, r)
+    s <- as.integer(sapply(m, function(x) x[1L]))
+    e <- as.integer(sapply(m, function(x) x[2L])) - 1
+    labels <- sprintf("%d-%d", s, e)
+  }
+  levels(age_band) <- labels
+  set(df, j = col_nm, value = age_band)
+  setcolafter_(df, col_nm, age_var)
 }
 
 set_age_cut <- function(df, age_var, age_cut) {
