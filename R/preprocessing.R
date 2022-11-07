@@ -354,3 +354,43 @@ limit_stay <- function(df, id_var, merge_var, from_var, to_var, limit, waiting) 
   setcolafter_(z, merge_var, id_var[length(id_var)])
   return(z)
 }
+
+summarise_prev_claim <- function(prev_claim, prev_hos, prev_sur, id_var, kcd_var, from_var, to_var, udate) {
+  id_var <- match_cols(df, vapply(substitute(id_var), deparse, "character"))
+  kcd_var <- match_cols(df, vapply(substitute(kcd_var), deparse, "character"))
+  id_kcd_var <- c(id_var, kcd_var)
+  from_var <- vapply(substitute(from_var), deparse, "character")
+  to_var <- vapply(substitute(to_var), deparse, "character")
+  prev_claim_kcd <- unique(prev_claim[, ..id_kcd_var])
+  prev_claim_kcd_n <- prev_claim[, .(kcd_n = uniqueN(.SD)), id_var, .SDcols = kcd_var]
+  z <- merge(prev_claim_kcd, prev_claim_kcd_n, by = id_var)
+  prev_hos_mod <- merge_date_overlap_(prev_hos, id_var, kcd_var, from_var, to_var)
+  prev_hos_sum <- prev_hos_mod[, .(hos = sum(stay)), id_kcd_var]
+  prev_sur_cnt <- prev_sur[, .(sur = uniqueN(sdate)), id_kcd_var]
+  prev_et <- prev_claim[, .(et = max(edate)), id_kcd_var]
+  prev_et[, et := as.numeric(udate - et) + 1]
+  z[prev_hos_sum, on = id_kcd_var, hos := i.hos]
+  z[prev_sur_cnt, on = id_kcd_var, sur := i.sur]
+  replace_na_with_zero(z)
+  z[prev_et, on = id_kcd_var, et := i.et]
+  z[is.na(et), et := as.numeric(udate - add_year(udate, -5)) + 1]
+  return(z[])
+}
+
+summarise_prev_claim_ <- function(prev_claim, prev_hos, prev_sur, id_var, kcd_var, from_var, to_var, udate) {
+  id_kcd_var <- c(id_var, kcd_var)
+  prev_claim_kcd <- unique(prev_claim[, ..id_kcd_var])
+  prev_claim_kcd_n <- prev_claim[, .(kcd_n = uniqueN(.SD)), id_var, .SDcols = kcd_var]
+  z <- merge(prev_claim_kcd, prev_claim_kcd_n, by = id_var)
+  prev_hos_mod <- merge_date_overlap_(prev_hos, id_var, kcd_var, from_var, to_var)
+  prev_hos_sum <- prev_hos_mod[, .(hos = sum(stay)), id_kcd_var]
+  prev_sur_cnt <- prev_sur[, .(sur = uniqueN(sdate)), id_kcd_var]
+  prev_et <- prev_claim[, .(et = max(edate)), id_kcd_var]
+  prev_et[, et := as.numeric(udate - et) + 1]
+  z[prev_hos_sum, on = id_kcd_var, hos := i.hos]
+  z[prev_sur_cnt, on = id_kcd_var, sur := i.sur]
+  replace_na_with_zero(z)
+  z[prev_et, on = id_kcd_var, et := i.et]
+  z[is.na(et), et := as.numeric(udate - add_year(udate, -5)) + 1]
+  return(z[])
+}
