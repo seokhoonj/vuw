@@ -367,14 +367,14 @@ summarise_prev_claim <- function(prev_claim, prev_hos, prev_sur, id_var, kcd_var
   prev_hos_mod <- merge_date_overlap_(prev_hos, id_var, kcd_var, from_var, to_var)
   prev_hos_sum <- prev_hos_mod[, .(hos = sum(stay)), id_kcd_var]
   prev_sur_cnt <- prev_sur[, .(sur = uniqueN(sdate)), id_kcd_var]
-  prev_et <- prev_claim[, .(et = max(edate)), id_kcd_var]
-  prev_et[, et := as.numeric(udate - et) + 1]
+  prev_elp <- prev_claim[, .(elp = max(edate)), id_kcd_var]
+  prev_elp[, elp := as.numeric(udate - elp) + 1]
   z[prev_hos_sum, on = id_kcd_var, hos := i.hos]
   z[prev_sur_cnt, on = id_kcd_var, sur := i.sur]
   replace_na_with_zero(z)
-  z[prev_et, on = id_kcd_var, et := i.et]
-  z[is.na(et), et := as.numeric(udate - add_year(udate, -5)) + 1]
-  return(z[])
+  z[prev_elp, on = id_kcd_var, elp := i.elp]
+  z[is.na(elp), elp := as.numeric(udate - add_year(udate, -5)) + 1]
+  relpurn(z[])
 }
 
 summarise_prev_claim_ <- function(prev_claim, prev_hos, prev_sur, id_var, kcd_var, from_var, to_var, udate) {
@@ -385,12 +385,12 @@ summarise_prev_claim_ <- function(prev_claim, prev_hos, prev_sur, id_var, kcd_va
   prev_hos_mod <- merge_date_overlap_(prev_hos, id_var, kcd_var, from_var, to_var)
   prev_hos_sum <- prev_hos_mod[, .(hos = sum(stay)), id_kcd_var]
   prev_sur_cnt <- prev_sur[, .(sur = uniqueN(sdate)), id_kcd_var]
-  prev_et <- prev_claim[, .(et = max(edate)), id_kcd_var]
-  prev_et[, et := as.numeric(udate - et) + 1]
+  prev_elp <- prev_claim[, .(elp = max(edate)), id_kcd_var]
+  prev_elp[, elp := as.numeric(udate - elp) + 1]
   z[prev_hos_sum, on = id_kcd_var, hos := i.hos]
   z[prev_sur_cnt, on = id_kcd_var, sur := i.sur]
   replace_na_with_zero(z)
-  z[prev_et, on = id_kcd_var, et := i.et]
-  z[is.na(et), et := as.numeric(udate - add_year(udate, -5)) + 1]
-  return(z[])
+  z[prev_elp, on = id_kcd_var, elp := i.elp]
+  z[is.na(elp), elp := as.numeric(udate - add_year(udate, -5)) + 1]
+  relpurn(z[])
 }
