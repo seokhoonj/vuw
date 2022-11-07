@@ -374,7 +374,7 @@ summarise_prev_claim <- function(prev_claim, prev_hos, prev_sur, id_var, kcd_var
   replace_na_with_zero(z)
   z[prev_elp, on = id_kcd_var, elp := i.elp]
   z[is.na(elp), elp := as.numeric(udate - add_year(udate, -5)) + 1]
-  relpurn(z[])
+  return(z[])
 }
 
 summarise_prev_claim_ <- function(prev_claim, prev_hos, prev_sur, id_var, kcd_var, from_var, to_var, udate) {
@@ -392,5 +392,5 @@ summarise_prev_claim_ <- function(prev_claim, prev_hos, prev_sur, id_var, kcd_va
   replace_na_with_zero(z)
   z[prev_elp, on = id_kcd_var, elp := i.elp]
   z[is.na(elp), elp := as.numeric(udate - add_year(udate, -5)) + 1]
-  relpurn(z[])
+  return(z[])
 }
