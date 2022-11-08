@@ -83,7 +83,7 @@ pull_code <- function(code, x) {
   z[r != -1] <- regmatches(x, r)
   return(z)
 }
-pull_code_all <- function(code, x, collapse = "-") {
+pull_code_all <- function(code, x, collapse = "|") {
   r <- gregexpr(code, x, perl = TRUE)
   z <- regmatches(x, r)
   sapply(z, function(s) paste(s, collapse = collapse))
