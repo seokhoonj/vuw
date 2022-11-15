@@ -62,6 +62,7 @@ export(ggbar)
 export(ggbar_)
 export(ggline)
 export(ggline_)
+export(ggdensity)
 export(data2treemap)
 
 export(unilen)

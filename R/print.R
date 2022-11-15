@@ -161,6 +161,24 @@ ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = 
       })
 }
 
+ggdensity <- function(x, probs = .95, logscale = F) {
+  if (logscale) d <- log(x+1) else d <- x
+  dens <- density(d)
+  data <- data.table(x = dens$x, y = dens$y)
+  cutoff_x <- quantile(x, probs = probs)
+  cutoff_d <- quantile(d, probs = probs)
+  cutoff <- cutoff_d[length(cutoff_d)]
+  levels <- paste0(c(">", "<"), names(cutoff))
+  data[, area := factor(ifelse(x >= cutoff, levels[1L], levels[2L]), levels = levels)]
+  ggplot(data = data, aes(x = x, ymin = 0, ymax = y, group = area, fill = area)) +
+    geom_ribbon() +
+    geom_line(aes(y = y)) +
+    geom_vline(xintercept = cutoff_d, color = "red", linetype = "dashed") +
+    annotate(geom = "text", x = cutoff_d, y = Inf,
+             label = sprintf("%s\n(%s)", names(cutoff_x), cutoff_x),
+             hjust = -.1, vjust = 2)
+}
+
 data2treemap <- function(df, group_var, value_var, fig = TRUE, add_names = FALSE, sep = " / ") {
   assert_class(df, "data.table")
   group_cols <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
