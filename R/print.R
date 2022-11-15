@@ -175,7 +175,7 @@ ggdensity <- function(x, probs = .95, logscale = F) {
     geom_line(aes(y = y)) +
     geom_vline(xintercept = cutoff_d, color = "red", linetype = "dashed") +
     annotate(geom = "text", x = cutoff_d, y = Inf,
-             label = sprintf("%s\n(%s)", names(cutoff_x), cutoff_x),
+             label = sprintf("%s\n(%s)", names(cutoff_x), comma(cutoff_x)),
              hjust = -.1, vjust = 2)
 }
 
