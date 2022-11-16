@@ -214,9 +214,9 @@ merge_date_overlap_ <- function(df, id_var, merge_var, from_var, to_var, interva
   return(z)
 }
 
-split_merge_var <- function(df, merge_var) {
+split_merge_var <- function(df, merge_var, split = "\\|") {
   merge_var <- match_cols(df, vapply(substitute(merge_var), deparse, "character"))
-  spl <- lapply(df[[merge_var]], function(x) splt_code(x))
+  spl <- lapply(df[[merge_var]], function(x) splt_code(x, split = split))
   len <- unlist(lapply(spl, length))
   if (any(len > 1)) {
     cols <- diff_cols(df, merge_var)
@@ -230,8 +230,8 @@ split_merge_var <- function(df, merge_var) {
   return(df)
 }
 
-split_merge_var_ <- function(df, merge_var) {
-  spl <- lapply(df[[merge_var]], function(x) splt_code(x))
+split_merge_var_ <- function(df, merge_var, split = "\\|") {
+  spl <- lapply(df[[merge_var]], function(x) splt_code(x, split = split))
   len <- unlist(lapply(spl, length))
   if (any(len > 1)) {
     cols <- diff_cols(df, merge_var)
