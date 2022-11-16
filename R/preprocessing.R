@@ -88,6 +88,14 @@ pull_code_all <- function(code, x, collapse = "|") {
   z <- regmatches(x, r)
   sapply(z, function(s) paste(s, collapse = collapse))
 }
+pull_excl_part <- function(x) {
+  r <- gregexpr("\\(.*?\\)", x, perl = TRUE, ignore.case = TRUE)
+  z <- regmatches(x, r)
+  gsub("[\\(\\)]", "", z)
+}
+pull_excl_term <- function(x) {
+  as_numeric(gsub("[0-9].EXCL|EXCL|\\(.*?\\)", "", x, perl = TRUE, ignore.case = TRUE))
+}
 
 set_kcd_name <- function(df, col, dots = TRUE, lang = c("ko", "en")) {
   copybook <- copy(kcd_book)
