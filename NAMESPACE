@@ -147,6 +147,8 @@ export(excl_code)
 export(remv_code)
 export(pull_code)
 export(pull_code_all)
+export(pull_excl_part)
+export(pull_excl_term)
 export(set_kcd_name)
 
 export(get_options)
