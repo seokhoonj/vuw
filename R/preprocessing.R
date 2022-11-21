@@ -77,24 +77,24 @@ srch_code <- function(x) glue_code(paste0(x, "$"))
 melt_code <- function(x) srch_code(splt_code(pste_code(x)))
 excl_code <- function(x) paste0('^((?!', x, ').)*$')
 remv_code <- function(code, x) gsub(code, "", x)
-pull_code <- function(code, x) {
-  r <- regexpr(code, x, perl = TRUE)
+pull_code <- function(code, x, ignore.case = TRUE) {
+  r <- regexpr(code, x, ignore.case = ignore.case, perl = TRUE)
   z <- rep(NA, length(x))
   z[r != -1] <- regmatches(x, r)
   return(z)
 }
-pull_code_all <- function(code, x, collapse = "|") {
-  r <- gregexpr(code, x, perl = TRUE)
+pull_code_all <- function(code, x, collapse = "|", ignore.case = TRUE) {
+  r <- gregexpr(code, x, ignore.case = ignore.case, perl = TRUE)
   z <- regmatches(x, r)
   sapply(z, function(s) paste(s, collapse = collapse))
 }
-pull_excl_part <- function(x) {
-  r <- gregexpr("\\(.*?\\)", x, perl = TRUE, ignore.case = TRUE)
+pull_excl_part <- function(x, ignore.case = TRUE) {
+  r <- gregexpr("\\(.*?\\)", x, perl = TRUE, ignore.case = ignore.case)
   z <- regmatches(x, r)
   gsub("[\\(\\)]", "", z)
 }
-pull_excl_term <- function(x) {
-  as_integer(gsub("[0-9].EXCL|EXCL|\\(.*?\\)", "", x, perl = TRUE, ignore.case = TRUE))
+pull_excl_term <- function(x, ignore.case = TRUE) {
+  as_numeric(gsub("[0-9].EXCL|EXCL|\\(.*?\\)", "", x, perl = TRUE, ignore.case = ignore.case))
 }
 
 set_kcd_name <- function(df, col, dots = TRUE, lang = c("ko", "en")) {
