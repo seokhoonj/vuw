@@ -94,7 +94,7 @@ pull_excl_part <- function(x, ignore.case = TRUE) {
   gsub("[\\(\\)]", "", z)
 }
 pull_excl_term <- function(x, ignore.case = TRUE) {
-  as_numeric(gsub("[0-9].EXCL|EXCL|\\(.*?\\)", "", x, perl = TRUE, ignore.case = ignore.case))
+  as_integer(gsub("[0-9].EXCL|EXCL|\\(.*?\\)", "", x, perl = TRUE, ignore.case = ignore.case))
 }
 
 set_kcd_name <- function(df, col, dots = TRUE, lang = c("ko", "en")) {
