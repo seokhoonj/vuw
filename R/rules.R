@@ -11,9 +11,11 @@ apply_rules <- function(rule_info, df) {
   z[, final_result := sort_code(ord_res), .(id)]
   z[final_result == "", final_result := "std"]
   rm_cols(z, .(res, ord_res))
+  setorder(z, id, final_result)
   z[grepl("na|uwer", final_result, ignore.case = TRUE), decision := "uwer"]
   z[is.na(decision) & grepl("excl", final_result, ignore.case = TRUE),
-    decision := pull_code_all("excl[0-9]\\([0-9\\-\\|\\[\\]]+\\)", final_result, collapse = ",")]
+    decision := pull_code_all("excl[0-9]\\([0-9\\-\\|\\[\\]]+\\)", final_result,
+                              collapse = ",", ignore.case = TRUE)]
   z[is.na(decision), decision := "std"]
   set(z, j = "decision", value = toupper(z$decision))
   return(z)
