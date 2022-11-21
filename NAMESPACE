@@ -239,6 +239,8 @@ export(rp_simulation)
 export(apply_weight)
 export(set_lr)
 
+export(apply_rules)
+
 export(subset_id_with_kcd)
 export(subset_id_with_kcd_)
 export(subset_id_with_kcd_terms)
