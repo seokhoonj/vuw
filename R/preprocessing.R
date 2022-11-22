@@ -42,7 +42,7 @@ set_age_band <- function(df, age_var, interval = 5, right = FALSE, col_nm = "age
   setcolafter_(df, col_nm, age_var)
 }
 
-set_age_cut <- function(df, age_var, age_cut) {
+set_age_cut <- function(df, age_var, age_cut = 60) {
   age_var <- match_cols(df, vapply(substitute(age_var), deparse, "character"))
   age <- df[[age_var]]
   l <- sprintf("-%s", age_cut - 1)
@@ -89,12 +89,12 @@ pull_code_all <- function(code, x, collapse = "|", ignore.case = TRUE) {
   sapply(z, function(s) paste(s, collapse = collapse))
 }
 pull_excl_part <- function(x, ignore.case = TRUE) {
-  r <- gregexpr("\\(.*?\\)", x, perl = TRUE, ignore.case = ignore.case)
+  r <- gregexpr("\\(.*?\\)", x, ignore.case = ignore.case, perl = TRUE)
   z <- regmatches(x, r)
   gsub("[\\(\\)]", "", z)
 }
 pull_excl_term <- function(x, ignore.case = TRUE) {
-  as_integer(gsub("[0-9].EXCL|EXCL|\\(.*?\\)", "", x, perl = TRUE, ignore.case = ignore.case))
+  as_integer(gsub("[0-9].EXCL|EXCL|\\(.*?\\)", "", x, ignore.case = ignore.case, perl = TRUE))
 }
 
 set_kcd_name <- function(df, col, dots = TRUE, lang = c("ko", "en")) {
