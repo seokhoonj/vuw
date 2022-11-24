@@ -5,7 +5,7 @@ apply_rules <- function(rule_info, df) {
      order_result := result]
   dm[!is.na(kcd) & is.na(order), `:=`(order = 0, order_result = "na")]
   do <- dm[!is.na(order_result), .(order = min(order)), .(id, kcd)]
-  dm[do, on = .(id, kcd, order), result := order_result]
+  dm[do, on = .(id, kcd, order), interim_result := order_result]
   dm[is.na(kcd), `:=`(order = 0, interim_result = "std")]
   z <- dm[!is.na(interim_result)]
   z[, final_result := sort_code(order_result), .(id)]
