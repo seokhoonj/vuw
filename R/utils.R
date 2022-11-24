@@ -245,7 +245,7 @@ sec_to_hms <- function(sec) {
   s <- r   %%  (60)
   d <- s - trunc(s)
   d <- substr(sub("0.", "", as.character(d)), 1, 5)
-  cat(sprintf("%02d:%02d:%02d.%s", h, m, trunc(s), d))
+  cat(sprintf("%02d:%02d:%02d.%s\n", h, m, trunc(s), d))
 }
 #' Simple running time of {vuw} package
 #'
