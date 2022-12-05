@@ -60,7 +60,7 @@ theme_save <- function(family = "Cascade Code",
   )
 }
 
-scale_gender_manual <- function(x, gender = c("1", "2"), colors = "vuw.double.colors1") {
+scale_gender_manual <- function(x, gender = c("1", "2"), colors = "vuw.two.colors1") {
   list(
     if (unilen(x) == 2) {
       scale_color_manual(
