@@ -1,6 +1,7 @@
 
 .onLoad <- function(libname, pkgname) {
   packageStartupMessage("Written by Joo, Seokhoon.")
+  options(scipen = 14)
   options(vuw.eps = 1e-8)
   options(vuw.scipen = 14)
   options(vuw.guess_max = 21474836)
