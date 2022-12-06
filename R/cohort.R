@@ -144,7 +144,7 @@ id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var, udate, ...)
     grp <- col[1:(length(col)-i)]
     zs[, nsum := sum(n), by = grp]
     zs[, ratio := n / nsum]
-    zs[, label := sprintf("%.2f%%", ratio * 100)]
+    zs[, label := sprintf("%.2f (%s)", ratio * 100, comma(n))]
     attr(z, paste0("summary.", i)) <- copy(zs)
   }
 
