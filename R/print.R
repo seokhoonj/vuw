@@ -107,7 +107,8 @@ aprint <- function(x, hchar = 4, vchar = 16) {
   cat(draw_line(), "\n")
 }
 
-ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = .5, vjust = .5) {
+ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
+                  label, family = "Cascadia Code", size = 4, angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
   group <- deparse(substitute(group))
@@ -120,22 +121,24 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NU
         label <- deparse(substitute(label))
         geom_text(aes_string(label = label),
                   position = position_dodge2(width = .9, preserve = "single"),
-                  size = size, angle = angle, hjust = hjust, vjust = vjust)
+                  family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
       })
 }
 
-ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = .5, vjust = .5) {
+ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
+                   label, family = "Cascadia Code", size = 4, angle = 0, hjust = .5, vjust = .5) {
   ggplot(data = data, aes_string(
     x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
       if (!missing(label)) {
         geom_text(aes_string(label = label),
                   position = position_dodge2(width = .9, preserve = "single"),
-                  size = size, angle = angle, hjust = hjust, vjust = vjust)
+                  family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
       })
 }
 
-ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = .5, vjust = .5) {
+ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
+                   label, family = "Cascadia Code", size = 4, angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
   group <- deparse(substitute(group))
@@ -147,17 +150,18 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = N
         label <- deparse(substitute(label))
         geom_text(aes_string(label = label),
                   position = position_dodge2(width = .9, preserve = "single"),
-                  size = size, angle = angle, hjust = hjust, vjust = vjust)
+                  family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
       })
 }
 
-ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL, label, size = 4, angle = 0, hjust = .5, vjust = .5) {
+ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
+                    label, family = "Cascadia Code", size = 4, angle = 0, hjust = .5, vjust = .5) {
   ggplot(data = data, aes_string(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
     geom_line() + list(
       if (!missing(label)) {
         geom_text(aes_string(label = label),
                   position = position_dodge2(width = .9, preserve = "single"),
-                  size = size, angle = angle, hjust = hjust, vjust = vjust)
+                  family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
       })
 }
 
