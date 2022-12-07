@@ -3,7 +3,7 @@ pad  <- function(x, width =  2) str_pad(x, width = width, pad = "0")
 pad0 <- function(x, width = 14) str_pad(x, width = width, pad = " ")
 decimal <- function(x, digit = 1) sprintf(paste0("%.", digit, "f"), x)
 
-theme_view <- function(family = "Cascade Code",
+theme_view <- function(family = "Cascadia Code",
                        x.size  = NULL, y.size  = NULL, t.size = NULL, s.size = NULL,
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
                        x.hjust =   .5, x.vjust =   .5,
@@ -22,7 +22,7 @@ theme_view <- function(family = "Cascade Code",
   )
 }
 
-theme_shiny <- function(family = "Cascade Code",
+theme_shiny <- function(family = "Cascadia Code",
                         x.size  = 12, y.size  = 12, t.size = 17, s.size = 17,
                         x.angle =  0, y.angle =  0, # y.comma = TRUE,
                         x.hjust = .5, x.vjust = .5,
@@ -41,7 +41,7 @@ theme_shiny <- function(family = "Cascade Code",
   )
 }
 
-theme_save <- function(family = "Cascade Code",
+theme_save <- function(family = "Cascadia Code",
                        x.size  = 12, y.size  = 12, t.size = NULL, s.size = 17,
                        x.angle =  0, y.angle =  0, # y.comma = TRUE,
                        x.hjust = .5, x.vjust = .5,
