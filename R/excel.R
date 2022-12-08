@@ -157,7 +157,7 @@ get_rp_table <- function(xlsxFile, sheet, risk_range, rate_range, skipEmptyRows 
 }
 
 write_data <- function(wb, sheet, x, startCell = c(2, 2), rowNames = TRUE,
-                       fontName = "Cascadia Code", borderColour = "#4F81BD",
+                       fontName = "Malgun Gothic", borderColour = "#4F81BD",
                        widths = 8.43) {
   headerStyle1 <- createStyle(
     fontName = fontName,
