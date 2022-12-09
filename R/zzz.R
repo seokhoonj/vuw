@@ -1,6 +1,6 @@
 
 .onLoad <- function(libname, pkgname) {
-  packageStartupMessage("Written by Joo, Seokhoon.")
+  packageStartupMessage("Written by Joo, Seokhoon. (Note, kcd terms arguments are monthly-basis)")
   options(scipen = 14)
   options(vuw.eps = 1e-8)
   options(vuw.scipen = 14)
