@@ -122,9 +122,9 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y")
   } else {
     risk_info <- risk_info[risk_info$risk %in% x,]
   }
-  colors <- options()$vuw.gender.colors
   ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
-    geom_line() + scale_color_manual(values = colors) +
+    geom_line() +
+    scale_gender_manual(risk_info$gender) +
     scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
     facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
 }
