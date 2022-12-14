@@ -308,3 +308,10 @@ set_lr <- function(df, prefix = "") {
     set(df, j = lr_cols[i], value = df[[loss_cols[i]]] / df[[rp_cols[i]]])
   }
 }
+
+mix_lr <- function(df, biz_mix, join_cols = c("gender", "age_band"), group_cols) {
+  z = df[biz_mix, on = join_cols]
+  z[, tot_prop := sum(prop), group_cols]
+  z[, wt_lr_tot := lr_tot * prop / tot_prop]
+  z[, .(loss_tot = sum(wt_lr_tot)), group_cols]
+}

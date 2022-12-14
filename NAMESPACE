@@ -238,6 +238,7 @@ export(count_pay_num)
 export(rp_simulation)
 export(apply_weight)
 export(set_lr)
+export(mix_lr)
 
 export(apply_rules)
 
