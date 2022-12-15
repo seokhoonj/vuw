@@ -260,6 +260,17 @@ proc_time <- function(expr) {
   sec_to_hms(etime - stime)
 }
 
+# word --------------------------------------------------------------------
+
+break_word <- function(x, len) {
+  n <- ceiling(nchar(x) / len)
+  v <- vector(length = n)
+  for (i in seq_len(n)) {
+    v[[i]] <- substr(x, len*(i-1)+1, len*i)
+  }
+  paste0(v, collapse = "\n")
+}
+
 # comma utils -------------------------------------------------------------
 
 # quote_comma(x, y, z)
