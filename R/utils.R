@@ -262,13 +262,17 @@ proc_time <- function(expr) {
 
 # word --------------------------------------------------------------------
 
-break_word <- function(x, len) {
+break_word <- function(x, len = 15) {
   n <- ceiling(nchar(x) / len)
-  v <- vector(length = n)
-  for (i in seq_len(n)) {
-    v[[i]] <- substr(x, len*(i-1)+1, len*i)
+  v <- vector(mode = "character", length = length(n))
+  for (j in 1:length(v)) {
+    w <- vector(mode = "character", length = n[j])
+    for (i in 1:length(w)) {
+      w[i] <- substr(x[j], len*(i-1)+1, len*i)
+    }
+    v[j] <- paste0(w, collapse = "\n")
   }
-  paste0(v, collapse = "\n")
+  v
 }
 
 # comma utils -------------------------------------------------------------
