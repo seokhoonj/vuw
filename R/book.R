@@ -111,7 +111,7 @@ get_risk <- function(risk_info, x) {
   invisible(risk_info_sub)
 }
 
-risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y") {
+risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 15) {
   assert_class(risk_info$gender, "factor")
   if (missing(x)) {
     hprint(unique(risk_info[, .(risk)]))
@@ -125,11 +125,12 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y")
   ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
     geom_line() +
     scale_gender_manual(risk_info$gender) +
-    scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+    scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
+    scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
     facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
 }
 
-ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales = "fixed") {
+ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales = "fixed", age_unit = 10) {
   x <- risk_info[risk == risk1]
   y <- risk_info[risk == risk2]
   z <- merge(x, y, by = c("age", "gender"), all.x = TRUE)
@@ -151,8 +152,8 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales
 
   g1 <- ggplot(m[risk != "ratio"], aes(x = age, y = rate, ymin = 0, group = label, linetype = risk)) +
     geom_line() +
-    scale_x_continuous(n.breaks = floor(unilen(m$age) / 10)) +
-    scale_y_continuous(labels = function(x) format(x, scientific = FALSE)) +
+    scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
+    scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
     scale_color_manual(values = colours) +
     facet_wrap(~ gender, scales = scales) +
     theme(legend.position = "top")
@@ -160,7 +161,7 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales
   g2 <- ggplot(m[risk == "ratio"], aes(x = age, y = rate, ymin = 0, group = gender, col = gender)) +
     geom_line() +
     geom_hline(yintercept = 1, color = "red", linetype = "dashed") +
-    scale_x_continuous(n.breaks = floor(unilen(m$age) / 10)) +
+    scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
     scale_color_manual(values = colours) +
     ylab("ratio") +
     facet_wrap(~ risk) +
