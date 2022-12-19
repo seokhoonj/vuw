@@ -122,6 +122,12 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   } else {
     risk_info <- risk_info[risk_info$risk %in% x,]
   }
+  risk_info_s = risk_info[, .(max_rate = max(rate)), .(risk, gender)]
+  risk_info[risk_info_s, max_rate := i.max_rate, on = .(risk, gender, rate = max_rate)]
+  risk_info_a = risk_info[!is.na(max_rate), .(age = min(age)), .(risk, gender, max_rate)]
+  setcolafter(risk_info_a, age, gender)
+  risk_info[risk_info_a, on = .(risk, gender, age), max_rate := i.max_rate]
+  risk_info[, label := ifelse(!is.na(max_rate), sprintf("%.2f (%d)", max_rate * 100, age), max_rate)]
   if (logscale) {
     g <- ggplot(risk_info, aes(x = age, y = log(rate), group = gender, col = gender)) +
       geom_line() +
