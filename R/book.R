@@ -111,7 +111,7 @@ get_risk <- function(risk_info, x) {
   invisible(risk_info_sub)
 }
 
-risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10) {
+risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10, logscale = FALSE) {
   assert_class(risk_info$gender, "factor")
   if (missing(x)) {
     hprint(unique(risk_info[, .(risk)]))
@@ -122,12 +122,22 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   } else {
     risk_info <- risk_info[risk_info$risk %in% x,]
   }
-  ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
-    geom_line() +
-    scale_gender_manual(risk_info$gender) +
-    scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
-    scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
-    facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
+  if (logscale) {
+    g <- ggplot(risk_info, aes(x = age, y = log(rate), group = gender, col = gender)) +
+      geom_line() +
+      scale_gender_manual(risk_info$gender) +
+      scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
+      scale_y_continuous(labels = function(x) sprintf("%.2f%%", exp(x) * 100)) +
+      facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
+  } else {
+    g <- ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
+      geom_line() +
+      scale_gender_manual(risk_info$gender) +
+      scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
+      scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
+      facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
+  }
+  return(g)
 }
 
 ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales = "fixed", age_unit = 10) {
