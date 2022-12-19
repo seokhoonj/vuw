@@ -111,7 +111,7 @@ get_risk <- function(risk_info, x) {
   invisible(risk_info_sub)
 }
 
-risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 15) {
+risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10) {
   assert_class(risk_info$gender, "factor")
   if (missing(x)) {
     hprint(unique(risk_info[, .(risk)]))
@@ -125,7 +125,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
     geom_line() +
     scale_gender_manual(risk_info$gender) +
-    scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
+    scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
     scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
     facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
 }
