@@ -128,14 +128,14 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   setcolafter(risk_info_a, age, gender)
   rm_cols(risk_info, max_rate)
   risk_info[risk_info_a, on = .(risk, gender, age), max_rate := i.max_rate]
-  risk_info[, label := ifelse(!is.na(max_rate), sprintf("%.2f (%d)", max_rate * 100, age), max_rate)]
+  risk_info[, label := ifelse(!is.na(max_rate), sprintf("%.4f (%d)", max_rate, age), max_rate)]
   if (logscale) {
     g <- ggplot(risk_info, aes(x = age, y = log(rate), group = gender, col = gender)) +
       geom_line() +
       geom_text(aes(label = label), vjust = -.25) +
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
-      scale_y_continuous(labels = function(x) sprintf("%.2f%%", exp(x) * 100)) +
+      scale_y_continuous(labels = function(x) sprintf("%.4f", exp(x))) +
       facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
   } else {
     g <- ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
@@ -143,7 +143,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
       geom_text(aes(label = label), vjust = -.25) +
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
-      scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
+      scale_y_continuous(labels = function(x) sprintf("%.4f", x)) +
       facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
   }
   return(g)
