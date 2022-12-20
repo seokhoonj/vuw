@@ -129,10 +129,15 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   rm_cols(risk_info, max_rate)
   risk_info[risk_info_a, on = .(risk, gender, age), max_rate := i.max_rate]
   risk_info[, label := ifelse(!is.na(max_rate), sprintf("%.4f (%d)", max_rate, age), max_rate)]
+  risk_info_a[, label := sprintf("%d: %.4f (%d)", gender, max_rate, age), .(risk)]
+  risk_info_b = risk_info_a[, .(label = glue_code(label, "\n")), .(risk)]
+  risk_info_b[, gender := factor(1, levels = c(1, 2))]
+  risk_info_b[, age := -Inf]
+  risk_info_b[, rate := Inf]
   if (logscale) {
     g <- ggplot(risk_info, aes(x = age, y = log(rate), group = gender, col = gender)) +
       geom_line() +
-      geom_text(aes(label = label), vjust = -.25) +
+      geom_text(data = risk_info_b, aes(label = label), colour = "black", hjust = -.05, vjust = 1)
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
       scale_y_continuous(labels = function(x) sprintf("%.4f", exp(x))) +
@@ -140,7 +145,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   } else {
     g <- ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
       geom_line() +
-      geom_text(aes(label = label), vjust = -.25) +
+      geom_text(data = risk_info_b, aes(label = label), colour = "black", hjust = -.05, vjust = 1)
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
       scale_y_continuous(labels = function(x) sprintf("%.4f", x)) +
