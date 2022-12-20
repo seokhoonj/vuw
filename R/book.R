@@ -137,7 +137,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   if (logscale) {
     g <- ggplot(risk_info, aes(x = age, y = log(rate), group = gender, col = gender)) +
       geom_line() +
-      geom_text(data = risk_info_b, aes(label = label), colour = "black", hjust = -.05, vjust = 1)
+      geom_text(data = risk_info_b, aes(label = label), colour = "black", hjust = -.05, vjust = 1) +
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
       scale_y_continuous(labels = function(x) sprintf("%.4f", exp(x))) +
@@ -145,7 +145,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   } else {
     g <- ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
       geom_line() +
-      geom_text(data = risk_info_b, aes(label = label), colour = "black", hjust = -.05, vjust = 1)
+      geom_text(data = risk_info_b, aes(label = label), colour = "black", hjust = -.05, vjust = 1) +
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
       scale_y_continuous(labels = function(x) sprintf("%.4f", x)) +
