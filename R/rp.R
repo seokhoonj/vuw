@@ -222,7 +222,9 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
                              dimnames = dimnames(pay_count))
     pay_count <- pmin(lapse_point, pay_count)
   }
-  pay_count <- cbind(insured, pay_count)
+  limit_count <- structure(repcol(insured$mon_lim, each = ncol(pay_count)),
+                           dimnames = dimnames(pay_count))
+  pay_count <- cbind(insured, pmin(limit_count, pay_count))
   rp_list <- vector(mode = "list", length = nrow(demo))
   # repeat
   cat("Start calculating...\n")
