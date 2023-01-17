@@ -209,8 +209,8 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   # order
   setorder(df, id, sdate, edate, kcd)
   # the insured having claim data
-  insured <- unique(df[, .(id, gender, age, grade, mon_lim = diff_period(udate, ldate))])
-  demo <- insured[, .(count = .N), keyby = .(gender, age, grade, mon_lim)]
+  insured <- unique(df[, .(id, gender, age, grade, mon = diff_period(udate, ldate))])
+  demo <- insured[, .(count = .N), keyby = .(gender, age, grade, mon)]
   set(demo, j = "scale", value = minmax_scaler(demo$count))
   # count risk premium payment
   cat("Counting number of payments...\n")
@@ -222,7 +222,7 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
                              dimnames = dimnames(pay_count))
     pay_count <- pmin(lapse_point, pay_count)
   }
-  limit_count <- structure(repcol(insured$mon_lim, each = ncol(pay_count)),
+  limit_count <- structure(repcol(insured$mon, each = ncol(pay_count)),
                            dimnames = dimnames(pay_count))
   pay_count <- cbind(insured, pmin(limit_count, pay_count))
   rp_list <- vector(mode = "list", length = nrow(demo))
