@@ -315,7 +315,7 @@ count_stay <- function(df, id_var, from_var, to_var) {
   return(z)
 }
 
-limit_stay <- function(df, id_var, merge_var, from_var, to_var, limit, waiting) {
+limit_stay <- function(df, id_var, merge_var, from_var, to_var, limit, waiting, deduction) {
   id_var    <- match_cols(df, vapply(substitute(id_var)   , deparse, "character"))
   merge_var <- match_cols(df, vapply(substitute(merge_var), deparse, "character"))
   from_var  <- match_cols(df, vapply(substitute(from_var) , deparse, "character"))
@@ -343,6 +343,11 @@ limit_stay <- function(df, id_var, merge_var, from_var, to_var, limit, waiting) 
   z <- data.table(dm_id, from = from, stay = stay, stay_mod = stay_mod)
   z <- z[!(stay == 0 & stay_mod == 0)]
   set(z, j = "period", value = bmonth(z$from))
+  if (!missing(deduction)) {
+    z[, rank := rank(from, ties.method = "first"), id_var]
+    z[rank <= deduction, stay_mod := 0]
+    rm_cols(z, rank)
+  }
   id_vars <- c(id_var, "period")
   z <- z[, .(
     from     = min(from),

@@ -202,6 +202,7 @@ count_pay_num <- function(claim_info, df, udate, mon, waiting = TRUE) {
   as_double(z)
 }
 
+# 1 rn == 1 rider
 rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L, waiting = FALSE,
                           lapse, unit = 1L, seed = 123) {
   # check columns
@@ -215,6 +216,9 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   # count risk premium payment
   cat("Counting number of payments...\n")
   pay_count <- count_pay_num(claim_info, df, udate, mon, waiting = waiting)
+  limit_count <- structure(repcol(insured$mon, each = ncol(pay_count)),
+                           dimnames = dimnames(pay_count))
+  pay_count <- cbind(insured, pmin(limit_count, pay_count))
   if (!missing(lapse)) {
     cat("Applying random lapse...\n")
     lapse_point <- random_pay_num(df, lapse, mon, seed = seed)
@@ -222,9 +226,6 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
                              dimnames = dimnames(pay_count))
     pay_count <- pmin(lapse_point, pay_count)
   }
-  limit_count <- structure(repcol(insured$mon, each = ncol(pay_count)),
-                           dimnames = dimnames(pay_count))
-  pay_count <- cbind(insured, pmin(limit_count, pay_count))
   rp_list <- vector(mode = "list", length = nrow(demo))
   # repeat
   cat("Start calculating...\n")
