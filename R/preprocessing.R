@@ -315,7 +315,7 @@ count_stay <- function(df, id_var, from_var, to_var) {
   return(z)
 }
 
-limit_stay <- function(df, id_var, merge_var, from_var, to_var, limit, waiting, deduction) {
+limit_stay <- function(df, id_var, merge_var, from_var, to_var, deduction, limit, waiting) {
   id_var    <- match_cols(df, vapply(substitute(id_var)   , deparse, "character"))
   merge_var <- match_cols(df, vapply(substitute(merge_var), deparse, "character"))
   from_var  <- match_cols(df, vapply(substitute(from_var) , deparse, "character"))
