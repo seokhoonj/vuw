@@ -154,12 +154,15 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   return(g)
 }
 
-ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales = "fixed", age_unit = 10) {
+ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
+                       scales = "fixed", age_unit = 10, plot = TRUE) {
   x <- risk_info[risk == risk1]
   y <- risk_info[risk == risk2]
-  z <- merge(x, y, by = c("age", "gender"), all.x = TRUE)
+  z <- merge(x, y, by = c("gender", "age"), all.x = TRUE)
   setorder(z, gender, age)
   setnames(z, gsub("\\.", "_", names(z)))
+  set(z, j = "rate_x_prop", value = z$rate_x / (z$rate_x + z$rate_y))
+  set(z, j = "rate_y_prop", value = z$rate_y / (z$rate_x + z$rate_y))
   set(z, j = "ratio", value = z$rate_x / z$rate_y)
 
   m <- melt(z,
@@ -171,29 +174,32 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL, scales
   set(m, i = which(m$risk == "rate_y"), j = "risk", value = risk2)
   set(m, j = "label", value = paste(m$risk, "(", m$gender, ")"))
 
+
   # plot
-  colours <- rev(scales::hue_pal()(2)) # show_col(hue_pal()(2))
+  if (plot) {
+    colours <- rev(scales::hue_pal()(2)) # show_col(hue_pal()(2))
 
-  g1 <- ggplot(m[risk != "ratio"], aes(x = age, y = rate, ymin = 0, group = label, linetype = risk)) +
-    geom_line() +
-    scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
-    scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
-    scale_color_manual(values = colours) +
-    facet_wrap(~ gender, scales = scales) +
-    theme(legend.position = "top")
+    g1 <- ggplot(m[risk != "ratio"], aes(x = age, y = rate, ymin = 0, group = label, linetype = risk)) +
+      geom_line() +
+      scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
+      scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
+      scale_color_manual(values = colours) +
+      facet_wrap(~ gender, scales = scales) +
+      theme(legend.position = "top")
 
-  g2 <- ggplot(m[risk == "ratio"], aes(x = age, y = rate, ymin = 0, group = gender, col = gender)) +
-    geom_line() +
-    geom_hline(yintercept = 1, color = "red", linetype = "dashed") +
-    scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
-    scale_color_manual(values = colours) +
-    ylab("ratio") +
-    facet_wrap(~ risk) +
-    theme(legend.position = "top", plot.title = element_text(size = 7, hjust = .5))
+    g2 <- ggplot(m[risk == "ratio"], aes(x = age, y = rate, ymin = 0, group = gender, col = gender)) +
+      geom_line() +
+      geom_hline(yintercept = 1, color = "red", linetype = "dashed") +
+      scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
+      scale_color_manual(values = colours) +
+      ylab("ratio") +
+      facet_wrap(~ risk) +
+      theme(legend.position = "top", plot.title = element_text(size = 7, hjust = .5))
 
-  grid.arrange(g1, g2, widths = c(1, 1, 1),
-               layout_matrix = cbind(1, 1, 2),
-               top = grid::textGrob(bquote("Risk Ratio = " ~ frac(.(risk1), .(risk2)))))
-
+    g <- grid.arrange(g1, g2, widths = c(1, 1, 1),
+                      layout_matrix = cbind(1, 1, 2),
+                      top = grid::textGrob(bquote("Risk Ratio = " ~ frac(.(risk1), .(risk2)))))
+    print(g)
+  }
   return(z)
 }
