@@ -29,15 +29,10 @@ join_info <- function(risk_info, claim_info) {
 }
 
 to_monthly_lapse <- function(x) 1-(1-x)^(1/12)
-
-lapse2dist <- function(x) {
-  p <- cumprod(1-x)
-  abs(diff(c(1, p, 0)))
-}
-
-dist2lapse <- function(x) {
-  c(x[1L], 1-exp(diff(log(1-cumsum(x)))))
-}
+lapse2persi <- function(x) cumprod(1 - x)
+persi2lapse <- function(x) 1 - (x / shift(x, fill = 1, type = "lag"))
+lapse2dist  <- function(x) abs(diff(c(1, cumprod(1-x), 0)))
+dist2lapse  <- function(x) c(x[1L], 1-exp(diff(log(1-cumsum(x)))))
 
 random_pay_num <- function(df, lapse, mon, seed) {
   uid <- unique(df$id)

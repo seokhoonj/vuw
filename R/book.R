@@ -174,7 +174,6 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
   set(m, i = which(m$risk == "rate_y"), j = "risk", value = risk2)
   set(m, j = "label", value = paste(m$risk, "(", m$gender, ")"))
 
-
   # plot
   if (plot) {
     colours <- rev(scales::hue_pal()(2)) # show_col(hue_pal()(2))
