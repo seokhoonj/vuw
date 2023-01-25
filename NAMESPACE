@@ -230,6 +230,8 @@ export(leave_positive_loss)
 
 export(create_base_risk)
 export(join_info)
+export(lapse2persi)
+export(persi2lapse)
 export(lapse2dist)
 export(dist2lapse)
 export(random_pay_num)
