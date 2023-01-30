@@ -308,10 +308,12 @@ set_lr <- function(df, prefix = "") {
 }
 
 mix_lr <- function(df, biz_mix, group_cols = c("vuw", "period"), join_cols = c("gender", "age_band")) {
-  z <- df[biz_mix, on = join_cols]
+  has_cols(biz_mix, c("prop"))
+  z <- copy(df)
+  z[biz_mix, prop := i.prop, on = join_cols]
   z[, tot_prop := sum(prop), group_cols]
   lr_cols <- regmatch_cols(z, "^lr")
-  wlr_cols <- sprintf("wlr_%s", lr_cols)
+  wlr_cols <- sprintf("w%s", lr_cols)
   for (i in seq_along(lr_cols)) {
     set(z, j = wlr_cols[i], value = z[[lr_cols[i]]] * z$prop / z$tot_prop)
   }
