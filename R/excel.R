@@ -156,7 +156,7 @@ get_rp_table <- function(xlsxFile, sheet, risk_range, rate_range, skipEmptyRows 
   return(z)
 }
 
-write_data <- function(wb, sheet, x, startCell = c(2, 2), rowNames = TRUE,
+write_data <- function(wb, sheet, x, startCell = c(1L, 1L), rowNames = TRUE,
                        fontName = "Malgun Gothic", borderColour = "#4F81BD",
                        widths = 8.43) {
   headerStyle1 <- createStyle(
@@ -205,12 +205,14 @@ write_data <- function(wb, sheet, x, startCell = c(2, 2), rowNames = TRUE,
   )
 
   endCell <- startCell + dim(x)
-  writeData(wb = wb, sheet = sheet, x = x, startCol = startCell[2L], startRow = startCell[1L], rowNames = rowNames)
+  writeData(wb = wb, sheet = sheet, x = x, startRow = startCell[1L], startCol = startCell[2L], rowNames = rowNames)
 
   srow <- startCell[1L]
   scol <- startCell[2L]
   erow <- endCell[1L]
   ecol <- endCell[2L]
+
+  if (!rowNames) ecol <- ecol - 1
 
   headerCols  <- scol:ecol
   headerRows1 <- srow
@@ -235,3 +237,16 @@ write_data <- function(wb, sheet, x, startCell = c(2, 2), rowNames = TRUE,
   setColWidths(wb, sheet, cols = headerCols, widths = widths)
 }
 
+write_xlsx <- function(data, file, startCell = c(1L, 1L), overwrite = FALSE) {
+  wb <- createWorkbook()
+  if (is.data.frame(data))
+    data <- list(data)
+  sheetName <- names(data)
+  if (is.null(sheetName))
+    sheetName <- sprintf("Sheet %s", seq_along(data))
+  lapply(seq_along(data), function(x)
+    addWorksheet(wb = wb, sheetName = sheetName[[x]], gridLines = FALSE))
+  lapply(seq_along(data), function(x)
+    write_data(wb, sheet = sheetName[[x]], x = data[[x]], startCell = startCell, rowNames = FALSE))
+  saveWorkbook(wb = wb, file = file, overwrite = overwrite)
+}
