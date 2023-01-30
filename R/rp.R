@@ -317,5 +317,5 @@ mix_lr <- function(df, biz_mix, group_cols = c("vuw", "period"), join_cols = c("
   for (i in seq_along(lr_cols)) {
     set(z, j = wlr_cols[i], value = z[[lr_cols[i]]] * z$prop / z$tot_prop)
   }
-  z[, lapply(.SD, sum), group_cols, .SDcols = wlr_cols]
+  z[, lapply(.SD, function(x) sum(x, na.rm = TRUE)), group_cols, .SDcols = wlr_cols]
 }
