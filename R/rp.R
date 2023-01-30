@@ -307,13 +307,13 @@ set_lr <- function(df, prefix = "") {
   }
 }
 
-mix_lr <- function(df, biz_mix, group_cols, join_cols = c("gender", "age_band")) {
+mix_lr <- function(df, biz_mix, group_cols = c("vuw", "period"), join_cols = c("gender", "age_band")) {
   z <- df[biz_mix, on = join_cols]
   z[, tot_prop := sum(prop), group_cols]
-  lr_cols <- regmatch_cols(z, "^lr_")
-  wt_lr_cols <- sprintf("wt_%s", lr_cols)
+  lr_cols <- regmatch_cols(z, "^lr")
+  wlr_cols <- sprintf("wlr_%s", lr_cols)
   for (i in seq_along(lr_cols)) {
-    set(z, j = wt_lr_cols[i], value = z[[lr_cols[i]]] * z$prop / z$tot_prop)
+    set(z, j = wlr_cols[i], value = z[[lr_cols[i]]] * z$prop / z$tot_prop)
   }
-  z[, lapply(.SD, sum), group_cols, .SDcols = wt_lr_cols]
+  z[, lapply(.SD, sum), group_cols, .SDcols = wlr_cols]
 }
