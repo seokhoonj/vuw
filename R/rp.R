@@ -7,6 +7,20 @@ create_base_risk <- function(no = 0, risk = "base", gender = c(1L, 2L), age = 0:
   return(base_risk)
 }
 
+fill_risk_info_age <- function(risk_info) {
+  cols <- diff_cols(risk_info, c("age", "rate"))
+  risk_info_age_min <- risk_info[, .(age_min = min(age)), cols][age_min > 0]
+  risk_info_age_min[, age_fill := age_min - 1]
+  risk_info_lack <- do.call("rbind", lapply(seq_len(nrow(risk_info_age_min)), function(x)
+    reprow(risk_info_age_min[x], risk_info_age_min$age_fill[x])))
+  risk_info_lack <- risk_info_lack[, ..cols]
+  risk_info_lack[, age := 0]
+  risk_info_lack[, age := rank(age, ties.method = "first"), .(risk, gender)]
+  risk_info_lack[, rate := 0]
+  setcolorder(risk_info_lack, colnames(risk_info))
+  return(risk_info_lack[])
+}
+
 join_info <- function(risk_info, claim_info) {
   tot_info <- risk_info[claim_info, on = .(risk)]
   tot_info[risk_info, on = .(risk2 = risk, age = age, gender = gender),
