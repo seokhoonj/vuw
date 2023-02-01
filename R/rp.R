@@ -272,11 +272,6 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   z <- do.call("rbind", rp_list)
   width <- max(max(nchar(claim_info$rn)), 2)
   setnames(z, c("id", "period", paste0("rp", stri_pad_left(colnames(rp), width = width, pad = "0"))))
-  colorder <- c(
-    diff_cols(z, regmatch_cols(z, "^rp")),
-    sort(regmatch_cols(z, "^rp"))
-  )
-  setcolorder(z, colorder)
   return(z)
 }
 

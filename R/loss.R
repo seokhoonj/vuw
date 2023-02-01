@@ -225,19 +225,14 @@ loss_simulation <- function(claim_info, df, udate, mon = 60, group = 1, unit = 1
   # name label to rd
   setcolnames(clm, pull_code(glue_code(rd), colnames(clm)))
   # setcolnames(clm_exp, pull_code(glue_code(rd), colnames(clm_exp)))
-  clm <- row_max_by_cn(clm)
+  z <- row_max_by_cn(clm)
   if (match.arg(type) == "data.table") {
-    clm <- data.table(id, period, clm)[period > 0 & period <= mon]
-    set(clm, j = "period", value = ceiling(clm$period / group))
+    z <- data.table(id, period, z)[period > 0 & period <= mon]
+    set(z, j = "period", value = ceiling(z$period / group))
     cols <- c("id", "period")
-    diff_cols <- diff_cols(clm, cols)
-    clm <- clm[, lapply(.SD, sum), keyby = cols, .SDcols = diff_cols]
-    colorder <- c(
-      diff_cols(clm, regmatch_cols(clm, "^loss")),
-      sort(regmatch_cols(clm, "^loss"))
-    )
-    setcolorder(clm, colorder)
+    diff_cols <- diff_cols(z, cols)
+    z <- z[, lapply(.SD, sum), keyby = cols, .SDcols = diff_cols]
   }
   cat("complete!\n")
-  return(clm[])
+  return(z)
 }
