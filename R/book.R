@@ -111,6 +111,10 @@ get_risk <- function(risk_info, x) {
   invisible(risk_info_sub)
 }
 
+get_rider_info <- function(claim_info) {
+  unique(claim_info[, .(rn, main_category, sub_category, rider_category, rider, proportion)])
+}
+
 risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10, logscale = FALSE) {
   assert_class(risk_info$gender, "factor")
   if (missing(x)) {

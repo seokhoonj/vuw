@@ -298,6 +298,19 @@ apply_weight <- function(df, weight) {
   cbind(df[, ..pre_cols], data.table(loss), data.table(rp))
 }
 
+categorize_rider <- function(df, rider_info, category = "rider_category") {
+  measure_vars <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+|^lr[0-9]+|^wlr[0-9]+")
+  id_vars <- diff_cols(df, measure_vars)
+  df_m = melt(df, id.vars = id_vars, measure.vars = measure_vars)
+  df_m[, rn := as.numeric(gsub("loss|rp|lr|wlr", "", variable))]
+  df_m[rider_info, `:=`(category = get(category)), on = .(rn)]
+  df_m[, new_variable := pull_code("loss|rp|lr|wlr", variable)]
+  df_m[, new_category := sprintf("%s_%s", new_variable, category)]
+  df_m_new = df_m[, .(value = sum(value)), .(vuw, gender, age_band, new_category)]
+  form <- formula(sprintf("%s ~ new_category", paste(id_vars, collapse = " + ")))
+  dcast(df_m_new, form, sum)
+}
+
 # set_lr <- function(df) {
 #   loss_cols <- regmatch_cols(dm, "^loss")
 #   loss_type <- gsub("^loss", "", loss_cols)

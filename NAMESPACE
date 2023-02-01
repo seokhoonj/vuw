@@ -218,6 +218,7 @@ export(get_prop_)
 export(get_kcd)
 export(get_claim)
 export(get_risk)
+export(get_rider_info)
 export(risk_plot)
 export(ratio_plot)
 
@@ -249,9 +250,9 @@ export(count_pay_num)
 export(rp_simulation)
 export(set_lr_col_order)
 export(apply_weight)
+export(categorize_rider)
 export(set_lr)
 export(mix_lr)
-
 export(apply_rules)
 
 export(subset_id_with_kcd)
