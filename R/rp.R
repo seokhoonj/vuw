@@ -280,6 +280,14 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   return(z)
 }
 
+set_lr_col_order <- function(df) {
+  loss_cols <- sort(regmatch_cols(df, "^loss[0-9]+"))
+  rp_cols   <- sort(regmatch_cols(df, "^rp[0-9]+"))
+  lr_cols   <- sort(regmatch_cols(df, "^lr[0-9]+"))
+  pre_cols  <- diff_cols(df, c(loss_cols, rp_cols, lr_cols))
+  setcolorder(df, c(pre_cols, loss_cols, rp_cols, lr_cols))
+}
+
 apply_weight <- function(df, weight) {
   # columns
   loss_cols <- regmatch_cols(df, "^loss[0-9]+")
