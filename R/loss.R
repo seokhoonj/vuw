@@ -232,7 +232,12 @@ loss_simulation <- function(claim_info, df, udate, mon = 60, group = 1, unit = 1
     cols <- c("id", "period")
     diff_cols <- diff_cols(clm, cols)
     clm <- clm[, lapply(.SD, sum), keyby = cols, .SDcols = diff_cols]
+    colorder <- c(
+      diff_cols(clm, regmatch_cols(clm, "^loss")),
+      sort(regmatch_cols(clm, "^loss"))
+    )
+    setcolorder(clm, colorder)
   }
   cat("complete!\n")
-  return(clm)
+  return(clm[])
 }
