@@ -306,7 +306,7 @@ categorize_rider <- function(df, rider_info, category = "rider_category") {
   df_m[rider_info, `:=`(category = get(category)), on = .(rn)]
   df_m[, new_variable := pull_code("loss|rp|lr|wlr", variable)]
   df_m[, new_category := sprintf("%s_%s", new_variable, category)]
-  group_cols <- c(measure_vars, "new_category")
+  group_cols <- c(id_vars, "new_category")
   df_m_new <- df_m[, .(value = sum(value)), group_cols]
   form <- formula(sprintf("%s ~ new_category", paste(id_vars, collapse = " + ")))
   dcast(df_m_new, form, sum)
