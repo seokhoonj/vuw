@@ -147,7 +147,7 @@ loss_simulation <- function(claim_info, df, udate, mon = 60, group = 1, unit = 1
   amount_mean            <- claim_info$amount_mean
   claim_times            <- claim_info$claim_times
   # claim information variables derived
-  width <- max(nchar(rn))
+  width <- max(max(nchar(rn)), 2)
   rd <- paste0("loss", stri_pad_left(rn, width, pad = "0")) # for expiration table
 
   if (missing(level_var)) {
