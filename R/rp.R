@@ -300,7 +300,7 @@ apply_weight <- function(df, weight) {
 
 set_period_cum_loss_rp <- function(df) {
   group_cols <- diff_cols(df, regmatch_cols(df, "loss|rp|lr|clr|wlr|period"))
-  loss_rp_cols <- regmatch_cols(lr, "loss|rp")
+  loss_rp_cols <- regmatch_cols(df, "loss|rp")
   cum_loss_rp_cols <- sprintf("c%s", loss_rp_cols)
   df[, (cum_loss_rp_cols) := lapply(.SD, cumsum), by = group_cols, .SDcols = loss_rp_cols]
 }
