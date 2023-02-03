@@ -298,6 +298,13 @@ apply_weight <- function(df, weight) {
   cbind(df[, ..pre_cols], data.table(loss), data.table(rp))
 }
 
+set_period_cum_loss_rp <- function(df) {
+  group_cols <- diff_cols(df, regmatch_cols(df, "loss|rp|lr|clr|wlr|period"))
+  loss_rp_cols <- regmatch_cols(lr, "loss|rp")
+  cum_loss_rp_cols <- sprintf("c%s", loss_rp_cols)
+  df[, (cum_loss_rp_cols) := lapply(.SD, cumsum), by = group_cols, .SDcols = loss_rp_cols]
+}
+
 categorize_rider <- function(df, rider_info, category = "rider_category") {
   measure_vars <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+|^lr[0-9]+|^wlr[0-9]+")
   id_vars <- diff_cols(df, measure_vars)
@@ -344,12 +351,12 @@ set_lr <- function(df, prefix = "") {
   }
 }
 
-mix_lr <- function(df, biz_mix, group_cols = c("vuw", "period"), join_cols = c("gender", "age_band")) {
+mix_lr <- function(df, biz_mix, group_cols = c("vuw", "period"), join_cols = c("gender", "age_band"), prefix = "") {
   has_cols(biz_mix, c("prop"))
   z <- copy(df)
   z[biz_mix, prop := i.prop, on = join_cols]
   z[, tot_prop := sum(prop), group_cols]
-  lr_cols <- regmatch_cols(z, "^lr")
+  lr_cols <- regmatch_cols(z, sprintf("^%slr", prefix))
   wlr_cols <- sprintf("w%s", lr_cols)
   for (i in seq_along(lr_cols)) {
     set(z, j = wlr_cols[i], value = z[[lr_cols[i]]] * z$prop / z$tot_prop)
