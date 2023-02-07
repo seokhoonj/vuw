@@ -275,14 +275,6 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   return(z)
 }
 
-set_lr_col_order <- function(df) {
-  loss_cols <- sort(regmatch_cols(df, "^loss[0-9]+"))
-  rp_cols   <- sort(regmatch_cols(df, "^rp[0-9]+"))
-  lr_cols   <- sort(regmatch_cols(df, "^lr[0-9]+"))
-  pre_cols  <- diff_cols(df, c(loss_cols, rp_cols, lr_cols))
-  setcolorder(df, c(pre_cols, loss_cols, rp_cols, lr_cols))
-}
-
 apply_weight <- function(df, weight) {
   # columns
   loss_cols <- regmatch_cols(df, "^loss[0-9]+")
@@ -296,13 +288,6 @@ apply_weight <- function(df, weight) {
   if (length(rp_cols) > 0)
     setmul(rp, weight, axis = 1)
   cbind(df[, ..pre_cols], data.table(loss), data.table(rp))
-}
-
-set_period_cum_loss_rp <- function(df) {
-  group_cols <- diff_cols(df, regmatch_cols(df, "loss|rp|lr|clr|wlr|period"))
-  loss_rp_cols <- regmatch_cols(df, "loss|rp")
-  cum_loss_rp_cols <- sprintf("c%s", loss_rp_cols)
-  df[, (cum_loss_rp_cols) := lapply(.SD, cumsum), by = group_cols, .SDcols = loss_rp_cols]
 }
 
 categorize_rider <- function(df, rider_info, category = "rider_category") {
@@ -319,47 +304,9 @@ categorize_rider <- function(df, rider_info, category = "rider_category") {
   dcast(df_m_new, form, sum)
 }
 
-# set_lr <- function(df) {
-#   loss_cols <- regmatch_cols(dm, "^loss")
-#   loss_type <- gsub("^loss", "", loss_cols)
-#   rp_cols   <- regmatch_cols(dm, "^rp")
-#   rp_type   <- gsub("^rp", "", rp_cols)
-#
-#   lr_type   <- intersect(loss_type, rp_type)
-#   lr_cols   <- sprintf("lr%s"  , lr_type)
-#   rp_cols   <- sprintf("rp%s"  , lr_type)
-#   loss_cols <- sprintf("loss%s", lr_type)
-#
-#   for (i in seq_along(lr_cols)) {
-#     set(df, j = lr_cols[i], value = df[[loss_cols[i]]] / df[[rp_cols[i]]])
-#   }
-# }
-
-set_lr <- function(df, prefix = "") {
-  loss_cols <- regmatch_cols(df, sprintf("^%sloss", prefix))
-  loss_type <- gsub(sprintf("^%sloss", prefix), "", loss_cols)
-  rp_cols   <- regmatch_cols(df, sprintf("^%srp", prefix))
-  rp_type   <- gsub(sprintf("^%srp", prefix), "", rp_cols)
-
-  lr_type   <- intersect(loss_type, rp_type)
-  lr_cols   <- sprintf("%slr%s"  , prefix, lr_type)
-  rp_cols   <- sprintf("%srp%s"  , prefix, lr_type)
-  loss_cols <- sprintf("%sloss%s", prefix, lr_type)
-
-  for (i in seq_along(lr_cols)) {
-    set(df, j = lr_cols[i], value = df[[loss_cols[i]]] / df[[rp_cols[i]]])
-  }
-}
-
-mix_lr <- function(df, biz_mix, group_cols = c("vuw", "period"), join_cols = c("gender", "age_band"), prefix = "") {
-  has_cols(biz_mix, c("prop"))
-  z <- copy(df)
-  z[biz_mix, prop := i.prop, on = join_cols]
-  z[, tot_prop := sum(prop), group_cols]
-  lr_cols <- regmatch_cols(z, sprintf("^%slr", prefix))
-  wlr_cols <- sprintf("w%s", lr_cols)
-  for (i in seq_along(lr_cols)) {
-    set(z, j = wlr_cols[i], value = z[[lr_cols[i]]] * z$prop / z$tot_prop)
-  }
-  z[, lapply(.SD, function(x) sum(x, na.rm = TRUE)), group_cols, .SDcols = wlr_cols]
+set_period_cum_loss_rp <- function(df) {
+  group_cols <- diff_cols(df, regmatch_cols(df, "^loss|^rp|^lr|^clr|^wlr|period"))
+  loss_rp_cols <- regmatch_cols(df, "^loss|^rp")
+  cum_loss_rp_cols <- sprintf("c%s", loss_rp_cols)
+  df[, (cum_loss_rp_cols) := lapply(.SD, cumsum), by = group_cols, .SDcols = loss_rp_cols]
 }
