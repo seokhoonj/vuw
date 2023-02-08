@@ -275,8 +275,8 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   return(z)
 }
 
-apply_weight <- function(df, rider_info) {
-  weight <- rider_info[rn %in% as.numeric(intersect_rn(df))]$prop
+apply_rider_weight <- function(df, rider_info, weight = "proportion") {
+  wt <- rider_info[rn %in% as.numeric(intersect_rn(df))][[weight]]
   # columns
   loss_cols <- regmatch_cols(df, "^loss[0-9]+")
   rp_cols <- regmatch_cols(df, "^rp[0-9]+")
@@ -285,9 +285,9 @@ apply_weight <- function(df, rider_info) {
   rp <- as.matrix(df[, ..rp_cols])
   # weighted
   if (length(loss_cols) > 0)
-    setmul(loss, weight, axis = 1)
+    setmul(loss, wt, axis = 1)
   if (length(rp_cols) > 0)
-    setmul(rp, weight, axis = 1)
+    setmul(rp, wt, axis = 1)
   cbind(df[, ..pre_cols], data.table(loss), data.table(rp))
 }
 

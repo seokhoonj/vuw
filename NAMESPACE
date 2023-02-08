@@ -248,7 +248,7 @@ export(create_rp_matrix)
 export(apply_expiration)
 export(count_pay_num)
 export(rp_simulation)
-export(apply_weight)
+export(apply_rider_weight)
 export(set_period_cum_rn_cols)
 export(categorize_rider)
 
