@@ -252,6 +252,7 @@ export(apply_weight)
 export(set_period_cum_rn_cols)
 export(categorize_rider)
 
+export(intersect_rn)
 export(intersect_rn_cols)
 export(set_rn_col_order)
 export(set_lr)

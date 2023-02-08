@@ -1,4 +1,12 @@
 
+intersect_rn <- function(df, prefix = "") {
+  loss_cols <- regmatch_cols(df, sprintf("^%sloss", prefix))
+  loss_type <- gsub(sprintf("^%sloss", prefix), "", loss_cols)
+  rp_cols   <- regmatch_cols(df, sprintf("^%srp", prefix))
+  rp_type   <- gsub(sprintf("^%srp"  , prefix), "", rp_cols)
+  intersect(loss_type, rp_type)
+}
+
 intersect_rn_cols <- function(df, prefix = "") {
   loss_cols <- regmatch_cols(df, sprintf("^%sloss", prefix))
   loss_type <- gsub(sprintf("^%sloss", prefix), "", loss_cols)
