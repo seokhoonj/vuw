@@ -291,12 +291,14 @@ apply_weight <- function(df, weight) {
 }
 
 categorize_rider <- function(df, rider_info, category = "rider_category") {
-  measure_vars <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+|^lr[0-9]+|^wlr[0-9]+")
-  id_vars <- diff_cols(df, measure_vars)
-  df_m = melt(df, id.vars = id_vars, measure.vars = measure_vars)
-  df_m[, rn := as.numeric(gsub("loss|rp|lr|wlr", "", variable))]
+  group_vars <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+|^lr[0-9]+|^wlr[0-9]+|^closs[0-9]+|^crp[0-9]+|^clr[0-9]+|^wclr[0-9]+")
+  measure_vars <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+")
+  measure_vars <- unlist(intersect_rn_cols(df, measure_vars))
+  id_vars <- diff_cols(df, group_vars)
+  df_m <- melt(df, id.vars = id_vars, measure.vars = measure_vars)
+  df_m[, rn := as.numeric(gsub("^loss|^rp|^lr|^wlr|^closs|^crp|^clr|^wclr", "", variable))]
   df_m[rider_info, `:=`(category = get(category)), on = .(rn)]
-  df_m[, new_variable := pull_code("loss|rp|lr|wlr", variable)]
+  df_m[, new_variable := pull_code("^loss|^rp|^lr|^wlr|^closs|^crp|^clr|^wclr", variable)]
   df_m[, new_category := sprintf("%s_%s", new_variable, category)]
   group_cols <- c(id_vars, "new_category")
   df_m_new <- df_m[, .(value = sum(value, na.rm = TRUE)), group_cols]
@@ -305,8 +307,8 @@ categorize_rider <- function(df, rider_info, category = "rider_category") {
 }
 
 set_period_cum_rn_cols <- function(df) {
-  group_cols <- diff_cols(df, regmatch_cols(df, "^loss|^rp|^lr|^clr|^wlr|period"))
-  loss_rp_cols <- regmatch_cols(df, "^loss|^rp")
+  group_cols <- diff_cols(df, regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+|^lr[0-9]+|^wlr[0-9]+|^closs[0-9]+|^crp[0-9]+|^clr[0-9]+|^wclr[0-9]+|period"))
+  loss_rp_cols <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+")
   cum_loss_rp_cols <- sprintf("c%s", loss_rp_cols)
   df[, (cum_loss_rp_cols) := lapply(.SD, cumsum), by = group_cols, .SDcols = loss_rp_cols]
 }
