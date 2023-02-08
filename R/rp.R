@@ -275,7 +275,8 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   return(z)
 }
 
-apply_weight <- function(df, weight) {
+apply_weight <- function(df, rider_info) {
+  weight <- rider_info[rn %in% as.numeric(intersect_rn(df))]$prop
   # columns
   loss_cols <- regmatch_cols(df, "^loss[0-9]+")
   rp_cols <- regmatch_cols(df, "^rp[0-9]+")
