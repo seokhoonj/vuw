@@ -292,9 +292,8 @@ apply_weight <- function(df, weight) {
 
 categorize_rider <- function(df, rider_info, category = "rider_category") {
   group_vars <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+|^lr[0-9]+|^wlr[0-9]+|^closs[0-9]+|^crp[0-9]+|^clr[0-9]+|^wclr[0-9]+")
-  measure_vars <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+")
-  measure_vars <- unlist(intersect_rn_cols(df, measure_vars))
   id_vars <- diff_cols(df, group_vars)
+  measure_vars <- unlist(intersect_rn_cols(df))
   df_m <- melt(df, id.vars = id_vars, measure.vars = measure_vars)
   df_m[, rn := as.numeric(gsub("^loss|^rp|^lr|^wlr|^closs|^crp|^clr|^wclr", "", variable))]
   df_m[rider_info, `:=`(category = get(category)), on = .(rn)]
