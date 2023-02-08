@@ -307,8 +307,8 @@ categorize_rider <- function(df, rider_info, category = "rider_category") {
 }
 
 set_period_cum_rn_cols <- function(df) {
-  group_cols <- diff_cols(df, regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+|^lr[0-9]+|^wlr[0-9]+|^closs[0-9]+|^crp[0-9]+|^clr[0-9]+|^wclr[0-9]+|period"))
-  loss_rp_cols <- regmatch_cols(df, "^loss[0-9]+|^rp[0-9]+")
+  group_cols <- diff_cols(df, regmatch_cols(df, "^loss|^rp|^lr|^wlr|^closs|^crp|^clr|^wclr|period"))
+  loss_rp_cols <- regmatch_cols(df, "^loss|^rp")
   cum_loss_rp_cols <- sprintf("c%s", loss_rp_cols)
   df[, (cum_loss_rp_cols) := lapply(.SD, cumsum), by = group_cols, .SDcols = loss_rp_cols]
 }
