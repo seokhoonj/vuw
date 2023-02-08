@@ -304,7 +304,7 @@ categorize_rider <- function(df, rider_info, category = "rider_category") {
   dcast(df_m_new, form, sum)
 }
 
-set_period_cum_loss_rp <- function(df) {
+set_period_cum_rn_cols <- function(df) {
   group_cols <- diff_cols(df, regmatch_cols(df, "^loss|^rp|^lr|^clr|^wlr|period"))
   loss_rp_cols <- regmatch_cols(df, "^loss|^rp")
   cum_loss_rp_cols <- sprintf("c%s", loss_rp_cols)

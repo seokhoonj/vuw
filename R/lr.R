@@ -1,19 +1,18 @@
 
-intersect_lr_cols <- function(df, prefix = "") {
+intersect_rn_cols <- function(df, prefix = "") {
   loss_cols <- regmatch_cols(df, sprintf("^%sloss", prefix))
   loss_type <- gsub(sprintf("^%sloss", prefix), "", loss_cols)
   rp_cols   <- regmatch_cols(df, sprintf("^%srp", prefix))
-  rp_type   <- gsub(sprintf("^%srp", prefix), "", rp_cols)
+  rp_type   <- gsub(sprintf("^%srp"  , prefix), "", rp_cols)
 
-  lr_type   <- intersect(loss_type, rp_type)
-  lr_cols   <- sprintf("%slr%s", prefix, lr_type)
-  rp_cols   <- sprintf("%srp%s", prefix, lr_type)
-  loss_cols <- sprintf("%sloss%s", prefix, lr_type)
+  rn_type   <- intersect(loss_type, rp_type)
+  rp_cols   <- sprintf("%srp%s"  , prefix, rn_type)
+  loss_cols <- sprintf("%sloss%s", prefix, rn_type)
 
-  list(lr = lr_cols, loss = loss_cols, rp = rp_cols)
+  list(loss_cols, rp_cols)
 }
 
-set_lr_col_order <- function(df) {
+set_rn_col_order <- function(df) {
   loss_cols <- sort(regmatch_cols(df, "^loss[0-9]+"))
   rp_cols   <- sort(regmatch_cols(df, "^rp[0-9]+"))
   lr_cols   <- sort(regmatch_cols(df, "^lr[0-9]+"))
