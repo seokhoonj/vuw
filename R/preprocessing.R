@@ -224,7 +224,7 @@ merge_date_overlap_ <- function(df, id_var, merge_var, from_var, to_var, interva
 
 split_merge_var <- function(df, merge_var, split = "\\|") {
   merge_var <- match_cols(df, vapply(substitute(merge_var), deparse, "character"))
-  spl <- lapply(df[[merge_var]], function(x) splt_code(x, split = split))
+  spl <- lapply(df[[merge_var]], function(x) if (is.na(x)) splt_code(x, split = split) else x)
   len <- unlist(lapply(spl, length))
   if (any(len > 1)) {
     cols <- diff_cols(df, merge_var)
