@@ -2,21 +2,31 @@
 intersect_rn <- function(df, prefix = "") {
   loss_cols <- regmatch_cols(df, sprintf("^%sloss", prefix))
   loss_type <- gsub(sprintf("^%sloss", prefix), "", loss_cols)
-  rp_cols   <- regmatch_cols(df, sprintf("^%srp", prefix))
-  rp_type   <- gsub(sprintf("^%srp"  , prefix), "", rp_cols)
+  rp_cols <- regmatch_cols(df, sprintf("^%srp", prefix))
+  rp_type <- gsub(sprintf("^%srp", prefix), "", rp_cols)
+  if (length(loss_type) == 0)
+    return(rp_type)
+  if (length(rp_type) == 0)
+    return(loss_type)
   intersect(loss_type, rp_type)
 }
 
 intersect_rn_cols <- function(df, prefix = "") {
   loss_cols <- regmatch_cols(df, sprintf("^%sloss", prefix))
   loss_type <- gsub(sprintf("^%sloss", prefix), "", loss_cols)
-  rp_cols   <- regmatch_cols(df, sprintf("^%srp", prefix))
-  rp_type   <- gsub(sprintf("^%srp"  , prefix), "", rp_cols)
-
-  rn_type   <- intersect(loss_type, rp_type)
-  rp_cols   <- sprintf("%srp%s"  , prefix, rn_type)
-  loss_cols <- sprintf("%sloss%s", prefix, rn_type)
-
+  rp_cols <- regmatch_cols(df, sprintf("^%srp", prefix))
+  rp_type <- gsub(sprintf("^%srp", prefix), "", rp_cols)
+  if (length(loss_type) == 0) {
+    rn_type <- rp_type
+    rp_cols <- sprintf("%srp%s", prefix, rn_type)
+  } else if (length(rp_type) == 0 ) {
+    rn_type <- loss_type
+    loss_cols <- sprintf("%sloss%s", prefix, rn_type)
+  } else {
+    rn_type <- intersect(loss_type, rp_type)
+    rp_cols <- sprintf("%srp%s", prefix, rn_type)
+    loss_cols <- sprintf("%sloss%s", prefix, rn_type)
+  }
   list(loss_cols, rp_cols)
 }
 
