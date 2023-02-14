@@ -251,6 +251,8 @@ export(rp_simulation)
 export(apply_rider_weight)
 export(set_period_cum_rn_cols)
 export(categorize_rider)
+export(set_sum)
+export(set_prop)
 
 export(intersect_rn)
 export(intersect_rn_cols)

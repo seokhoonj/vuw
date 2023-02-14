@@ -315,3 +315,12 @@ set_period_cum_rn_cols <- function(df) {
   cum_loss_rp_cols <- sprintf("c%s", loss_rp_cols)
   df[, (cum_loss_rp_cols) := lapply(.SD, cumsum), by = group_cols, .SDcols = loss_rp_cols]
 }
+
+set_sum <- function(df, cols, name = "total") {
+  df[, (name) := apply(.SD, 1L, sum), .SDcols = cols]
+}
+
+set_prop <- function(df, cols, total_col) {
+  name <- sprintf("%s_prop", cols)
+  df[, (name) := lapply(.SD, function(x) x / get(total_col)), .SDcols = cols]
+}
