@@ -275,19 +275,22 @@ rp_simulation <- function(risk_info, claim_info, df, udate, mon = 60, group = 1L
   return(z)
 }
 
-apply_rider_weight <- function(df, rider_info, weight = "proportion") {
-  wt <- rider_info[rn %in% as.numeric(intersect_rn(df))][[weight]]
-  # columns
-  loss_cols <- regmatch_cols(df, "^loss[0-9]+")
-  rp_cols <- regmatch_cols(df, "^rp[0-9]+")
-  pre_cols <- diff_cols(df, c(loss_cols, rp_cols))
+apply_rider_weight <- function(df, rider_info, weight = "proportion", prefix = "") {
+  loss_cols <- regmatch_cols(df, sprintf("^%sloss", prefix))
+  loss_type <- gsub(sprintf("^%sloss", prefix), "", loss_cols)
+  rp_cols <- regmatch_cols(df, sprintf("^%srp", prefix))
+  rp_type <- gsub(sprintf("^%srp", prefix), "", rp_cols)
+  pre_cols <- diff_cols(df, regmatch_cols(df, "loss|rp|lr|wlr|closs|crp|clr|wclr"))
   loss <- as.matrix(df[, ..loss_cols])
   rp <- as.matrix(df[, ..rp_cols])
-  # weighted
-  if (length(loss_cols) > 0)
+  if (length(loss_cols) > 0) {
+    wt <- rider_info[rn %in% as.numeric(loss_type)][[weight]]
     setmul(loss, wt, axis = 1)
-  if (length(rp_cols) > 0)
+  }
+  if (length(rp_cols) > 0) {
+    wt <- rider_info[rn %in% as.numeric(rp_type)][[weight]]
     setmul(rp, wt, axis = 1)
+  }
   cbind(df[, ..pre_cols], data.table(loss), data.table(rp))
 }
 
