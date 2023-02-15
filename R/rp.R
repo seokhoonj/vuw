@@ -333,7 +333,7 @@ rotate_group_stats <- function(df, col = vuw) {
   add_cols <- diff_cols(df_m, c(col, "variable", "value"))
   if (!length(add_cols))
     add_cols <- paste0("+", paste(add_cols, collapse = " + "))
-  form <- paste0("variable", add_cols, " ~ ", col)
+  form <- formula(paste0("variable", add_cols, " ~ ", col))
   df_d <- dcast(df_m, form, value.var = "value", fun.aggregate = sum)
   return(df_d)
 }
@@ -345,7 +345,7 @@ rotate_group_stats_ <- function(df, col = "vuw") {
   add_cols <- diff_cols(df_m, c(col, "variable", "value"))
   if (!length(add_cols))
     add_cols <- paste0("+", paste(add_cols, collapse = " + "))
-  form <- paste0("variable", add_cols, " ~ ", col)
+  form <- formula(paste0("variable", add_cols, " ~ ", col))
   df_d <- dcast(df_m, form, value.var = "value", fun.aggregate = sum)
   return(df_d)
 }
