@@ -324,3 +324,28 @@ set_prop <- function(df, cols, total_col) {
   name <- sprintf("%s_prop", cols)
   df[, (name) := lapply(.SD, function(x) x / get(total_col)), .SDcols = cols]
 }
+
+rotate_group_stats <- function(df, rider_info, col = vuw) {
+  col <- deparse(substitute(col))
+  measure_vars <- unlist(intersect_rn_cols(df))
+  id_vars <- diff_cols(df, measure_vars)
+  df_m <- melt(df, id.vars = id_vars, measure.vars = measure_vars)
+  add_cols <- paste(diff_cols(df_m, c(col, "variable", "value")), collapse = " + ")
+  form <- formula(sprintf("variable + %s ~ %s", add_cols, col))
+  df_d <- dcast(df_m, form, value.var = "value", fun.aggregate = sum)
+  df_d[, rn := as.numeric(gsub("rp", "", variable))]
+  df_d[rider_info, on = .(rn), rider := i.rider]
+  return(df_d[])
+}
+
+rotate_group_stats_ <- function(df, rider_info, col = "vuw") {
+  measure_vars <- unlist(intersect_rn_cols(df))
+  id_vars <- diff_cols(df, measure_vars)
+  df_m <- melt(df, id.vars = id_vars, measure.vars = measure_vars)
+  add_cols <- paste(diff_cols(df_m, c(col, "variable", "value")), collapse = " + ")
+  form <- formula(sprintf("variable + %s ~ %s", add_cols, col))
+  df_d <- dcast(df_m, form, value.var = "value", fun.aggregate = sum)
+  df_d[, rn := as.numeric(gsub("rp", "", variable))]
+  df_d[rider_info, on = .(rn), rider := i.rider]
+  return(df_d[])
+}

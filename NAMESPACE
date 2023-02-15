@@ -253,6 +253,8 @@ export(set_period_cum_rn_cols)
 export(categorize_rider)
 export(set_sum)
 export(set_prop)
+export(rotate_group_stats)
+export(rotate_group_stats_)
 
 export(intersect_rn)
 export(intersect_rn_cols)
