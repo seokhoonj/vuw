@@ -330,22 +330,22 @@ rotate_group_stats <- function(df, col = vuw) {
   measure_vars <- unlist(intersect_rn_cols(df))
   id_vars <- diff_cols(df, measure_vars)
   df_m <- melt(df, id.vars = id_vars, measure.vars = measure_vars)
-  add_cols <- paste(diff_cols(df_m, c(col, "variable", "value")), collapse = " + ")
-  form <- formula(sprintf("variable + %s ~ %s", add_cols, col))
+  add_cols <- diff_cols(df_m, c(col, "variable", "value"))
+  if (!length(add_cols))
+    add_cols <- paste0("+", paste(add_cols, collapse = " + "))
+  form <- paste0("variable", add_cols, " ~ ", col)
   df_d <- dcast(df_m, form, value.var = "value", fun.aggregate = sum)
-  # df_d[, rn := as.numeric(gsub("rp", "", variable))]
-  # df_d[rider_info, on = .(rn), rider := i.rider]
-  return(df_d[])
+  return(df_d)
 }
 
 rotate_group_stats_ <- function(df, col = "vuw") {
   measure_vars <- unlist(intersect_rn_cols(df))
   id_vars <- diff_cols(df, measure_vars)
   df_m <- melt(df, id.vars = id_vars, measure.vars = measure_vars)
-  add_cols <- paste(diff_cols(df_m, c(col, "variable", "value")), collapse = " + ")
-  form <- formula(sprintf("variable + %s ~ %s", add_cols, col))
+  add_cols <- diff_cols(df_m, c(col, "variable", "value"))
+  if (!length(add_cols))
+    add_cols <- paste0("+", paste(add_cols, collapse = " + "))
+  form <- paste0("variable", add_cols, " ~ ", col)
   df_d <- dcast(df_m, form, value.var = "value", fun.aggregate = sum)
-  # df_d[, rn := as.numeric(gsub("rp", "", variable))]
-  # df_d[rider_info, on = .(rn), rider := i.rider]
-  return(df_d[])
+  return(df_d)
 }
