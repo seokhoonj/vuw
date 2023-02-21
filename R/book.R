@@ -169,11 +169,13 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
   set(z, j = "rate_y_prop", value = z$rate_y / (z$rate_x + z$rate_y))
   set(z, j = "ratio", value = z$rate_x / z$rate_y)
 
-  m <- melt(z,
-            id.vars       = c("age", "gender"),
-            measure.vars  = c("rate_x", "rate_y", "ratio"),
-            variable.name = c("risk"),
-            value.name    = c("rate"))
+  m <- melt(
+    z,
+    id.vars       = c("age", "gender"),
+    measure.vars  = c("rate_x", "rate_y", "ratio"),
+    variable.name = c("risk"),
+    value.name    = c("rate")
+  )
   set(m, i = which(m$risk == "rate_x"), j = "risk", value = risk1)
   set(m, i = which(m$risk == "rate_y"), j = "risk", value = risk2)
   set(m, j = "label", value = paste(m$risk, "(", m$gender, ")"))
@@ -185,7 +187,8 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
     g1 <- ggplot(m[risk != "ratio"], aes(x = age, y = rate, ymin = 0, group = label, linetype = risk)) +
       geom_line() +
       scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
-      scale_y_continuous(labels = function(x) sprintf("%.2f%%", x * 100)) +
+      scale_y_continuous(labels = function(x) if (max(m[risk != "ratio"]$rate) <= 1)
+        sprintf("%.2f%%", x * 100) else sprintf("%.2f", x)) +
       scale_color_manual(values = colours) +
       facet_wrap(~ gender, scales = scales) +
       theme(legend.position = "top")
