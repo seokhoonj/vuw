@@ -42,7 +42,7 @@ theme_shiny <- function(family = "Malgun Gothic",
 }
 
 theme_save <- function(family = "Malgun Gothic",
-                       x.size  = 12, y.size  = 12, t.size = NULL, s.size = 17,
+                       x.size  = 12, y.size  = 12, t.size = 14, s.size = 14,
                        x.angle =  0, y.angle =  0, # y.comma = TRUE,
                        x.hjust = .5, x.vjust = .5,
                        y.hjust = .5, y.vjust = .5,
