@@ -250,3 +250,20 @@ write_xlsx <- function(data, file, startCell = c(1L, 1L), overwrite = FALSE) {
     write_data(wb, sheet = sheetName[[x]], x = data[[x]], startCell = startCell, rowNames = FALSE))
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
 }
+
+draw_xlsx <- function(image, file, xy = c(1L, 1L), width = 12, height = 6, overwrite = FALSE) {
+  wb <- createWorkbook()
+  if (class(image)[[1L]] == "gg")
+    image <- list(image)
+  sheetName <- names(image)
+  if (is.null(sheetName))
+    sheetName <- sprintf("Sheet %s", seq_along(image))
+  lapply(seq_along(image), function(x) addWorksheet(wb = wb,
+                                                    sheetName = sheetName[[x]], gridLines = FALSE))
+  lapply(seq_along(image), function(x) {
+    print(image[[x]]);
+    insertPlot(wb, sheet = sheetName[[x]],
+               xy = xy, width = width, height = height)
+  })
+  saveWorkbook(wb = wb, file = file, overwrite = overwrite)
+}
