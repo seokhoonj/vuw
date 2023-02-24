@@ -232,3 +232,44 @@ kcd_in_years <- function (df, id_var, kcd_var, from_var, to_var, udate, start, e
 #   z <- get_prop_(dz, group_var, id_var, multiple = multiple)
 #   return(z)
 # }
+
+stay_plot <- function(df, id_var, kcd_var, stay_var, kcd_code = "M51", digit, stay_cut = c(7, 15, 30), logscale = TRUE, scales = "fixed", ncol = NULL) {
+  z <- copy(df)
+  id_var <- match_cols(z, vapply(substitute(id_var), deparse, "character"))
+  kcd_var <- match_cols(z, vapply(substitute(kcd_var), deparse, "character"))
+  stay_var <- match_cols(z, vapply(substitute(stay_var), deparse, "character"))
+  setnames(z, c(id_var, kcd_var, stay_var), c("id", "kcd", "stay"))
+  z <- split_merge_var(z, kcd)[grepl(kcd_code, kcd)]
+  if (!missing(digit))
+    z[, kcd := substr(kcd, 1, digit)]
+  if (logscale) {
+    label <- str_pad(stay_cut, width = max(nchar(stay_cut)))
+    g <- ggplot(z, aes(x = log(stay))) +
+      geom_histogram() +
+      geom_vline(xintercept = log(stay_cut), color = "red", lty = "dashed") +
+      annotate(geom = "text", x = log(stay_cut[1L]), y = Inf, label = label[1L], hjust = 0, vjust = 3) +
+      annotate(geom = "text", x = log(stay_cut[2L]), y = Inf, label = label[2L], hjust = 0, vjust = 3) +
+      annotate(geom = "text", x = log(stay_cut[3L]), y = Inf, label = label[3L], hjust = 0, vjust = 3) +
+      scale_x_continuous(labels = function(x) round(exp(x)), limit = range(log(z$stay), na.rm = TRUE)) +
+      scale_y_continuous(labels = comma) +
+      facet_wrap(~ kcd, scales = scales, ncol = ncol) +
+      ylab("count") +
+      labs(title = "Hospitalization distribution", subtitle = kcd_code)
+  } else {
+    label <- str_pad(stay_cut, width = max(nchar(stay_cut)))
+    limit <- max(stay_cut)
+    z[, stay := ifelse(stay > limit, sprintf("%s+", limit+1), stay)]
+    z[, stay := factor(stay, levels = c(as.character(1:limit), sprintf("%s+", limit+1)))]
+    g <- ggplot(z, aes(x = stay)) +
+      geom_histogram(stat = "count") +
+      geom_vline(xintercept = stay_cut, color = "red", lty = "dashed") +
+      annotate(geom = "text", x = stay_cut[1L], y = Inf, label = label[1L], hjust = 0, vjust = 3) +
+      annotate(geom = "text", x = stay_cut[2L], y = Inf, label = label[2L], hjust = 0, vjust = 3) +
+      annotate(geom = "text", x = stay_cut[3L], y = Inf, label = label[3L], hjust = 0, vjust = 3) +
+      scale_y_continuous(labels = comma) +
+      facet_wrap(~ kcd, scales = scales, ncol = ncol) +
+      ylab("count") +
+      labs(title = "Hospitalization distribution", subtitle = kcd_code)
+  }
+  return(g)
+}

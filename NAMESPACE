@@ -273,6 +273,7 @@ export(id_with_kcd_)
 export(id_with_kcd_terms)
 export(kcd_in_years)
 export(kcd_in_months)
+export(stay_plot)
 
 export(is_korean)
 export(is_english)
