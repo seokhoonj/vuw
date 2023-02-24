@@ -244,12 +244,14 @@ stay_plot <- function(df, id_var, kcd_var, stay_var, kcd_code = "M51", digit, st
     z[, kcd := substr(kcd, 1, digit)]
   if (logscale) {
     label <- str_pad(stay_cut, width = max(nchar(stay_cut)))
+    annotation <- vector(mode = "list", length = length(stay_cut))
+    for (i in seq_along(stay_cut)) {
+      annotation[[i]] <- annotate(geom = "text", x = log(stay_cut[i]), y = Inf, label = label[i], hjust = 0, vjust = 3)
+    }
     g <- ggplot(z, aes(x = log(stay))) +
       geom_histogram() +
       geom_vline(xintercept = log(stay_cut), color = "red", lty = "dashed") +
-      annotate(geom = "text", x = log(stay_cut[1L]), y = Inf, label = label[1L], hjust = 0, vjust = 3) +
-      annotate(geom = "text", x = log(stay_cut[2L]), y = Inf, label = label[2L], hjust = 0, vjust = 3) +
-      annotate(geom = "text", x = log(stay_cut[3L]), y = Inf, label = label[3L], hjust = 0, vjust = 3) +
+      annotation +
       scale_x_continuous(labels = function(x) round(exp(x)), limit = range(log(z$stay), na.rm = TRUE)) +
       scale_y_continuous(labels = comma) +
       facet_wrap(~ kcd, scales = scales, ncol = ncol) +
@@ -260,12 +262,14 @@ stay_plot <- function(df, id_var, kcd_var, stay_var, kcd_code = "M51", digit, st
     limit <- max(stay_cut)
     z[, stay := ifelse(stay > limit, sprintf("%s+", limit+1), stay)]
     z[, stay := factor(stay, levels = c(as.character(1:limit), sprintf("%s+", limit+1)))]
+    annotation <- vector(mode = "list", length = length(stay_cut))
+    for (i in seq_along(stay_cut)) {
+      annotation[[i]] <- annotate(geom = "text", x = stay_cut[i], y = Inf, label = label[i], hjust = 0, vjust = 3)
+    }
     g <- ggplot(z, aes(x = stay)) +
       geom_histogram(stat = "count") +
       geom_vline(xintercept = stay_cut, color = "red", lty = "dashed") +
-      annotate(geom = "text", x = stay_cut[1L], y = Inf, label = label[1L], hjust = 0, vjust = 3) +
-      annotate(geom = "text", x = stay_cut[2L], y = Inf, label = label[2L], hjust = 0, vjust = 3) +
-      annotate(geom = "text", x = stay_cut[3L], y = Inf, label = label[3L], hjust = 0, vjust = 3) +
+      annotation +
       scale_y_continuous(labels = comma) +
       facet_wrap(~ kcd, scales = scales, ncol = ncol) +
       ylab("count") +
