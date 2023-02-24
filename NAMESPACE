@@ -292,6 +292,7 @@ export(get_rp_table)
 export(write_data)
 export(write_xlsx)
 export(draw_xlsx)
+export(save_xlsx)
 
 export(theme_view)
 export(theme_shiny)

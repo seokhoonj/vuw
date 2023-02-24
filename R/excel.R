@@ -267,3 +267,35 @@ draw_xlsx <- function(image, file, xy = c(1L, 1L), width = 12, height = 6, overw
   })
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
 }
+
+save_xlsx <- function(data, image, file, startCell = c(1L, 1L), xy = c(10L, 1L), width = 12, height = 6, overwrite = FALSE) {
+  if (!missing(data) & !missing(image)) {
+    wb <- createWorkbook()
+    if (is.data.frame(data))
+      data <- list(data)
+    dataSheetName <- names(data)
+    if (is.null(dataSheetName))
+      dataSheetName <- sprintf("Sheet %s", seq_along(data))
+    if (class(image)[[1L]] == "gg")
+      image <- list(image)
+    imageSheetName <- names(image)
+    if (is.null(imageSheetName))
+      imageSheetName <- sprintf("Sheet %s", seq_along(image))
+    sheetName <- unique(c(dataSheetName, imageSheetName))
+    lapply(seq_along(sheetName), function(x) addWorksheet(wb = wb, sheetName = sheetName[[x]], gridLines = FALSE))
+    lapply(seq_along(data), function(x) write_data(wb, sheet = dataSheetName[[x]], x = data[[x]], startCell = startCell, rowNames = FALSE))
+    lapply(seq_along(image), function(x) {
+      print(image[[x]]);
+      insertPlot(wb, sheet = imageSheetName[[x]], xy = xy, width = width, height = height)
+    })
+    saveWorkbook(wb = wb, file = file, overwrite = overwrite)
+  }
+  else if (!missing(data) &  missing(image)) {
+    write_xlsx(data = data, file = file, startCell = startCell, overwrite = overwrite)
+  }
+  else if ( missing(data) & !missing(image)) {
+    draw_xlsx(image = image, file = file, xy = xy, width = width, height = height, overwrite = overwrite)
+  }
+  else {}
+}
+
