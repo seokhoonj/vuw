@@ -115,7 +115,7 @@ get_rider_info <- function(claim_info) {
   unique(claim_info[, .(rn, main_category, sub_category, rider_category, rider, proportion)])
 }
 
-risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10, logscale = FALSE) {
+risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10, logscale = FALSE, facet = TRUE, max_label = TRUE) {
   assert_class(risk_info$gender, "factor")
   if (missing(x)) {
     hprint(unique(risk_info[, .(risk)]))
@@ -126,34 +126,42 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   } else {
     risk_info <- risk_info[risk_info$risk %in% x,]
   }
-  risk_info_s = risk_info[, .(max_rate = max(rate)), .(risk, gender)]
+  risk_info_s <- risk_info[, .(max_rate = max(rate)), .(risk, gender)]
   risk_info[risk_info_s, max_rate := i.max_rate, on = .(risk, gender, rate = max_rate)]
-  risk_info_a = risk_info[!is.na(max_rate), .(age = min(age)), .(risk, gender, max_rate)]
+  risk_info_a <- risk_info[!is.na(max_rate), .(age = min(age)), .(risk, gender, max_rate)]
   setcolafter(risk_info_a, age, gender)
   rm_cols(risk_info, max_rate)
   risk_info[risk_info_a, on = .(risk, gender, age), max_rate := i.max_rate]
   risk_info[, label := ifelse(!is.na(max_rate), sprintf("%.4f (%d)", max_rate, age), max_rate)]
   risk_info_a[, label := sprintf("%d: %.4f (%d)", gender, max_rate, age), .(risk)]
-  risk_info_b = risk_info_a[, .(label = glue_code(label, "\n")), .(risk)]
+  risk_info_b <- risk_info_a[, .(label = glue_code(label, "\n")), .(risk)]
   risk_info_b[, gender := factor(1, levels = c(1, 2))]
   risk_info_b[, age := -Inf]
   risk_info_b[, rate := Inf]
   if (logscale) {
     g <- ggplot(risk_info, aes(x = age, y = log(rate), group = gender, col = gender)) +
       geom_line() +
-      geom_label(data = risk_info_b, aes(label = label), colour = "black", alpha = .3, hjust = -.1, vjust = 1.2) +
+      list(if (max_label) {
+        geom_label(data = risk_info_b, aes(label = label), colour = "black", alpha = .3, hjust = -.1, vjust = 1.2)
+      }) +
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
       scale_y_continuous(labels = function(x) sprintf("%.4f", exp(x))) +
-      facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
+      list(if (facet) {
+        facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
+      })
   } else {
     g <- ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
       geom_line() +
-      geom_label(data = risk_info_b, aes(label = label), colour = "black", alpha = .3, hjust = -.1, vjust = 1.2) +
+      list(if (max_label) {
+        geom_label(data = risk_info_b, aes(label = label), colour = "black", alpha = .3, hjust = -.1, vjust = 1.2)
+      }) +
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
       scale_y_continuous(labels = function(x) sprintf("%.4f", x)) +
-      facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
+      list(if (facet) {
+        facet_wrap(~ risk, nrow = nrow, ncol = ncol, scales = scales)
+      })
   }
   return(g)
 }
