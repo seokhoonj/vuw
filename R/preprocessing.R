@@ -97,6 +97,14 @@ pull_excl_term <- function(x, ignore.case = TRUE) {
   as_integer(gsub("[0-9].EXCL|EXCL|\\(.*?\\)", "", x, ignore.case = ignore.case, perl = TRUE))
 }
 
+set_kcd_sub <- function(df, kcd_var, digit = c(3L, 2L, 1L)) {
+  kcd_var <- match_cols(df, vapply(substitute(kcd_var), deparse, "character"))
+  cols <- sprintf("%s%d", kcd_var, digit)
+  for (i in seq_along(cols))
+    set(df, j = cols[i], value = substr(df[[kcd_var]], 1L, digit[i]))
+  setcolafter_(df, cols, kcd_var)
+}
+
 set_kcd_name <- function(df, col, dots = TRUE, lang = c("ko", "en")) {
   copybook <- copy(kcd_book)
   if (dots) rm_dots(copybook, kcd)
