@@ -377,11 +377,13 @@ summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, from_v
   decl_all <- rbindlist(list(decl_out, decl_hos, decl_sur), fill = TRUE)
   decl_all_kcd <- unique(decl_all[, ..id_kcd_var])
   decl_all_kcd_n <- decl_all[, .(kcd_n = uniqueN(.SD)), id_var, .SDcols = kcd_var]
+  col_n <- sprintf("%s_n", kcd_var)
+  setnames(decl_all_kcd_n, "kcd_n", col_n)
   z <- merge(decl_all_kcd, decl_all_kcd_n, by = id_var)
   decl_hos_mod <- merge_date_overlap_(decl_hos, id_var, kcd_var, from_var, to_var)
-  decl_hos_spl <- split_merge_var_(decl_hos_mod[nchar(kcd) > 4], kcd_var)
+  decl_hos_spl <- split_merge_var_(decl_hos_mod, kcd_var)
   decl_hos_sum <- decl_hos_spl[, .(hos = sum(stay)), id_kcd_var]
-  decl_sur_cnt <- decl_sur[, .(sur = uniqueN(sdate)), id_kcd_var]
+  decl_sur_cnt <- decl_sur[, .(sur = uniqueN(.SD)), id_kcd_var, .SDcols = from_var]
   decl_elp <- decl_out[, .(elp = max(edate)), id_kcd_var]
   decl_elp[, `:=`(elp, as.numeric(udate - elp) + 1)]
   z[decl_hos_sum, on = id_kcd_var, `:=`(hos, i.hos)]
@@ -399,11 +401,13 @@ summarise_decl_ <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, from_
   decl_all <- rbindlist(list(decl_out, decl_hos, decl_sur), fill = TRUE)
   decl_all_kcd <- unique(decl_all[, ..id_kcd_var])
   decl_all_kcd_n <- decl_all[, .(kcd_n = uniqueN(.SD)), id_var, .SDcols = kcd_var]
+  col_n <- sprintf("%s_n", kcd_var)
+  setnames(decl_all_kcd_n, "kcd_n", col_n)
   z <- merge(decl_all_kcd, decl_all_kcd_n, by = id_var)
   decl_hos_mod <- merge_date_overlap_(decl_hos, id_var, kcd_var, from_var, to_var)
-  decl_hos_spl <- split_merge_var_(decl_hos_mod[nchar(kcd) > 4], kcd_var)
+  decl_hos_spl <- split_merge_var_(decl_hos_mod, kcd_var)
   decl_hos_sum <- decl_hos_spl[, .(hos = sum(stay)), id_kcd_var]
-  decl_sur_cnt <- decl_sur[, .(sur = uniqueN(sdate)), id_kcd_var]
+  decl_sur_cnt <- decl_sur[, .(sur = uniqueN(.SD)), id_kcd_var, SDcols = from_var]
   decl_elp <- decl_out[, .(elp = max(edate)), id_kcd_var]
   decl_elp[, `:=`(elp, as.numeric(udate - elp) + 1)]
   z[decl_hos_sum, on = id_kcd_var, `:=`(hos, i.hos)]
