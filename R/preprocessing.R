@@ -369,8 +369,8 @@ limit_stay <- function(df, id_var, merge_var, from_var, to_var, deduction, limit
 }
 
 summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, from_var, to_var, udate) {
-  id_var <- match_cols(df, vapply(substitute(id_var), deparse, "character"))
-  kcd_var <- match_cols(df, vapply(substitute(kcd_var), deparse, "character"))
+  id_var <- match_cols(decl_out, vapply(substitute(id_var), deparse, "character"))
+  kcd_var <- match_cols(decl_out, vapply(substitute(kcd_var), deparse, "character"))
   id_kcd_var <- c(id_var, kcd_var)
   from_var <- vapply(substitute(from_var), deparse, "character")
   to_var <- vapply(substitute(to_var), deparse, "character")
