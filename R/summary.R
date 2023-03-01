@@ -102,7 +102,7 @@ group_stats_terms <- function(df, group_var, ...) {
   }
   if (length(stats_terms) > 1)
     return(do.call(function(x, y) merge(x, y, by = group_var, all = TRUE), df_list))
-  df_list[[1L]]
+  return(df_list[[1L]])
 }
 
 group_stats_terms_ <- function(df, group_var, ...) {
@@ -116,7 +116,7 @@ group_stats_terms_ <- function(df, group_var, ...) {
   }
   if (length(stats_terms) > 1)
     do.call(function(x, y) merge(x, y, by = group_var, all = TRUE), df_list)
-  df_list[[1L]]
+  return(df_list[[1L]])
 }
 
 get_prop <- function(df, group_var, uniq_var, sum_var, multiple = 1) {                                                                                group_var <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
