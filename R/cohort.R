@@ -238,8 +238,8 @@ stay_plot <- function(df, id_var, kcd_var, stay_var, kcd_code = "M51", digit, st
   id_var <- match_cols(z, vapply(substitute(id_var), deparse, "character"))
   kcd_var <- match_cols(z, vapply(substitute(kcd_var), deparse, "character"))
   stay_var <- match_cols(z, vapply(substitute(stay_var), deparse, "character"))
-  z <- split_merge_var(z, kcd)[grepl(kcd_code, kcd)]
   setnames(z, c(id_var, kcd_var, stay_var), c("id", "kcd", "stay"))
+  z <- split_merge_var(z, kcd)[grepl(kcd_code, kcd)]
   if (!missing(digit))
     z[, kcd := substr(kcd, 1, digit)]
   if (logscale) {
