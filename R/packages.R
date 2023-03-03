@@ -3,7 +3,7 @@ get_packages <- function()
   sapply(.libPaths(), function(x) dir(x))
 
 install_packages <- function(packages) {
-  if (tolower(packages) == "all")
+  if (missing(packages))
     packages <- c(
       "adabag", "arules", "arulesViz", "bayesplot", "benchmarkme", "bestglm"
     , "Boruta", "brms", "calendR", "car", "caret", "caretEnsemble", "caTools"
