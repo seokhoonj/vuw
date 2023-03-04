@@ -376,7 +376,7 @@ limit_stay <- function(df, id_var, merge_var, from_var, to_var, deduction, limit
   return(z)
 }
 
-summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, from_var, to_var, udate) {
+summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n_var, from_var, to_var, udate) {
   id_var <- match_cols(decl_out, vapply(substitute(id_var), deparse, "character"))
   kcd_var <- match_cols(decl_out, vapply(substitute(kcd_var), deparse, "character"))
   id_kcd_var <- c(id_var, kcd_var)
@@ -384,7 +384,7 @@ summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, from_v
   to_var <- vapply(substitute(to_var), deparse, "character")
   decl_all <- rbindlist(list(decl_out, decl_hos, decl_sur), fill = TRUE)
   decl_all_kcd <- unique(decl_all[, ..id_kcd_var])
-  decl_all_kcd_n <- decl_all[, .(kcd_n = uniqueN(get(kcd_var))), id_var]
+  decl_all_kcd_n <- decl_all[, .(kcd_n = uniqueN(get(kcd_n_var))), id_var]
   col_n <- sprintf("%s_n", kcd_var)
   setnames(decl_all_kcd_n, "kcd_n", col_n)
   z <- merge(decl_all_kcd, decl_all_kcd_n, by = id_var)
@@ -402,11 +402,11 @@ summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, from_v
   return(z[])
 }
 
-summarise_decl_ <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, from_var, to_var, udate) {
+summarise_decl_ <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n_var, from_var, to_var, udate) {
   id_kcd_var <- c(id_var, kcd_var)
   decl_all <- rbindlist(list(decl_out, decl_hos, decl_sur), fill = TRUE)
   decl_all_kcd <- unique(decl_all[, ..id_kcd_var])
-  decl_all_kcd_n <- decl_all[, .(kcd_n = uniqueN(get(kcd_var))), id_var]
+  decl_all_kcd_n <- decl_all[, .(kcd_n = uniqueN(get(kcd_n_var))), id_var]
   col_n <- sprintf("%s_n", kcd_var)
   setnames(decl_all_kcd_n, "kcd_n", col_n)
   z <- merge(decl_all_kcd, decl_all_kcd_n, by = id_var)
