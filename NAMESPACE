@@ -73,6 +73,8 @@ export(ggline)
 export(ggline_)
 export(ggdensity)
 export(ggdensity_)
+export(ggpie)
+export(ggpie_)
 export(data2treemap)
 
 export(unilen)
