@@ -390,11 +390,15 @@ summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n_
   setnames(decl_all_kcd_n, "kcd_n", col_n)
   z <- merge(decl_all_kcd, decl_all_kcd_n, by = id_var)
   decl_hos_mod <- merge_date_overlap_(decl_hos, id_var, kcd_var, from_var, to_var)
+  decl_hos_tot <- decl_hos_mod[, .(hos_tot = sum(stay)), id_var]
   decl_hos_spl <- split_merge_var_(decl_hos_mod, kcd_var)
   decl_hos_sum <- decl_hos_spl[, .(hos = sum(stay)), id_kcd_var]
+  decl_sur_tot <- decl_sur[, .(sur_tot = uniqueN(get(from_var))), id_var]
   decl_sur_cnt <- decl_sur[, .(sur = uniqueN(get(from_var))), id_kcd_var]
   decl_elp <- decl_all[, .(elp = max(get(to_var))), id_kcd_var]
   decl_elp[, `:=`(elp, as.numeric(udate - elp) + 1)]
+  z[decl_hos_tot, on = id_var, `:=`(hos_tot, i.hos_tot)]
+  z[decl_sur_tot, on = id_var, `:=`(sur_tot, i.sur_tot)]
   z[decl_hos_sum, on = id_kcd_var, `:=`(hos, i.hos)]
   z[decl_sur_cnt, on = id_kcd_var, `:=`(sur, i.sur)]
   replace_na_with_zero(z)
@@ -412,11 +416,15 @@ summarise_decl_ <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n
   setnames(decl_all_kcd_n, "kcd_n", col_n)
   z <- merge(decl_all_kcd, decl_all_kcd_n, by = id_var)
   decl_hos_mod <- merge_date_overlap_(decl_hos, id_var, kcd_var, from_var, to_var)
+  decl_hos_tot <- decl_hos_mod[, .(hos_tot = sum(stay)), id_var]
   decl_hos_spl <- split_merge_var_(decl_hos_mod, kcd_var)
   decl_hos_sum <- decl_hos_spl[, .(hos = sum(stay)), id_kcd_var]
+  decl_sur_tot <- decl_sur[, .(sur_tot = uniqueN(get(from_var))), id_var]
   decl_sur_cnt <- decl_sur[, .(sur = uniqueN(get(from_var))), id_kcd_var]
   decl_elp <- decl_all[, .(elp = max(get(to_var))), id_kcd_var]
   decl_elp[, `:=`(elp, as.numeric(udate - elp) + 1)]
+  z[decl_hos_tot, on = id_var, `:=`(hos_tot, i.hos_tot)]
+  z[decl_sur_tot, on = id_var, `:=`(sur_tot, i.sur_tot)]
   z[decl_hos_sum, on = id_kcd_var, `:=`(hos, i.hos)]
   z[decl_sur_cnt, on = id_kcd_var, `:=`(sur, i.sur)]
   replace_na_with_zero(z)
