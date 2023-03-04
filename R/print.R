@@ -165,22 +165,120 @@ ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = 
       })
 }
 
-ggdensity <- function(x, probs = .95, logscale = F) {
-  if (logscale) d <- log(x+1) else d <- x
-  dens <- density(d)
-  data <- data.table(x = dens$x, y = dens$y)
-  cutoff_x <- quantile(x, probs = probs)
-  cutoff_d <- quantile(d, probs = probs)
-  cutoff <- cutoff_d[length(cutoff_d)]
-  levels <- paste0(c(">", "<"), names(cutoff))
-  data[, area := factor(ifelse(x >= cutoff, levels[1L], levels[2L]), levels = levels)]
-  ggplot(data = data, aes(x = x, ymin = 0, ymax = y, group = area, fill = area)) +
-    geom_ribbon() +
-    geom_line(aes(y = y)) +
-    geom_vline(xintercept = cutoff_d, color = "red", linetype = "dashed") +
-    annotate(geom = "text", x = cutoff_d, y = Inf,
-             label = sprintf("%s\n(%s)", names(cutoff_x), comma(cutoff_x)),
-             hjust = -.1, vjust = 2)
+ggdensity <- function(data, x, facet, probs = .95, logscale = F, scales = "free_y") {
+  x <- match_cols(data, vapply(substitute(x), deparse, "character"))
+  if (logscale)
+    data[[x]] <- log(data[[x]] + 1)
+  if (missing(facet)) {
+    dens <- data[, .(x = density(get(x))$x, y = density(get(x))$y)]
+
+    cutoff_dens <- dens[, .(prob = probs, cutoff = quantile(x, probs = probs))]
+    cutoff_dens[, prob := as.numeric(as.character(prob))]
+
+    cutoff_data <- data[, .(prob = probs, cutoff = quantile(get(x), probs = probs))]
+    cutoff_data[, prob := as.numeric(as.character(prob))]
+  } else {
+    facet <- match_cols(data, vapply(substitute(facet), deparse, "character"))
+    dens <- data[, .(x = density(get(x))$x, y = density(get(x))$y), keyby = facet]
+
+    cutoff_dens <- dens[, lapply(probs, function(p) quantile(x, probs = p)), keyby = facet]
+    setnames(cutoff_dens, as.character(c(facet, probs)))
+    cutoff_dens <- melt(cutoff_dens, id.vars = facet, variable.name = "prob", value.name = "cutoff")
+    cutoff_dens[, prob := as.numeric(as.character(prob))]
+
+    cutoff_data <- data[, lapply(probs, function(p) quantile(get(x), probs = p)), keyby = facet]
+    setnames(cutoff_data, as.character(c(facet, probs)))
+    cutoff_data <- melt(cutoff_data, id.vars = facet, variable.name = "prob", value.name = "cutoff")
+    cutoff_data[, prob := as.numeric(as.character(prob))]
+  }
+
+  cutoff <- cutoff_data[prob == probs[length(probs)]]
+  levels <- paste0(c(">", "<"), probs[length(probs)] * 1e2, "%")
+
+  cutoff_data[, y := Inf]
+  cutoff_data[, area := levels[1L]]
+
+  if (missing(facet)) {
+    dens[, cutoff := cutoff$cutoff]
+  } else {
+    dens[cutoff, cutoff := i.cutoff, on = facet]
+  }
+  dens[, `:=`(area, factor(ifelse(x >= cutoff, levels[1L], levels[2L]), levels = levels))]
+
+  ggplot(data = dens, aes(x = x, ymin = 0, ymax = y, group = area, fill = area)) +
+    geom_ribbon() + geom_line(aes(y = y)) +
+    list(
+      if (logscale) {
+        geom_text(data = cutoff_data,
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1)), group = area), hjust = -0.1, vjust = 2)
+      } else {
+        geom_text(data = cutoff_data,
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff)), group = area), hjust = -0.1, vjust = 2)
+      }) +
+    geom_vline(data = cutoff_data, aes(xintercept = cutoff), color = "red", linetype = "dashed") +
+    list(
+      if (!missing(facet)) {
+        facet_wrap(formula(paste("~", facet)), scales = scales)
+      } else {}
+    ) +
+    ylab("density")
+}
+
+ggdensity_ <- function(data, x, facet, probs = .95, logscale = F, scales = "free_y") {
+  if (logscale)
+    data[[x]] <- log(data[[x]] + 1)
+  if (missing(facet)) {
+    dens <- data[, .(x = density(get(x))$x, y = density(get(x))$y)]
+
+    cutoff_dens <- dens[, .(prob = probs, cutoff = quantile(x, probs = probs))]
+    cutoff_dens[, prob := as.numeric(as.character(prob))]
+
+    cutoff_data <- data[, .(prob = probs, cutoff = quantile(get(x), probs = probs))]
+    cutoff_data[, prob := as.numeric(as.character(prob))]
+  } else {
+    dens <- data[, .(x = density(get(x))$x, y = density(get(x))$y), keyby = facet]
+
+    cutoff_dens <- dens[, lapply(probs, function(p) quantile(x, probs = p)), keyby = facet]
+    setnames(cutoff_dens, as.character(c(facet, probs)))
+    cutoff_dens <- melt(cutoff_dens, id.vars = facet, variable.name = "prob", value.name = "cutoff")
+    cutoff_dens[, prob := as.numeric(as.character(prob))]
+
+    cutoff_data <- data[, lapply(probs, function(p) quantile(get(x), probs = p)), keyby = facet]
+    setnames(cutoff_data, as.character(c(facet, probs)))
+    cutoff_data <- melt(cutoff_data, id.vars = facet, variable.name = "prob", value.name = "cutoff")
+    cutoff_data[, prob := as.numeric(as.character(prob))]
+  }
+
+  cutoff <- cutoff_data[prob == probs[length(probs)]]
+  levels <- paste0(c(">", "<"), probs[length(probs)] * 1e2, "%")
+
+  cutoff_data[, y := Inf]
+  cutoff_data[, area := levels[1L]]
+
+  if (missing(facet)) {
+    dens[, cutoff := cutoff$cutoff]
+  } else {
+    dens[cutoff, cutoff := i.cutoff, on = facet]
+  }
+  dens[, `:=`(area, factor(ifelse(x >= cutoff, levels[1L], levels[2L]), levels = levels))]
+
+  ggplot(data = dens, aes(x = x, ymin = 0, ymax = y, group = area, fill = area)) +
+    geom_ribbon() + geom_line(aes(y = y)) +
+    list(
+      if (logscale) {
+        geom_text(data = cutoff_data,
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1)), group = area), hjust = -0.1, vjust = 2)
+      } else {
+        geom_text(data = cutoff_data,
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff)), group = area), hjust = -0.1, vjust = 2)
+      }) +
+    geom_vline(data = cutoff_data, aes(xintercept = cutoff), color = "red", linetype = "dashed") +
+    list(
+      if (!missing(facet)) {
+        facet_wrap(formula(paste("~", facet)), scales = scales)
+      } else {}
+    ) +
+    ylab("density")
 }
 
 data2treemap <- function(df, group_var, value_var, fig = TRUE, add_names = FALSE, sep = " / ") {
