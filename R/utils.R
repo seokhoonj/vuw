@@ -177,13 +177,35 @@ replace_empty_with_na <- function(df) {
   cols <- names(class)[which(class == "character")]
   df[, (cols) := lapply(.SD, function(x) ifelse(x == "", NA, x)), .SDcols = cols]
 }
-set_sum <- function(df, cols, value_name = "sum") {
+
+set_rowsum  <- function(df, cols, name = "sum") {
   cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
-  set(df, j = value_name, value = apply(df[, ..cols], 1, sum))
+  set(df, j = name, value = apply(df[, ..cols], 1, sum))
 }
-set_sum_ <- function(df, cols, value_name = "sum") {
-  set(df, j = value_name, value = apply(df[, ..cols], 1, sum))
+set_rowsum_ <- function(df, cols, name = "sum") {
+  set(df, j = name, value = apply(df[, ..cols], 1, sum))
 }
+set_cumsum  <- function(df, group_var, value_var, prefix = "c") {
+  group_var <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
+  value_var <- match_cols(df, vapply(substitute(value_var), deparse, "character"))
+  cols <- sprintf("%s%s", prefix, value_var)
+  df[, (cols) := lapply(.SD, cumsum), group_var, .SDcols = value_var]
+}
+set_cumsum_ <- function(df, group_var, value_var, prefix = "c") {
+  cols <- sprintf("%s%s", prefix, value_var)
+  df[, (cols) := lapply(.SD, cumsum), group_var, .SDcols = value_var]
+}
+set_prop  <- function(df, cols, sum_col) {
+  cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
+  sum_col <- match_cols(df, vapply(substitute(sum_col), deparse, "character"))
+  name <- sprintf("%s_prop", cols)
+  df[, (name) := lapply(.SD, function(x) x / get(sum_col)), .SDcols = cols]
+}
+set_prop_ <- function(df, cols, sum_col) {
+  name <- sprintf("%s_prop", cols)
+  df[, (name) := lapply(.SD, function(x) x / get(sum_col)), .SDcols = cols]
+}
+
 
 #' Merge data frames
 #'

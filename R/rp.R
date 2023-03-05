@@ -316,15 +316,6 @@ set_period_cum_rn_cols <- function(df) {
   df[, (cum_loss_rp_cols) := lapply(.SD, cumsum), by = group_cols, .SDcols = loss_rp_cols]
 }
 
-set_sum <- function(df, cols, name = "total") {
-  df[, (name) := apply(.SD, 1L, sum), .SDcols = cols]
-}
-
-set_prop <- function(df, cols, total_col) {
-  name <- sprintf("%s_prop", cols)
-  df[, (name) := lapply(.SD, function(x) x / get(total_col)), .SDcols = cols]
-}
-
 rotate_group_stats <- function(df, col = vuw) {
   col <- deparse(substitute(col))
   measure_vars <- unlist(intersect_rn_cols(df))
