@@ -272,6 +272,7 @@ export(intersect_rn_cols)
 export(set_rn_col_order)
 export(set_lr)
 export(mix_lr)
+export(mix_cols)
 export(apply_rules)
 
 export(subset_id_with_kcd)
