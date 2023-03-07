@@ -53,6 +53,15 @@ set_age_cut <- function(df, age_var, age_cut = 60) {
   setcolafter_(df, "age_cut", age_var)
 }
 
+set_sur_band <- function(df, sur_var) {
+  sur_var <- match_cols(df, vapply(substitute(sur_var), deparse, "character"))
+  sur <- df[[sur_var]]
+  sur_band_var <- sprintf("%s_band", sur_var)
+  set(df, j = sur_band_var, value = factor(
+    ifelse(sur == 0, 0, ifelse(sur == 1, 1, ifelse(sur == 2, 2, ifelse(sur >= 3, "3+", sur))))))
+  setcolafter_(df, sur_band_var, sur_var)
+}
+
 calc_bmi <- function(height, weight) {
   weight / (height / 100)^2
 }
