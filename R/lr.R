@@ -70,14 +70,14 @@ mix_lr <- function(df, biz_mix, group_var = c("vuw", "period"),
   z[, lapply(.SD, function(x) sum(x, na.rm = TRUE)), group_var, .SDcols = wlr_cols]
 }
 
-mix_cols <- function(df, biz_mix, group_var, value_var, join_var = c("gender", "age_band", "grade")) {
+mix_cols <- function(df, biz_mix, group_var, value_var, join_var = c("gender", "age_band", "grade"), prefix = "w") {
   has_cols(biz_mix, c("prop"))
   z <- copy(df)
   join_var <- match_cols(z, join_var)
   mix <- biz_mix[, .(prop = sum(prop)), join_var]
   z[mix, prop := i.prop, on = join_var]
   z[, tot_prop := sum(prop), group_var]
-  mix_var <- sprintf("%s_mix", value_var)
+  mix_var <- sprintf("%s%s", prefix, value_var)
   for (i in seq_along(value_var)) {
     set(z, j = mix_var[i], value = z[[value_var[i]]] * z$prop / z$tot_prop)
   }
