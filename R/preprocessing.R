@@ -53,12 +53,26 @@ set_age_cut <- function(df, age_var, age_cut = 60) {
   setcolafter_(df, "age_cut", age_var)
 }
 
+set_hos_band <- function(df, hos_var, breaks = c(0, 1, 2, 8, 16, 22, 31)) {
+  hos_var <- match_cols(df, vapply(substitute(hos_var), deparse, "character"))
+  hos <- df[[hos_var]]
+  mn <- min(hos)
+  mx <- max(hos)
+  breaks <- unique(c(mn, breaks[breaks > mn & breaks < mx], mx+1))
+  labels <- sprintf("%s<=x<=%s", breaks[-length(breaks)], breaks[-1]-1)
+  hos_band_var <- sprintf("%s_band", hos_var)
+  hos_band <- cut(hos, breaks = breaks, right = F)
+  levels(hos_band) <- labels
+  set(df, j = hos_band_var, value = hos_band)
+  setcolafter_(df, hos_band_var, hos_var)
+}
+
 set_sur_band <- function(df, sur_var) {
   sur_var <- match_cols(df, vapply(substitute(sur_var), deparse, "character"))
   sur <- df[[sur_var]]
   sur_band_var <- sprintf("%s_band", sur_var)
   set(df, j = sur_band_var, value = factor(
-    ifelse(sur == 0, 0, ifelse(sur == 1, 1, ifelse(sur == 2, 2, ifelse(sur >= 3, "3+", sur))))))
+    ifelse(sur == 0, "0", ifelse(sur == 1, "1", ifelse(sur == 2, "2", ifelse(sur >= 3, "3+", sur))))))
   setcolafter_(df, sur_band_var, sur_var)
 }
 
