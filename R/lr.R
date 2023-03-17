@@ -83,3 +83,19 @@ mix_cols <- function(df, biz_mix, group_var, value_var, join_var = c("gender", "
   }
   z[, lapply(.SD, function(x) sum(x, na.rm = TRUE)), group_var, .SDcols = mix_var]
 }
+
+mix_cols_by_factor <- function(df, biz_mix, group_var = "vuw", factor_var = "kcd_n",
+                               value_var = c("cid", regmatch_cols(df, "clr")),
+                               join_var = c("gender", "age_band", "grade")) {
+  cat("Apply LOCF for missing values after dcasting by factor\n")
+  join_var <- match_cols(df, join_var)
+  group_join_var <- c(group_var, join_var)
+  group_factor_var <- c(group_var, factor_var)
+  all_var <- c(group_var, join_var, factor_var)
+  dt <- df[, .(factor_var = min(.SD):max(.SD)), keyby = group_join_var, .SDcols = factor_var]
+  setnames(dt, all_var)
+  dm <- df[dt, on = all_var]
+  dm[, (value_var) := lapply(.SD, function(x) nafill(x, type = "locf")),
+     .SDcols = value_var, keyby = group_join_var]
+  mix_cols(dm, biz_mix = biz_mix, group_var = group_factor_var, value_var = value_var)
+}
