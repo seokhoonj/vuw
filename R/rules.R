@@ -1,7 +1,7 @@
 
 apply_rules <- function(rule_info, df) {
   dm <- merge(df, rule_info, by = c("kcd"), all.x = TRUE, allow.cartesian = TRUE)
-  dm[!is.na(kcd) & age >= age_min & age <= age_max & hos >= hos_min & hos <= hos_max & sur >= sur_min & sur <= sur_max & elp > elp_min,
+  dm[!is.na(kcd) & age >= age_min & age <= age_max & hos >= hos_min & hos <= hos_max & sur >= sur_min & sur <= sur_max & elp >= elp_min,
      order_result := result]
   dm[!is.na(kcd) & is.na(order), `:=`(order = 0, order_result = "na")]
   dm[!is.na(kcd) & is.na(order_result), `:=`(order_result = "dec")]
