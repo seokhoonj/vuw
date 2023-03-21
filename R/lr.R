@@ -101,6 +101,7 @@ mix_cols_by_factor <- function(df, biz_mix, group_var = "vuw", factor_var = "kcd
     dt <- de[dt, on = group_var, allow.cartesian = T]
   } else {
     dt <- data.table(expand.grid(lapply(all_var, function(x) unique(df[[x]]))))
+    setnames(dt, all_var)
   }
   dm <- df[dt, on = all_var]
   dm[, (value_var) := lapply(.SD, function(x) nafill(x, type = "locf")),
