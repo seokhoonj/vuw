@@ -92,7 +92,7 @@ mix_cols_by_factor <- function(df, biz_mix, group_var = "vuw", factor_var = "kcd
   group_join_var <- c(group_var, join_var)
   group_factor_var <- c(group_var, factor_var)
   all_var <- c(group_var, join_var, factor_var)
-  if (is.numeric(factor_var)) {
+  if (is.numeric(df[[factor_var]])) {
     de <- data.table(expand.grid(lapply(group_join_var, function(x) unique(df[[x]]))))
     setnames(de, group_join_var)
     setorderv(de, group_join_var)
