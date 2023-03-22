@@ -260,6 +260,7 @@ draw_xlsx <- function(image, file, xy = c(1L, 1L), width = 12, height = 6, overw
     sheetName <- sprintf("Sheet %s", seq_along(image))
   lapply(seq_along(image), function(x) addWorksheet(wb = wb,
                                                     sheetName = sheetName[[x]], gridLines = FALSE))
+  reverse(xy)
   lapply(seq_along(image), function(x) {
     print(image[[x]]);
     insertPlot(wb, sheet = sheetName[[x]],
@@ -293,6 +294,7 @@ save_xlsx <- function(..., file, width = 12, height = 6, overwrite = FALSE) {
     if (is.ggplot(data[[1L]]))
       lapply(seq_along(data), function(x) {
         print(data[[x]])
+        reverse(xy)
         insertPlot(wb, sheet = sheetName[[x]], xy = xy, width = width, height = height)
       })
   }
