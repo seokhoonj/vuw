@@ -420,6 +420,8 @@ summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n_
   decl_sur_cnt <- decl_sur[, .(sur = uniqueN(get(from_var))), id_kcd_var]
   decl_elp_tot <- decl_all[, .(elp_tot = max(get(to_var))), id_var]
   decl_elp_tot[, `:=`(elp_tot, as.numeric(udate - elp_tot) + 1)]
+  decl_elp_hos_sur <- decl_all[type %in% c("hos", "sur"), .(elp_hos_sur = max(get(to_var))), id_kcd_var]
+  decl_elp_hos_sur[, `:=`(elp_hos_sur, as.numeric(udate - elp_hos_sur))]
   decl_elp <- decl_all[, .(elp = max(get(to_var))), id_kcd_var]
   decl_elp[, `:=`(elp, as.numeric(udate - elp))]
   z[decl_hos_tot, on = id_var, `:=`(hos_tot, i.hos_tot)]
@@ -429,6 +431,8 @@ summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n_
   z[decl_hos_sum, on = id_kcd_var, `:=`(hos, i.hos)]
   z[decl_sur_cnt, on = id_kcd_var, `:=`(sur, i.sur)]
   replace_na_with_zero(z)
+  z[decl_elp_hos_sur, on = id_kcd_var, `:=`(elp_hos_sur, i.elp_hos_sur)]
+  z[is.na(elp_hos_sur), `:=`(elp_hos_sur, as.numeric(udate - add_year(udate, -5)) + 1)]
   z[decl_elp, on = id_kcd_var, `:=`(elp, i.elp)]
   z[is.na(elp), `:=`(elp, as.numeric(udate - add_year(udate, -5)) + 1)]
   return(z[])
@@ -450,6 +454,8 @@ summarise_decl_ <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n
   decl_sur_cnt <- decl_sur[, .(sur = uniqueN(get(from_var))), id_kcd_var]
   decl_elp_tot <- decl_all[, .(elp_tot = max(get(to_var))), id_var]
   decl_elp_tot[, `:=`(elp_tot, as.numeric(udate - elp_tot) + 1)]
+  decl_elp_hos_sur <- decl_all[type %in% c("hos", "sur"), .(elp_hos_sur = max(get(to_var))), id_kcd_var]
+  decl_elp_hos_sur[, `:=`(elp_hos_sur, as.numeric(udate - elp_hos_sur))]
   decl_elp <- decl_all[, .(elp = max(get(to_var))), id_kcd_var]
   decl_elp[, `:=`(elp, as.numeric(udate - elp))]
   z[decl_hos_tot, on = id_var, `:=`(hos_tot, i.hos_tot)]
@@ -459,6 +465,8 @@ summarise_decl_ <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n
   z[decl_hos_sum, on = id_kcd_var, `:=`(hos, i.hos)]
   z[decl_sur_cnt, on = id_kcd_var, `:=`(sur, i.sur)]
   replace_na_with_zero(z)
+  z[decl_elp_hos_sur, on = id_kcd_var, `:=`(elp_hos_sur, i.elp_hos_sur)]
+  z[is.na(elp_hos_sur), `:=`(elp_hos_sur, as.numeric(udate - add_year(udate, -5)) + 1)]
   z[decl_elp, on = id_kcd_var, `:=`(elp, i.elp)]
   z[is.na(elp), `:=`(elp, as.numeric(udate - add_year(udate, -5)) + 1)]
   return(z[])
