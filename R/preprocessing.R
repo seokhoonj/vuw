@@ -400,13 +400,13 @@ limit_stay <- function(df, id_var, merge_var, from_var, to_var, deduction, limit
 }
 
 summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n_var, from_var, to_var, udate) {
-  id_var <- match_cols(decl_out, vapply(substitute(id_var), deparse, "character"))
-  kcd_var <- match_cols(decl_out, vapply(substitute(kcd_var), deparse, "character"))
-  kcd_n_var <- match_cols(decl_out, vapply(substitute(kcd_n_var), deparse, "character"))
+  id_var     <- match_cols(decl_out, vapply(substitute(id_var), deparse, "character"))
+  kcd_var    <- match_cols(decl_out, vapply(substitute(kcd_var), deparse, "character"))
+  kcd_n_var  <- match_cols(decl_out, vapply(substitute(kcd_n_var), deparse, "character"))
   id_kcd_var <- c(id_var, kcd_var)
-  from_var <- vapply(substitute(from_var), deparse, "character")
-  to_var <- vapply(substitute(to_var), deparse, "character")
-  decl_all <- rbindlist(list(decl_out, decl_hos, decl_sur), fill = TRUE)
+  from_var   <- vapply(substitute(from_var), deparse, "character")
+  to_var     <- vapply(substitute(to_var  ), deparse, "character")
+  decl_all   <- rbindlist(list(decl_out, decl_hos, decl_sur), fill = TRUE)
   decl_all_kcd <- unique(decl_all[, ..id_kcd_var])
   decl_all_kcd_n <- decl_all[, .(kcd_n = uniqueN(get(kcd_n_var))), id_var]
   col_n <- sprintf("%s_n", kcd_var)
@@ -420,6 +420,8 @@ summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n_
   decl_sur_cnt <- decl_sur[, .(sur = uniqueN(get(from_var))), id_kcd_var]
   decl_elp_tot <- decl_all[, .(elp_tot = max(get(to_var))), id_var]
   decl_elp_tot[, `:=`(elp_tot, as.numeric(udate - elp_tot) + 1)]
+  decl_elp_tot_hos_sur <- decl_all[type %in% c("hos", "sur"), .(elp_tot_hos_sur = max(get(to_var))), id_kcd_var]
+  decl_elp_tot_hos_sur[, `:=`(elp_tot_hos_sur, as.numeric(udate - elp_tot_hos_sur))]
   decl_elp_hos_sur <- decl_all[type %in% c("hos", "sur"), .(elp_hos_sur = max(get(to_var))), id_kcd_var]
   decl_elp_hos_sur[, `:=`(elp_hos_sur, as.numeric(udate - elp_hos_sur))]
   decl_elp <- decl_all[, .(elp = max(get(to_var))), id_kcd_var]
