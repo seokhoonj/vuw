@@ -206,7 +206,7 @@ write_data <- function(wb, sheet, data, rc = c(1L, 1L), rowNames = TRUE,
 
   writeData(wb = wb, sheet = sheet, x = data, xy = rev(rc), rowNames = rowNames)
 
-  startCell <- rev(rc)
+  startCell <- rc
   endCell   <- startCell + dim(data)
 
   srow <- startCell[1L]
