@@ -304,6 +304,7 @@ export(di_cell)
 export(get_rp_table)
 export(write_data)
 export(write_xlsx)
+export(draw_image)
 export(draw_xlsx)
 export(save_xlsx)
 
