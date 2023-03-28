@@ -156,7 +156,7 @@ get_rp_table <- function(xlsxFile, sheet, risk_range, rate_range, skipEmptyRows 
   return(z)
 }
 
-write_data <- function(wb, sheet, data, xy = c(1L, 1L), rowNames = TRUE,
+write_data <- function(wb, sheet, data, rc = c(1L, 1L), rowNames = TRUE,
                        fontName = "Malgun Gothic", borderColour = "#4F81BD",
                        widths = 8.43) {
   headerStyle1 <- createStyle(
@@ -204,9 +204,9 @@ write_data <- function(wb, sheet, data, xy = c(1L, 1L), rowNames = TRUE,
     borderStyle = c("thin", "thick")
   )
 
-  writeData(wb = wb, sheet = sheet, x = data, xy = xy, rowNames = rowNames)
+  writeData(wb = wb, sheet = sheet, x = data, xy = rev(rc), rowNames = rowNames)
 
-  startCell <- xy
+  startCell <- rev(rc)
   endCell   <- startCell + dim(data)
 
   srow <- startCell[1L]
@@ -239,7 +239,7 @@ write_data <- function(wb, sheet, data, xy = c(1L, 1L), rowNames = TRUE,
   setColWidths(wb, sheet, cols = headerCols, widths = widths)
 }
 
-write_xlsx <- function(data, file, xy = c(1L, 1L), overwrite = FALSE) {
+write_xlsx <- function(data, file, rc = c(1L, 1L), overwrite = FALSE) {
   wb <- createWorkbook()
   if (is.data.frame(data))
     data <- list(data)
@@ -249,16 +249,16 @@ write_xlsx <- function(data, file, xy = c(1L, 1L), overwrite = FALSE) {
   lapply(seq_along(data), function(x)
     addWorksheet(wb = wb, sheetName = sheetName[[x]], gridLines = FALSE))
   lapply(seq_along(data), function(x)
-    write_data(wb, sheet = sheetName[[x]], data = data[[x]], xy = xy, rowNames = FALSE))
+    write_data(wb, sheet = sheetName[[x]], data = data[[x]], xy = rev(rc), rowNames = FALSE))
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
 }
 
-draw_image <- function(wb, sheet, image, xy = c(1L, 1L), width = 12, height = 6) {
+draw_image <- function(wb, sheet, image, rc = c(1L, 1L), width = 12, height = 6) {
   print(image)
-  insertPlot(wb, sheet = sheet, width = width, height = height, xy = rev(xy))
+  insertPlot(wb, sheet = sheet, width = width, height = height, xy = rev(rc))
 }
 
-draw_xlsx <- function(image, file, xy = c(1L, 1L), width = 12, height = 6, overwrite = FALSE) {
+draw_xlsx <- function(image, file, rc = c(1L, 1L), width = 12, height = 6, overwrite = FALSE) {
   wb <- createWorkbook()
   if (class(image)[[1L]] == "gg")
     image <- list(image)
@@ -268,7 +268,7 @@ draw_xlsx <- function(image, file, xy = c(1L, 1L), width = 12, height = 6, overw
   lapply(seq_along(image), function(x) addWorksheet(wb = wb,
                                                     sheetName = sheetName[[x]], gridLines = FALSE))
   lapply(seq_along(image), function(x) {
-    draw_image(wb, sheet = sheetName[[x]], image = image[[x]], xy, width = width, height = height)
+    draw_image(wb, sheet = sheetName[[x]], image = image[[x]], rc = rc, width = width, height = height)
   })
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
 }
@@ -292,12 +292,14 @@ save_xlsx <- function(..., file, width = 12, height = 6, overwrite = FALSE) {
     data <- data_list[[i]][[1L]]
     if (is.data.frame(data) | is.ggplot(data))
       data <- list(data)
-    xy <- if (length(data_list[[i]]) == 2) data_list[[i]][[2L]] else c(1, 1)
+    rc <- if (length(data_list[[i]]) == 2) data_list[[i]][[2L]] else c(1, 1)
     if (is.data.frame(data[[1L]]))
-      lapply(seq_along(data), function(x) write_data(wb, sheet = sheetName[[x]], data = data[[x]], xy = xy, rowNames = FALSE))
+      lapply(seq_along(data), function(x) {
+        write_data(wb, sheet = sheetName[[x]], data = data[[x]], rc = rc, rowNames = FALSE)
+      })
     if (is.ggplot(data[[1L]]))
       lapply(seq_along(data), function(x) {
-        draw_image(wb, sheet = sheetName[[x]], image = data[[x]], xy = xy, width = width, height = height)
+        draw_image(wb, sheet = sheetName[[x]], image = data[[x]], rc = rc, width = width, height = height)
       })
   }
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
