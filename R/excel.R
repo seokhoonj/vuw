@@ -303,7 +303,7 @@ save_xlsx <- function(..., file, width = 12, height = 6, overwrite = FALSE) {
     rc <- if (length(data_list[[i]]) == 2) data_list[[i]][[2L]] else c(1, 1)
     if (is.data.frame(data[[1L]]))
       lapply(seq_along(data), function(x) {
-        write_data(wb, sheet = sheetName[[x]], data = data[[x]],
+        write_data(wb, sheet = dataSheetName[[x]], data = data[[x]],
                    rc = rc, rowNames = FALSE)
       })
     if (is.ggplot(data[[1L]]))
