@@ -294,7 +294,7 @@ save_xlsx <- function(..., file, width = 12, height = 6, overwrite = FALSE) {
       data <- list(data)
     xy <- if (length(data_list[[i]]) == 2) data_list[[i]][[2L]] else c(1, 1)
     if (is.data.frame(data[[1L]]))
-      lapply(seq_along(data), function(x) write_data(wb, sheet = sheetName[[x]], x = data[[x]], xy = xy, rowNames = FALSE))
+      lapply(seq_along(data), function(x) write_data(wb, sheet = sheetName[[x]], data = data[[x]], xy = xy, rowNames = FALSE))
     if (is.ggplot(data[[1L]]))
       lapply(seq_along(data), function(x) {
         draw_image(wb, sheet = sheetName[[x]], image = data[[x]], xy = xy, width = width, height = height)
