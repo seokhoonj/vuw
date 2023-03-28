@@ -287,22 +287,30 @@ save_xlsx <- function(..., file, width = 12, height = 6, overwrite = FALSE) {
       dataSheetName <- sprintf("Sheet %s", seq_along(data))
     sheetName <- c(sheetName, dataSheetName)
   }
-  sheetName <- sort(unique(sheetName))
-  lapply(seq_along(sheetName), function(x) addWorksheet(wb = wb, sheetName = sheetName[[x]], gridLines = FALSE))
+  sheetName <- unique(sheetName)
+  lapply(seq_along(sheetName), function(x) {
+    addWorksheet(wb = wb, sheetName = sheetName[[x]], gridLines = FALSE)
+  })
   for (i in seq_along(data_list)) {
     data <- data_list[[i]][[1L]]
+    if (is.data.frame(data) | is.ggplot(data))
+      data <- list(data)
+    dataSheetName <- names(data)
+    if (is.null(dataSheetName))
+      dataSheetName <- sprintf("Sheet %s", seq_along(data))
     if (is.data.frame(data) | is.ggplot(data))
       data <- list(data)
     rc <- if (length(data_list[[i]]) == 2) data_list[[i]][[2L]] else c(1, 1)
     if (is.data.frame(data[[1L]]))
       lapply(seq_along(data), function(x) {
-        write_data(wb, sheet = sheetName[[x]], data = data[[x]], rc = rc, rowNames = FALSE)
+        write_data(wb, sheet = sheetName[[x]], data = data[[x]],
+                   rc = rc, rowNames = FALSE)
       })
     if (is.ggplot(data[[1L]]))
       lapply(seq_along(data), function(x) {
-        draw_image(wb, sheet = sheetName[[x]], image = data[[x]], rc = rc, width = width, height = height)
+        draw_image(wb, sheet = dataSheetName[[x]], image = data[[x]],
+                   rc = rc, width = width, height = height)
       })
   }
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
 }
-
