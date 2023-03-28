@@ -249,7 +249,7 @@ write_xlsx <- function(data, file, rc = c(1L, 1L), overwrite = FALSE) {
   lapply(seq_along(data), function(x)
     addWorksheet(wb = wb, sheetName = sheetName[[x]], gridLines = FALSE))
   lapply(seq_along(data), function(x)
-    write_data(wb, sheet = sheetName[[x]], data = data[[x]], xy = rev(rc), rowNames = FALSE))
+    write_data(wb, sheet = sheetName[[x]], data = data[[x]], rc = rc, rowNames = FALSE))
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
 }
 
@@ -265,10 +265,11 @@ draw_xlsx <- function(image, file, rc = c(1L, 1L), width = 12, height = 6, overw
   sheetName <- names(image)
   if (is.null(sheetName))
     sheetName <- sprintf("Sheet %s", seq_along(image))
-  lapply(seq_along(image), function(x) addWorksheet(wb = wb,
-                                                    sheetName = sheetName[[x]], gridLines = FALSE))
   lapply(seq_along(image), function(x) {
-    draw_image(wb, sheet = sheetName[[x]], image = image[[x]], rc = rc, width = width, height = height)
+    addWorksheet(wb = wb, sheetName = sheetName[[x]], gridLines = FALSE)
+  })
+  lapply(seq_along(image), function(x) {
+    draw_image(wb = wb, sheet = sheetName[[x]], image = image[[x]], rc = rc, width = width, height = height)
   })
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
 }
