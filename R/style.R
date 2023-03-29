@@ -4,11 +4,11 @@ pad0 <- function(x, width = 14) str_pad(x, width = width, pad = " ")
 decimal <- function(x, digit = 1) sprintf(paste0("%.", digit, "f"), x)
 
 theme_view <- function(family = "Malgun Gothic",
-                       x.size  = NULL  , y.size = NULL  , t.size = NULL  , s.size = NULL,
+                       x.size  =   NULL, y.size =   NULL, t.size =   NULL, s.size =   NULL,
                        x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
-                       x.angle = 0, y.angle = 0, # y.comma = TRUE,
-                       x.hjust = 0, x.vjust = 0,
-                       y.hjust = 0, y.vjust = 0,
+                       x.angle =    0, y.angle =    0, # y.comma = TRUE,
+                       x.hjust = NULL, x.vjust = NULL,
+                       y.hjust = NULL, y.vjust = NULL,
                        legend.position = "right") {
   list(
     theme(
@@ -24,11 +24,11 @@ theme_view <- function(family = "Malgun Gothic",
 }
 
 theme_shiny <- function(family = "Malgun Gothic",
-                        x.size  = 12    , y.size = 12  , t.size = 17    , s.size = 17,
+                        x.size  =     12, y.size =     12, t.size =     17, s.size =     17,
                         x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
-                        x.angle = 0, y.angle = 0, # y.comma = TRUE,
-                        x.hjust = 0, x.vjust = 0,
-                        y.hjust = 0, y.vjust = 0,
+                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
+                        x.hjust = NULL, x.vjust = NULL,
+                        y.hjust = NULL, y.vjust = NULL,
                         legend.position = "right") {
   list(
     theme(
@@ -44,11 +44,11 @@ theme_shiny <- function(family = "Malgun Gothic",
 }
 
 theme_save <- function(family = "Malgun Gothic",
-                       x.size  = 12    , y.size = 12    , t.size = 14    , s.size = 14,
+                       x.size  =   12  , y.size =     12, t.size =     14, s.size =     14,
                        x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
-                       x.angle = 0, y.angle = 0, # y.comma = TRUE,
-                       x.hjust = 0, x.vjust = 0,
-                       y.hjust = 0, y.vjust = 0,
+                       x.angle =    0, y.angle =    0, # y.comma = TRUE,
+                       x.hjust = NULL, x.vjust = NULL,
+                       y.hjust = NULL, y.vjust = NULL,
                        legend.position = "right") {
   list(
     theme(
