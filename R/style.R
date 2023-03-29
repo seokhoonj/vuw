@@ -7,7 +7,7 @@ theme_view <- function(family = "Malgun Gothic",
                        x.size  =   NULL, y.size =   NULL, t.size =   NULL, s.size =   NULL,
                        x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
-                       x.hjust = NULL, x.vjust = NULL,
+                       x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
                        legend.position = "right") {
   list(
@@ -27,7 +27,7 @@ theme_shiny <- function(family = "Malgun Gothic",
                         x.size  =     12, y.size =     12, t.size =     17, s.size =     17,
                         x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
                         x.angle =    0, y.angle =    0, # y.comma = TRUE,
-                        x.hjust = NULL, x.vjust = NULL,
+                        x.hjust =   .5, x.vjust =   .5,
                         y.hjust = NULL, y.vjust = NULL,
                         legend.position = "right") {
   list(
@@ -47,7 +47,7 @@ theme_save <- function(family = "Malgun Gothic",
                        x.size  =   12  , y.size =     12, t.size =     14, s.size =     14,
                        x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
-                       x.hjust = NULL, x.vjust = NULL,
+                       x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
                        legend.position = "right") {
   list(
