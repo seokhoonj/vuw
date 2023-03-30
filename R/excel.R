@@ -300,7 +300,9 @@ save_xlsx <- function(..., file, width = 12, height = 6, overwrite = FALSE) {
       dataSheetName <- sprintf("Sheet %s", seq_along(data))
     if (is.data.frame(data) | is.ggplot(data))
       data <- list(data)
-    rc <- if (length(data_list[[i]]) == 2) data_list[[i]][[2L]] else c(1, 1)
+    rc <- if (length(data_list[[i]]) >= 2) data_list[[i]][[2L]] else c(1, 1)
+    w  <- if (length(data_list[[i]]) >= 3) data_list[[i]][[3L]] else width
+    h  <- if (length(data_list[[i]]) == 4) data_list[[i]][[4L]] else height
     if (is.data.frame(data[[1L]]))
       lapply(seq_along(data), function(x) {
         write_data(wb, sheet = dataSheetName[[x]], data = data[[x]],
@@ -309,7 +311,7 @@ save_xlsx <- function(..., file, width = 12, height = 6, overwrite = FALSE) {
     if (is.ggplot(data[[1L]]))
       lapply(seq_along(data), function(x) {
         draw_image(wb, sheet = dataSheetName[[x]], image = data[[x]],
-                   rc = rc, width = width, height = height)
+                   rc = rc, width = w, height = h)
       })
   }
   saveWorkbook(wb = wb, file = file, overwrite = overwrite)
