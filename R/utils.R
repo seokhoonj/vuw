@@ -219,6 +219,8 @@ join <- function(..., by, all = FALSE, all.x = all, all.y = all, sort = TRUE) {
   Reduce(function(...) merge(..., by = by, all = all, all.x = all.x, all.y = all.y, sort = sort), list(...))
 }
 
+expand.grid.df <- function(...) Reduce(function(...) merge(..., by = NULL), list(...))
+
 minmax_scaler <- function(x) if (length(x) > 1) (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)) else 0
 
 # vector ------------------------------------------------------------------
