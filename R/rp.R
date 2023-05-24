@@ -102,7 +102,7 @@ create_rp_matrix <- function(risk_info, claim_info, igender, iage, igrade, mon, 
         dimnames = list(NULL, rider_info$risk[i])
       )
     }
-    z <- row_sum_by_cn(do.call("cbind", risk_list))
+    z <- row_min_by_cn(do.call("cbind", risk_list))
     if (type[[1L]] == "rider")
       z <- structure(colvec(row_sum(z)), dimnames = list(NULL, urn[j]))
     rider_list[[j]] <- z
