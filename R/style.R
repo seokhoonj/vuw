@@ -3,7 +3,7 @@ pad  <- function(x, width =  2) str_pad(x, width = width, pad = "0")
 pad0 <- function(x, width = 14) str_pad(x, width = width, pad = " ")
 decimal <- function(x, digit = 1) sprintf(paste0("%.", digit, "f"), x)
 
-theme_view <- function(family = "Malgun Gothic",
+theme_view <- function(family = "Comic Sans MS",
                        x.size  =   NULL , y.size =    NULL, t.size =    NULL, s.size =    NULL, l.size =    NULL,
                        x.face  = "plain", y.face = "plain", t.face = "plain", s.face = "plain", l.face = "plain",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
@@ -26,8 +26,8 @@ theme_view <- function(family = "Malgun Gothic",
 }
 
 theme_shiny <- function(family = "Malgun Gothic",
-                        x.size  =     12, y.size =     12, t.size =     17, s.size =     17,
-                        x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
+                        x.size  =      12, y.size =      12, t.size =      12, s.size =      12, l.size =      12,
+                        x.face  = "plain", y.face = "plain", t.face = "plain", s.face = "plain", l.face = "plain",
                         x.angle =    0, y.angle =    0, # y.comma = TRUE,
                         x.hjust =   .5, x.vjust =   .5,
                         y.hjust = NULL, y.vjust = NULL,
@@ -39,15 +39,17 @@ theme_shiny <- function(family = "Malgun Gothic",
       strip.text.x = element_text(size = s.size, face = s.face),
       axis.text.x  = element_text(size = x.size, face = x.face, angle = x.angle, hjust = x.hjust, vjust = x.vjust),
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
+      legend.title = element_text(size = l.size, face = l.face),
+      legend.text  = element_text(size = l.size, face = l.face),
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
   )
 }
 
-theme_save <- function(family = "Malgun Gothic",
-                       x.size  =   12  , y.size =     12, t.size =     14, s.size =     14,
-                       x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
+theme_save <- function(family = "Comic Sans MS",
+                       x.size  =      12, y.size =      12, t.size =      14, s.size =      14, l.size =      12,
+                       x.face  = "plain", y.face = "plain", t.face = "plain", s.face = "plain", l.face = "plain",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
                        x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
@@ -59,6 +61,8 @@ theme_save <- function(family = "Malgun Gothic",
       strip.text.x = element_text(size = s.size, face = s.face),
       axis.text.x  = element_text(size = x.size, face = x.face, angle = x.angle, hjust = x.hjust, vjust = x.vjust),
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
+      legend.title = element_text(size = l.size, face = l.face),
+      legend.text  = element_text(size = l.size, face = l.face),
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
