@@ -4,8 +4,8 @@ pad0 <- function(x, width = 14) str_pad(x, width = width, pad = " ")
 decimal <- function(x, digit = 1) sprintf(paste0("%.", digit, "f"), x)
 
 theme_view <- function(family = "Malgun Gothic",
-                       x.size  =   NULL, y.size =   NULL, t.size =   NULL, s.size =   NULL,
-                       x.face  = "bold", y.face = "bold", t.face = "bold", s.face = "bold",
+                       x.size  =   NULL , y.size =    NULL, t.size =    NULL, s.size =    NULL, l.size =    NULL,
+                       x.face  = "plain", y.face = "plain", t.face = "plain", s.face = "plain", l.face = "plain",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
                        x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
@@ -17,6 +17,8 @@ theme_view <- function(family = "Malgun Gothic",
       strip.text.x = element_text(size = s.size, face = s.face),
       axis.text.x  = element_text(size = x.size, face = x.face, angle = x.angle, hjust = x.hjust, vjust = x.vjust),
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
+      legend.title = element_text(size = l.size, face = l.face),
+      legend.text  = element_text(size = l.size, face = l.face),
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
