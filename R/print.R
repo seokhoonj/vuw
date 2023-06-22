@@ -108,7 +108,7 @@ aprint <- function(x, hchar = 4, vchar = 16) {
 }
 
 ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
-                  label, family = "Malgun Gothic", size = 4, angle = 0, hjust = .5, vjust = .5) {
+                  label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
   group <- deparse(substitute(group))
@@ -126,7 +126,7 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NU
 }
 
 ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
-                   label, family = "Malgun Gothic", size = 4, angle = 0, hjust = .5, vjust = .5) {
+                   label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
   ggplot(data = data, aes_string(
     x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
@@ -138,7 +138,7 @@ ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = N
 }
 
 ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
-                   label, linetype = "solid", family = "Malgun Gothic",
+                   label, linetype = "solid", family = "Comic Sans MS",
                    size = 4, angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
@@ -156,7 +156,7 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = N
 }
 
 ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
-                    label, linetype = "solid", family = "Malgun Gothic",
+                    label, linetype = "solid", family = "Comic Sans MS",
                     size = 4, angle = 0, hjust = .5, vjust = .5) {
   ggplot(data = data, aes_string(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
     geom_line(linetype = linetype) + list(
@@ -167,7 +167,7 @@ ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = 
       })
 }
 
-ggdensity <- function(data, x, facet, probs = .95, logscale = F, scales = "free_y") {
+ggdensity <- function(data, x, facet, probs = .95, logscale = F, scales = "free_y", family = "Comic Sans MS") {
   x <- match_cols(data, vapply(substitute(x), deparse, "character"))
   if (logscale)
     data[[x]] <- log(data[[x]] + 1)
@@ -212,10 +212,10 @@ ggdensity <- function(data, x, facet, probs = .95, logscale = F, scales = "free_
     list(
       if (logscale) {
         geom_text(data = cutoff_data,
-                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1)), group = area), hjust = -0.1, vjust = 2)
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1)), group = area), family = family, hjust = -0.1, vjust = 2)
       } else {
         geom_text(data = cutoff_data,
-                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff)), group = area), hjust = -0.1, vjust = 2)
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff)), group = area), family = family, hjust = -0.1, vjust = 2)
       }) +
     geom_vline(data = cutoff_data, aes(xintercept = cutoff), color = "red", linetype = "dashed") +
     list(
@@ -226,7 +226,7 @@ ggdensity <- function(data, x, facet, probs = .95, logscale = F, scales = "free_
     ylab("density")
 }
 
-ggdensity_ <- function(data, x, facet, probs = .95, logscale = F, scales = "free_y") {
+ggdensity_ <- function(data, x, facet, probs = .95, logscale = F, scales = "free_y", family = "Comic Sans MS") {
   if (logscale)
     data[[x]] <- log(data[[x]] + 1)
   if (missing(facet)) {
@@ -269,10 +269,10 @@ ggdensity_ <- function(data, x, facet, probs = .95, logscale = F, scales = "free
     list(
       if (logscale) {
         geom_text(data = cutoff_data,
-                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1)), group = area), hjust = -0.1, vjust = 2)
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1)), group = area), family = family, hjust = -0.1, vjust = 2)
       } else {
         geom_text(data = cutoff_data,
-                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff)), group = area), hjust = -0.1, vjust = 2)
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff)), group = area), family = family, hjust = -0.1, vjust = 2)
       }) +
     geom_vline(data = cutoff_data, aes(xintercept = cutoff), color = "red", linetype = "dashed") +
     list(
@@ -283,7 +283,7 @@ ggdensity_ <- function(data, x, facet, probs = .95, logscale = F, scales = "free
     ylab("density")
 }
 
-ggpie <- function(data, y, group, size = 4, unit = 100, round = 1) {
+ggpie <- function(data, y, group, family = "Comic Sans MS", size = 4, unit = 100, round = 1) {
   y <- deparse(substitute(y))
   group <- deparse(substitute(group))
   data[[y]] <- round(data[[y]] * unit, round)
@@ -291,17 +291,17 @@ ggpie <- function(data, y, group, size = 4, unit = 100, round = 1) {
     geom_bar(stat = "identity")+
     coord_polar("y", start = 0) +
     geom_text(aes_string(label = sprintf("%s", y)),
-              position = position_stack(vjust = .5), size = size) +
+              position = position_stack(vjust = .5), family = family, size = size) +
     theme_void()
 }
 
-ggpie_ <- function(data, y, group, size = 4, unit = 100, round = 1) {
+ggpie_ <- function(data, y, group, family = "Comic Sans MS", size = 4, unit = 100, round = 1) {
   data[[y]] <- round(data[[y]] * unit, round)
   ggplot(data, aes_string(x = 0, y = y, group = group, fill = group))+
     geom_bar(stat = "identity")+
     coord_polar("y", start = 0) +
     geom_text(aes_string(label = sprintf("%s", y)),
-              position = position_stack(vjust = .5), size = size) +
+              position = position_stack(vjust = .5), family = family, size = size) +
     theme_void()
 }
 
