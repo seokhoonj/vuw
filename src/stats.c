@@ -491,6 +491,7 @@ SEXP row_max_by_cn(SEXP x, SEXP g, SEXP uniqueg, SEXP snarm, SEXP minval) {
   int n, p, ng, narm;
   HashData data = { 0 };
   data.nomatch = 0;
+
   n = LENGTH(g);
   ng = length(uniqueg);
   narm = asLogical(snarm);

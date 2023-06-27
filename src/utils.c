@@ -1,6 +1,6 @@
 #include "vuw.h"
 
-SEXP fillValue(SEXP x, int value) {
+SEXP fillValue(SEXP x, double value) {
   R_xlen_t i, n;
   n = XLENGTH(x);
   switch(TYPEOF(x)) {
@@ -9,7 +9,7 @@ SEXP fillValue(SEXP x, int value) {
     if (value == 0) {
       memset(ix, 0, n * sizeof(int));
     } else {
-      for (i = 0; i < n; ++i) ix[i] = value;
+      for (i = 0; i < n; ++i) ix[i] = (int) value;
     }
   } break;
   case REALSXP:{
@@ -17,7 +17,7 @@ SEXP fillValue(SEXP x, int value) {
     if (value == 0) {
       memset(ix, 0, n * sizeof(double));
     } else {
-      for (i = 0; i < n; ++i) ix[i] = (double) value;
+      for (i = 0; i < n; ++i) ix[i] = value;
     }
   } break;
   default:

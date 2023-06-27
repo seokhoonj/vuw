@@ -52,7 +52,7 @@ extern "C" {
 #endif
 
 SEXP printArray(SEXP x);
-SEXP fillValue(SEXP x, int value);
+SEXP fillValue(SEXP x, double value);
 SEXP dupVecR(SEXP x, SEXP uniq, SEXP fromLast);
 SEXP iunique(int arr[], size_t n);
 
