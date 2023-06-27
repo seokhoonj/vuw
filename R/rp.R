@@ -22,7 +22,7 @@ fill_risk_info_age <- function(risk_info) {
 }
 
 join_info <- function(risk_info, claim_info) {
-  tot_info <- risk_info[claim_info, on = .(risk)]
+  tot_info <- risk_info[claim_info, on = .(risk), allow.cartesian = T, nomatch = 0]
   tot_info[risk_info, on = .(risk2 = risk, age = age, gender = gender),
            rate2 := i.rate]
   # remove the risk having several payment condition
