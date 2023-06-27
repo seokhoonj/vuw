@@ -115,7 +115,7 @@ get_rider_info <- function(claim_info) {
   unique(claim_info[, .(rn, main_category, sub_category, rider_category, rider, proportion)])
 }
 
-risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10, logscale = FALSE, facet = TRUE, max_label = TRUE) {
+risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10, logscale = FALSE, facet = TRUE, max_label = TRUE, family = "Comic Sans MS") {
   assert_class(risk_info$gender, "factor")
   if (missing(x)) {
     hprint(unique(risk_info[, .(risk)]))
@@ -142,7 +142,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
     g <- ggplot(risk_info, aes(x = age, y = log(rate), group = gender, col = gender)) +
       geom_line() +
       list(if (max_label) {
-        geom_label(data = risk_info_b, aes(label = label), colour = "black", alpha = .3, hjust = -.1, vjust = 1.2)
+        geom_label(data = risk_info_b, aes(label = label), family = family, colour = "black", alpha = .3, hjust = -.1, vjust = 1.2)
       }) +
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
@@ -154,7 +154,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
     g <- ggplot(risk_info, aes(x = age, y = rate, group = gender, col = gender)) +
       geom_line() +
       list(if (max_label) {
-        geom_label(data = risk_info_b, aes(label = label), colour = "black", alpha = .3, hjust = -.1, vjust = 1.2)
+        geom_label(data = risk_info_b, aes(label = label), family = family, colour = "black", alpha = .3, hjust = -.1, vjust = 1.2)
       }) +
       scale_gender_manual(risk_info$gender) +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
@@ -167,7 +167,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
 }
 
 ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
-                       scales = "fixed", age_unit = 10, plot = TRUE) {
+                       scales = "fixed", age_unit = 10, plot = TRUE, family = "Comic Sans MS") {
   x <- risk_info[risk == risk1]
   y <- risk_info[risk == risk2]
   z <- merge(x, y, by = c("gender", "age"), all.x = TRUE)
