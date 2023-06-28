@@ -1,6 +1,20 @@
 
 # utils -------------------------------------------------------------------
 
+add_folder <- function(folder = c("R", "info", "raw", "data", "output")) {
+  width <- max(nchar(folder))
+  for (i in seq_along(folder)) {
+    if (!file.exists(folder[i])) {
+      dir.create(folder[i])
+      cat(sprintf("%s folder is created\n",
+                  str_pad(folder[i], width = width, side = "right")))
+    } else {
+      cat(sprintf("%s folder is already exists\n",
+                  str_pad(folder[i], width = width, side = "right")))
+    }
+  }
+}
+
 get_options <- function(param) {
   opt_names <- names(options())
   sub_names <- opt_names[grepl(param, opt_names)]
