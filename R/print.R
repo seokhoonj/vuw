@@ -111,15 +111,16 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NU
                   label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
-  group <- deparse(substitute(group))
-  color <- deparse(substitute(color))
-  fill  <- deparse(substitute(fill))
-  ggplot(data = data, aes_string(
-    x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
+  group <- if (!is.null(substitute(group))) deparse(substitute(group))
+  color <- if (!is.null(substitute(color))) deparse(substitute(color))
+  fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+                 function(x) if (!is.null(x)) sym(x))
+  ggplot(data = data, aes(!!!args)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
       if (!missing(label)) {
         label <- deparse(substitute(label))
-        geom_text(aes_string(label = label),
+        geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
                   family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
       })
@@ -127,11 +128,12 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NU
 
 ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
                    label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
-  ggplot(data = data, aes_string(
-    x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+                 function(x) if (!is.null(x)) sym(x))
+  ggplot(data = data, aes(!!!args)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
       if (!missing(label)) {
-        geom_text(aes_string(label = label),
+        geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
                   family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
       })
@@ -175,14 +177,16 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = N
                    size = 4, angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
-  group <- deparse(substitute(group))
-  color <- deparse(substitute(color))
-  fill <- deparse(substitute(fill))
-  ggplot(data = data, aes_string(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
+  group <- if (!is.null(substitute(group))) deparse(substitute(group))
+  color <- if (!is.null(substitute(color))) deparse(substitute(color))
+  fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+                 function(x) if (!is.null(x)) sym(x))
+  ggplot(data = data, aes(!!!args)) +
     geom_line(linetype = linetype) + list(
       if (!missing(label)) {
         label <- deparse(substitute(label))
-        geom_text(aes_string(label = label),
+        geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
                   family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
       })
@@ -191,10 +195,12 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = N
 ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
                     label, linetype = "solid", family = "Comic Sans MS",
                     size = 4, angle = 0, hjust = .5, vjust = .5) {
-  ggplot(data = data, aes_string(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill)) +
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+                 function(x) if (!is.null(x)) sym(x))
+  ggplot(data = data, aes(!!!args)) +
     geom_line(linetype = linetype) + list(
       if (!missing(label)) {
-        geom_text(aes_string(label = label),
+        geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
                   family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
       })
@@ -320,20 +326,20 @@ ggpie <- function(data, y, group, family = "Comic Sans MS", size = 4, unit = 100
   y <- deparse(substitute(y))
   group <- deparse(substitute(group))
   data[[y]] <- round(data[[y]] * unit, round)
-  ggplot(data, aes_string(x = 0, y = y, group = group, fill = group))+
+  ggplot(data, aes(x = 0, y = .data[[y]], group = .data[[group]], fill = .data[[group]]))+
     geom_bar(stat = "identity")+
     coord_polar("y", start = 0) +
-    geom_text(aes_string(label = sprintf("%s", y)),
+    geom_text(aes(label = sprintf("%s", data[[y]])),
               position = position_stack(vjust = .5), family = family, size = size) +
     theme_void()
 }
 
 ggpie_ <- function(data, y, group, family = "Comic Sans MS", size = 4, unit = 100, round = 1) {
   data[[y]] <- round(data[[y]] * unit, round)
-  ggplot(data, aes_string(x = 0, y = y, group = group, fill = group))+
+  ggplot(data, aes_string(x = 0, y = .data[[y]], group = .data[[group]], fill = .data[[group]]))+
     geom_bar(stat = "identity")+
     coord_polar("y", start = 0) +
-    geom_text(aes_string(label = sprintf("%s", y)),
+    geom_text(aes(label = sprintf("%s", .data[[y]])),
               position = position_stack(vjust = .5), family = family, size = size) +
     theme_void()
 }
