@@ -137,6 +137,39 @@ ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = N
       })
 }
 
+ggmix <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
+                  color = NULL, fill = NULL, label, family = "Comic Sans MS",
+                  size = 4, angle = 0, hjust = 0.5, vjust = 0.5) {
+  x     <- deparse(substitute(x))
+  y     <- deparse(substitute(y))
+  group <- if (!is.null(substitute(group))) deparse(substitute(group))
+  color <- if (!is.null(substitute(color))) deparse(substitute(color))
+  fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+                 function(x) if (!is.null(x)) sym(x))
+  ggplot(data = data, aes(!!!args)) +
+    geom_bar(stat = "identity", position = position_stack(vjust = 0.5)) +
+    list(if (!missing(label)) {
+      label <- deparse(substitute(label))
+      geom_text(aes(label = .data[[label]]), position = position_stack(vjust = 0.5), family = family, size = size,
+                angle = angle, hjust = hjust, vjust = vjust)
+    })
+}
+
+ggmix_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
+                   color = NULL, fill = NULL, label, family = "Comic Sans MS",
+                   size = 4, angle = 0, hjust = 0.5, vjust = 0.5) {
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+                 function(x) if (!is.null(x)) sym(x))
+  ggplot(data = data, aes(!!!args)) +
+    geom_bar(stat = "identity", position = position_stack(vjust = 0.5)) +
+    list(if (!missing(label)) {
+      geom_text(aes(label = .data[[label]]), position = position_stack(vjust = 0.5), family = family, size = size,
+                angle = angle, hjust = hjust, vjust = vjust)
+    })
+}
+
+
 ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
                    label, linetype = "solid", family = "Comic Sans MS",
                    size = 4, angle = 0, hjust = .5, vjust = .5) {
