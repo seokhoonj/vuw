@@ -344,6 +344,12 @@ ggpie_ <- function(data, y, group, family = "Comic Sans MS", size = 4, unit = 10
     theme_void()
 }
 
+get_legend <- function(plot) {
+  gtable <- ggplot_gtable(ggplot_build(plot))
+  guide <- which(sapply(gtable$grobs, function(x) x$name) == "guide-box")
+  return(gtable$grobs[[guide]])
+}
+
 data2treemap <- function(df, group_var, value_var, fig = TRUE, add_names = FALSE, sep = " / ") {
   assert_class(df, "data.table")
   group_cols <- match_cols(df, vapply(substitute(group_var), deparse, "character"))
