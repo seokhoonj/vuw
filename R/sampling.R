@@ -1,6 +1,10 @@
 
 # sampling ----------------------------------------------------------------
 
+random_sampling <- function(x, size, replace = TRUE, prob = NULL) {
+  x[sample.int(length(x), size, replace, prob)]
+}
+
 #' Stratified Sampling
 #'
 #' Common stratified sampling technique
