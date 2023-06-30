@@ -9,6 +9,8 @@ theme_view <- function(family = "Comic Sans MS",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
                        x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
+		       legend.key.height = NULL,
+		       legend.key.width = NULL,
                        legend.position = "right") {
   list(
     theme(
@@ -19,6 +21,8 @@ theme_view <- function(family = "Comic Sans MS",
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
       legend.title = element_text(size = l.size, face = l.face),
       legend.text  = element_text(size = l.size, face = l.face),
+      legend.key.height = unit(legend.key.height, "npc"),
+      legend.key.width = unit(legend.key.width, "npc"),
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
@@ -31,6 +35,8 @@ theme_shiny <- function(family = "Malgun Gothic",
                         x.angle =    0, y.angle =    0, # y.comma = TRUE,
                         x.hjust =   .5, x.vjust =   .5,
                         y.hjust = NULL, y.vjust = NULL,
+		        legend.key.height = NULL,
+		        legend.key.width = NULL,
                         legend.position = "right") {
   list(
     theme(
@@ -41,6 +47,8 @@ theme_shiny <- function(family = "Malgun Gothic",
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
       legend.title = element_text(size = l.size, face = l.face),
       legend.text  = element_text(size = l.size, face = l.face),
+      legend.key.height = unit(legend.key.height, "npc"),
+      legend.key.width = unit(legend.key.width, "npc"),
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
@@ -53,6 +61,8 @@ theme_save <- function(family = "Comic Sans MS",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
                        x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
+		       legend.key.height = NULL,
+		       legend.key.width = NULL,
                        legend.position = "right") {
   list(
     theme(
@@ -63,6 +73,8 @@ theme_save <- function(family = "Comic Sans MS",
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
       legend.title = element_text(size = l.size, face = l.face),
       legend.text  = element_text(size = l.size, face = l.face),
+      legend.key.height = unit(legend.key.height, "npc"),
+      legend.key.width = unit(legend.key.width, "npc"),
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
