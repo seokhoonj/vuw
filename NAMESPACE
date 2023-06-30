@@ -243,6 +243,7 @@ export(get_rider_info)
 export(risk_plot)
 export(ratio_plot)
 
+export(random_sampling)
 export(strat_sampling)
 export(k_fold)
 export(k_split)
