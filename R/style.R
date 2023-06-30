@@ -21,8 +21,8 @@ theme_view <- function(family = "Comic Sans MS",
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
       legend.title = element_text(size = l.size, face = l.face),
       legend.text  = element_text(size = l.size, face = l.face),
-      legend.key.height = unit(legend.key.height, "npc"),
-      legend.key.width = unit(legend.key.width, "npc"),
+      legend.key.height = legend.key.height,
+      legend.key.width = legend.key.width,
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
@@ -47,8 +47,8 @@ theme_shiny <- function(family = "Malgun Gothic",
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
       legend.title = element_text(size = l.size, face = l.face),
       legend.text  = element_text(size = l.size, face = l.face),
-      legend.key.height = unit(legend.key.height, "npc"),
-      legend.key.width = unit(legend.key.width, "npc"),
+      legend.key.height = legend.key.height,
+      legend.key.width = legend.key.width,
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
@@ -73,8 +73,8 @@ theme_save <- function(family = "Comic Sans MS",
       axis.text.y  = element_text(size = y.size, face = y.face, angle = y.angle, hjust = y.hjust, vjust = y.vjust),
       legend.title = element_text(size = l.size, face = l.face),
       legend.text  = element_text(size = l.size, face = l.face),
-      legend.key.height = unit(legend.key.height, "npc"),
-      legend.key.width = unit(legend.key.width, "npc"),
+      legend.key.height = legend.key.height,
+      legend.key.width = legend.key.width,
       legend.position = legend.position
     )
     # if (y.comma) scale_y_continuous(labels = comma)
