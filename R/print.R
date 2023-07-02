@@ -115,7 +115,7 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NU
   color <- if (!is.null(substitute(color))) deparse(substitute(color))
   fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
-                 function(x) if (!is.null(x)) sym(x))
+                 function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
       if (!missing(label)) {
@@ -129,7 +129,7 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NU
 ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
                    label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
-                 function(x) if (!is.null(x)) sym(x))
+                 function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
       if (!missing(label)) {
@@ -148,7 +148,7 @@ ggmix <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
   color <- if (!is.null(substitute(color))) deparse(substitute(color))
   fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
-                 function(x) if (!is.null(x)) sym(x))
+                 function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_bar(stat = "identity", position = position_fill(vjust = 0.5, reverse = reverse)) +
     list(if (!missing(label)) {
@@ -162,7 +162,7 @@ ggmix_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
                    color = NULL, fill = NULL, label, family = "Comic Sans MS",
                    size = 4, angle = 0, hjust = 0.5, vjust = 0.5, reverse = TRUE) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
-                 function(x) if (!is.null(x)) sym(x))
+                 function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_bar(stat = "identity", position = position_fill(vjust = 0.5, reverse = reverse)) +
     list(if (!missing(label)) {
@@ -181,7 +181,7 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = N
   color <- if (!is.null(substitute(color))) deparse(substitute(color))
   fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
-                 function(x) if (!is.null(x)) sym(x))
+                 function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_line(linetype = linetype) + list(
       if (!missing(label)) {
@@ -196,7 +196,7 @@ ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = 
                     label, linetype = "solid", family = "Comic Sans MS",
                     size = 4, angle = 0, hjust = .5, vjust = .5) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
-                 function(x) if (!is.null(x)) sym(x))
+                 function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_line(linetype = linetype) + list(
       if (!missing(label)) {
