@@ -218,15 +218,16 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
   return(z)
 }
 
-amt_plot <- function(amt_mix) {
+amt_plot <- function(amt_mix, label = TRUE) {
   has_cols(amt_mix, c("gender", "age_band", "amount", "n", "nsum", "prop"))
-  amt_mix_uni <- unique(amt_mix[, .(rn, gender, age_band, nsum)])
+  amt_mix_uni <- unique(amt_mix[, .(gender, age_band, nsum)])
   amt_mix_uni[, label := comma(nsum)]
   ymax <- max(amt_mix_uni$n * 1.1)
   width <- nchar(max(amt_mix$amount))
+  size <- ifelse(label, 4, 0)
   g1 <- ggbar(amt_mix_uni,
               x = age_band, y = nsum, ymax = ymax * 1.1, group = gender, fill = gender,
-              label = label, hjust = -.1) +
+              label = label, size = size, hjust = -.1) +
     scale_gender_manual(amt_mix_uni$gender) +
     scale_y_continuous(labels = comma) +
     facet_wrap(~ gender, ncol = 1) +
@@ -234,7 +235,7 @@ amt_plot <- function(amt_mix) {
     coord_flip() +
     theme_test() +
     theme_view(x.size = 0, legend.position = "none")
-  g2 <- ggmix(amt_mix, x = age_band, y = prop, group = amount, fill = amount, label = label) +
+  g2 <- ggmix(amt_mix, x = age_band, y = prop, group = amount, fill = amount, label = label, size = size) +
     scale_fill_gradient(low = "#56B1F7", high = "#132B43",
                         labels = function(x) str_pad(format(x, big.mark = ",", scientific = F), width = width)) +
     facet_wrap(~ gender, ncol = 1) +
