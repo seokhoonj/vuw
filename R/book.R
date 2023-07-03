@@ -217,3 +217,46 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
   }
   return(z)
 }
+
+amt_plot <- function(amt_mix) {
+  has_cols(amt_mix, c("rn", "rider", "gender", "age_band", "amount", "n", "nsum", "prop"))
+  amt_mix_uni <- unique(amt_mix[, .(rn, gender, age_band, nsum)])
+  amt_mix_uni[, label := comma(nsum)]
+  ymax <- max(amt_mix_uni$n * 1.1)
+  width <- nchar(max(amt_mix$amount))
+  g1 <- ggbar(amt_mix_uni,
+              x = age_band, y = nsum, ymax = ymax * 1.1, group = gender, fill = gender,
+              label = label, hjust = -.1) +
+    scale_gender_manual(amt_mix_uni$gender) +
+    scale_y_continuous(labels = comma) +
+    facet_wrap(~ gender, ncol = 1) +
+    xlab("age band") +
+    coord_flip() +
+    theme_test() +
+    theme_view(x.size = 0, legend.position = "none")
+  g2 <- ggmix(amt_mix, x = age_band, y = prop, group = amount, fill = amount, label = label) +
+    scale_fill_gradient(low = "#56B1F7", high = "#132B43",
+                        labels = function(x) str_pad(format(x, big.mark = ",", scientific = F), width = width)) +
+    facet_wrap(~ gender, ncol = 1) +
+    xlab("") +
+    coord_flip() +
+    theme_test() +
+    theme_view(x.size = 0, x.angle = 90, legend.position = "right")
+  # legend
+  legend <- get_legend(g2)
+  g2 <- g2 + theme_view(x.size = 0, legend.position = "none")
+  # top
+  top <- textGrob(
+    sprintf("Distribution of face amount\n%s",
+    if (match_cols(amt_mix, "rider") == "rider") amt_mix$rider[1L] else "Specific Rider"),
+    gp = gpar(fontfamily = "Comic Sans MS", size = 14)
+  )
+  p <- arrangeGrob(
+    top, arrangeGrob(
+      ggplotGrob(g1), ggplotGrob(g2), legend,
+      ncol = 3, widths = c(4, 4, 2)
+    ), nrow = 2, heights = c(1.5, 8.5))
+  grid.arrange(p)
+  invisible(p)
+}
+

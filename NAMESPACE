@@ -242,6 +242,7 @@ export(get_risk)
 export(get_rider_info)
 export(risk_plot)
 export(ratio_plot)
+export(amt_plot)
 
 export(random_sampling)
 export(strat_sampling)
