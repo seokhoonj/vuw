@@ -219,7 +219,7 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
 }
 
 amt_plot <- function(amt_mix) {
-  has_cols(amt_mix, c("rn", "rider", "gender", "age_band", "amount", "n", "nsum", "prop"))
+  has_cols(amt_mix, c("gender", "age_band", "amount", "n", "nsum", "prop"))
   amt_mix_uni <- unique(amt_mix[, .(rn, gender, age_band, nsum)])
   amt_mix_uni[, label := comma(nsum)]
   ymax <- max(amt_mix_uni$n * 1.1)
