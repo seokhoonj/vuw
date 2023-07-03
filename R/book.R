@@ -249,7 +249,7 @@ amt_plot <- function(amt_mix, label = TRUE) {
   # top
   top <- textGrob(
     sprintf("Distribution of face amount\n%s",
-    if (match_cols(amt_mix, "rider") == "rider") amt_mix$rider[1L] else "Specific Rider"),
+    if (length(match_cols(amt_mix, "rider")) == 1) amt_mix$rider[1L] else "Specific Rider"),
     gp = gpar(fontfamily = "Comic Sans MS", size = 14)
   )
   p <- arrangeGrob(
