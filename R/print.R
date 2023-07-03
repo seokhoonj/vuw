@@ -154,7 +154,7 @@ ggmix <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
     list(if (!missing(label)) {
       label <- deparse(substitute(label))
       geom_text(aes(label = .data[[label]]), position = position_fill(vjust = 0.5, reverse = reverse), family = family, size = size,
-                angle = angle, hjust = hjust, vjust = vjust)
+                angle = angle, hjust = hjust, vjust = vjust, color = "#FAF9F6")
     })
 }
 
@@ -167,7 +167,7 @@ ggmix_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
     geom_bar(stat = "identity", position = position_fill(vjust = 0.5, reverse = reverse)) +
     list(if (!missing(label)) {
       geom_text(aes(label = .data[[label]]), position = position_fill(vjust = 0.5, reverse = reverse), family = family, size = size,
-                angle = angle, hjust = hjust, vjust = vjust)
+                angle = angle, hjust = hjust, vjust = vjust, color = "#FAF9F6")
     })
 }
 
