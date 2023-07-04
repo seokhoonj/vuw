@@ -35,7 +35,8 @@ install_packages <- function(packages) {
     , "treemap", "truncreg", "tseries", "tweedie", "utf8", "vars", "vcd", "VGAM"
     , "VIM", "wordcloud", "xgboost", "xlsx", "XML", "xtable"
     )
-  avbl_pkgss <- utils::available.packages()
+  avbl_pkgss <- data.table(utils::available.packages())
+  packages <- avbl_pkgss[Package %in% packages]$Package
   dependencies <- tools::package_dependencies(packages, db = avbl_pkgss, recursive = TRUE)
   pkgs_db <- data.table(cbind(dependencies), keep.rownames = "package")
   pkgs_list <- sort(unique(c(pkgs_db$package, unlist(pkgs_db$dependencies))))
