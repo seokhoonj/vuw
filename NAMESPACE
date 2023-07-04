@@ -249,6 +249,8 @@ export(strat_sampling)
 export(k_fold)
 export(k_split)
 
+export(set_amt)
+
 export(pull_cvd_kcd)
 export(check_cvd_kcd)
 export(check_cvd_level)
