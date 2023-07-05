@@ -206,7 +206,7 @@ ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = 
       })
 }
 
-ggdensity <- function(data, x, facet, probs = .95, logscale = F, scales = "free_y", family = "Comic Sans MS") {
+ggdensity <- function(data, x, facet, probs = .95, logscale = F, digits = 0, scales = "free_y", family = "Comic Sans MS") {
   x <- match_cols(data, vapply(substitute(x), deparse, "character"))
   if (logscale)
     data[[x]] <- log(data[[x]] + 1)
@@ -251,10 +251,10 @@ ggdensity <- function(data, x, facet, probs = .95, logscale = F, scales = "free_
     list(
       if (logscale) {
         geom_text(data = cutoff_data,
-                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1)), group = area), family = family, hjust = -0.1, vjust = 2)
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1, digits)), group = area), family = family, hjust = -0.1, vjust = 2)
       } else {
         geom_text(data = cutoff_data,
-                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff)), group = area), family = family, hjust = -0.1, vjust = 2)
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff, digits)), group = area), family = family, hjust = -0.1, vjust = 2)
       }) +
     geom_vline(data = cutoff_data, aes(xintercept = cutoff), color = "red", linetype = "dashed") +
     list(
@@ -265,7 +265,7 @@ ggdensity <- function(data, x, facet, probs = .95, logscale = F, scales = "free_
     ylab("density")
 }
 
-ggdensity_ <- function(data, x, facet, probs = .95, logscale = F, scales = "free_y", family = "Comic Sans MS") {
+ggdensity_ <- function(data, x, facet, probs = .95, logscale = F, digits = 0, scales = "free_y", family = "Comic Sans MS") {
   if (logscale)
     data[[x]] <- log(data[[x]] + 1)
   if (missing(facet)) {
@@ -308,10 +308,10 @@ ggdensity_ <- function(data, x, facet, probs = .95, logscale = F, scales = "free
     list(
       if (logscale) {
         geom_text(data = cutoff_data,
-                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1)), group = area), family = family, hjust = -0.1, vjust = 2)
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(exp(cutoff)-1, digits)), group = area), family = family, hjust = -0.1, vjust = 2)
       } else {
         geom_text(data = cutoff_data,
-                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff)), group = area), family = family, hjust = -0.1, vjust = 2)
+                  aes(x = cutoff, y = y, label = sprintf("%s%%\n(%s)", prob * 100, round(cutoff, digits)), group = area), family = family, hjust = -0.1, vjust = 2)
       }) +
     geom_vline(data = cutoff_data, aes(xintercept = cutoff), color = "red", linetype = "dashed") +
     list(
