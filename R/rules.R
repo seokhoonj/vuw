@@ -43,7 +43,8 @@ review_rules <- function(rule_info) {
     theme_view(y.size = 0, panel.background = NULL)
 
   legend <- get_legend(g_list[[1L]])
-  g_list[[1L]] <- g_list[[1L]] + theme_view(y.size = 0, legend.position = "none")
+  g_list[[1L]] <- g_list[[1L]] +
+    theme_view(y.size = 0, legend.position = "none", panel.background = NULL)
 
   # 2nd, 3rd, 4th
   factors <- c("hos_max", "sur_max", "elp_min")
