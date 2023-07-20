@@ -65,14 +65,14 @@ review_rules <- function(rule_info) {
       theme_view(y.size = 0, legend.position = "none", panel.background = NULL)
   }
 
-  top <- grid::textGrob(
+  top <- textGrob(
     label = expression(italic(underline("Rules Review"))),
-    gp = grid::gpar(fontfamily = "Comic Sans MS", fontsize = 16),
+    gp = gpar(fontfamily = "Comic Sans MS", fontsize = 16),
     x = 0, just = "left"
   )
-  left <- grid::textGrob(
+  left <- textGrob(
     label = "Number of KCD",
-    gp = grid::gpar(fontfamily = "Comic Sans MS"),
+    gp = gpar(fontfamily = "Comic Sans MS"),
     rot = 90
   )
   p <- arrangeGrob(top, arrangeGrob(
