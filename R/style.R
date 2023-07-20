@@ -9,9 +9,10 @@ theme_view <- function(family = "Comic Sans MS",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
                        x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
-		       legend.key.height = NULL,
-		       legend.key.width = NULL,
-                       legend.position = "right") {
+                       legend.key.height = NULL,
+                       legend.key.width = NULL,
+                       legend.position = "right",
+                       panel.background = element_rect()) {
   list(
     theme(
       text  = element_text(family = family),
@@ -23,21 +24,23 @@ theme_view <- function(family = "Comic Sans MS",
       legend.text  = element_text(size = l.size, face = l.face),
       legend.key.height = legend.key.height,
       legend.key.width = legend.key.width,
-      legend.position = legend.position
+      legend.position = legend.position,
+      panel.background = panel.background
     )
     # if (y.comma) scale_y_continuous(labels = comma)
   )
 }
 
-theme_shiny <- function(family = "Malgun Gothic",
+theme_shiny <- function(family = "Comic Sans MS",
                         x.size  =      12, y.size =      12, t.size =      12, s.size =      12, l.size =      12,
                         x.face  = "plain", y.face = "plain", t.face = "plain", s.face = "plain", l.face = "plain",
                         x.angle =    0, y.angle =    0, # y.comma = TRUE,
                         x.hjust =   .5, x.vjust =   .5,
                         y.hjust = NULL, y.vjust = NULL,
-		        legend.key.height = NULL,
-		        legend.key.width = NULL,
-                        legend.position = "right") {
+                        legend.key.height = NULL,
+                        legend.key.width = NULL,
+                        legend.position = "right",
+                        panel.background = element_rect()) {
   list(
     theme(
       text  = element_text(family = family),
@@ -48,8 +51,9 @@ theme_shiny <- function(family = "Malgun Gothic",
       legend.title = element_text(size = l.size, face = l.face),
       legend.text  = element_text(size = l.size, face = l.face),
       legend.key.height = legend.key.height,
-      legend.key.width = legend.key.width,
-      legend.position = legend.position
+      legend.key.width  = legend.key.width,
+      legend.position   = legend.position,
+      panel.background  = panel.background
     )
     # if (y.comma) scale_y_continuous(labels = comma)
   )
@@ -61,9 +65,10 @@ theme_save <- function(family = "Comic Sans MS",
                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
                        x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
-		       legend.key.height = NULL,
-		       legend.key.width = NULL,
-                       legend.position = "right") {
+                       legend.key.height = NULL,
+                       legend.key.width = NULL,
+                       legend.position = "right",
+                       panel.background = element_rect()) {
   list(
     theme(
       text  = element_text(family = family),
@@ -75,7 +80,8 @@ theme_save <- function(family = "Comic Sans MS",
       legend.text  = element_text(size = l.size, face = l.face),
       legend.key.height = legend.key.height,
       legend.key.width = legend.key.width,
-      legend.position = legend.position
+      legend.position = legend.position,
+      panel.background  = panel.background
     )
     # if (y.comma) scale_y_continuous(labels = comma)
   )
