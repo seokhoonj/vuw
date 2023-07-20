@@ -286,7 +286,9 @@ export(set_lr)
 export(mix_lr)
 export(mix_cols)
 export(mix_cols_by_factor)
+
 export(apply_rules)
+export(review_rules)
 
 export(subset_id_with_kcd)
 export(subset_id_with_kcd_)
