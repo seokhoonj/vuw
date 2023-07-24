@@ -24,8 +24,8 @@ get_options <- function(param) {
 get_files <- function(pattern, folder = getwd())
   sort(dir(folder)[grepl(pattern, dir(folder))])
 
-load_rds <- function(file, refhook = NULL)
-  alloc.col(readRDS(file, refhook))
+load_rds <- function(file, path = ".", refhook = NULL)
+  alloc.col(readRDS(paste0(path, "/", file), refhook))
 
 assert_type <- function(obj, type) {
   obj_name <- deparse(substitute(obj))
