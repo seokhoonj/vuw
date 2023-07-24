@@ -126,7 +126,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
   } else {
     risk_info <- risk_info[risk_info$risk %in% x,]
   }
-  risk_info_s <- risk_info[, .(max_rate = max(rate)), .(risk, gender)]
+  risk_info_s <- risk_info[!is.na(rate), .(max_rate = max(rate)), .(risk, gender)]
   risk_info[risk_info_s, max_rate := i.max_rate, on = .(risk, gender, rate = max_rate)]
   risk_info_a <- risk_info[!is.na(max_rate), .(age = min(age)), .(risk, gender, max_rate)]
   setcolafter(risk_info_a, age, gender)
