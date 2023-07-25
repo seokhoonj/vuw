@@ -107,7 +107,8 @@ aprint <- function(x, hchar = 4, vchar = 16) {
   cat(draw_line(), "\n")
 }
 
-ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
+ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
+                  group = NULL, color = NULL, fill = NULL,
                   label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
@@ -117,7 +118,16 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NU
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
-    geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
+    geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
+    list(
+      if (!missing(ymax_err)) {
+        ymin_err <- deparse(substitute(ymin_err))
+        ymax_err <- deparse(substitute(ymax_err))
+        args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
+                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
+        geom_errorbar(aes(!!!args_err), alpha = .8)
+      }) +
+    list(
       if (!missing(label)) {
         label <- deparse(substitute(label))
         geom_text(aes(label = .data[[label]]),
@@ -126,12 +136,20 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NU
       })
 }
 
-ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
+ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
+                   group = NULL, color = NULL, fill = NULL,
                    label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
-    geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) + list(
+    geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
+    list(
+      if (!missing(ymax_err)) {
+        args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
+                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
+        geom_errorbar(aes(!!!args_err), alpha = .8)
+      }) +
+    list(
       if (!missing(label)) {
         geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
