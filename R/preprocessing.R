@@ -130,7 +130,7 @@ set_kcd_sub <- function(df, kcd_var, digit = c(3L, 2L, 1L)) {
 
 set_kcd_name <- function(df, col, dots = TRUE, lang = c("ko", "en")) {
   copybook <- copy(kcd_book)
-  if (dots) rm_dots(copybook, kcd)
+  if (dots) rm_punct(copybook, kcd)
   col <- match_cols(df, vapply(substitute(col), deparse, "character"))
   setnames(copybook, "kcd", col)
   new_col <- paste0(col, "_", lang[[1L]])

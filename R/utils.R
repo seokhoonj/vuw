@@ -118,14 +118,14 @@ rm_cols_ <- function(df, cols) {
   df[, `:=`((cols), NULL)]
 }
 
-rm_dots <- function(df, cols) {
+rm_punct <- function(df, cols, pattern = "(?!\\*)[[:punct:]]") {
   cols <- match_cols(df, vapply(substitute(cols), deparse, "character"))
-  df[, `:=`((cols), lapply(.SD, function(x) gsub("\\.", "", x))), .SDcols = cols]
+  df[, `:=`((cols), lapply(.SD, function(x) gsub(pattern, "", x, perl = TRUE))), .SDcols = cols]
 }
 
-rm_dots_ <- function(df, cols) {
+rm_punct_ <- function(df, cols, pattern = "(?!\\*)[[:punct:]]") {
   cols <- match_cols(df, cols)
-  df[, `:=`((cols), lapply(.SD, function(x) gsub("\\.", "", x))), .SDcols = cols]
+  df[, `:=`((cols), lapply(.SD, function(x) gsub(pattern, "", x, perl = TRUE))), .SDcols = cols]
 }
 
 trim_ws <- function(x, ws = "[ \t\r\n]", perl = FALSE) {
