@@ -137,6 +137,7 @@ id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var, udate, ...)
   # summarize
   col <- diff_cols(z, id_var[[1]])
   zs  <- z[, .(n = .N), by = col]
+  zs[, (col) := lapply(.SD, factor), .SDcols = col]
   setorderv(zs, col)
   attr(z, "raw") <- copy(zs)
 
