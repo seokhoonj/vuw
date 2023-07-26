@@ -21,7 +21,7 @@ cut_age <- function(x, interval = 5, right = FALSE) {
   return(z)
 }
 
-set_band <- function(df, var, interval = 5, right = FALSE, col_nm, labels) {
+set_band <- function(df, var, breaks, interval = 5, right = FALSE, col_nm, labels) {
   var <- match_cols(df, deparse(substitute(var)))
   col <- df[[var]]
   mn <- floor(min(col)/interval) * interval
