@@ -144,6 +144,7 @@ export(set_prop)
 export(set_prop_)
 
 export(calc_ins_age)
+export(set_band)
 export(set_age_band)
 export(set_age_cut)
 export(set_hos_band)
