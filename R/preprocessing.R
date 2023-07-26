@@ -28,7 +28,9 @@ set_band <- function(df, var, interval = 5, right = FALSE, col_nm, labels) {
   mx <- ceiling(max(col)/interval) * interval
   if (max(col) == mx)
     mx <- ceiling(max(col)/interval + 1) * interval
-  col_band <- cut(col, breaks = seq(mn, mx, interval), right = right)
+  if (missing(breaks))
+    breaks <- seq(mn, mx, interval)
+  col_band <- cut(col, breaks = breaks, right = right, dig.lab = 5)
   if (missing(labels)) {
     l <- levels(col_band)
     r <- gregexpr("[0-9]+", l, perl = TRUE)
@@ -43,29 +45,6 @@ set_band <- function(df, var, interval = 5, right = FALSE, col_nm, labels) {
   set(df, j = col_nm, value = col_band)
   setcolafter_(df, col_nm, var)
 }
-
-set_band_ <- function(df, var, interval = 5, right = FALSE, col_nm, labels) {
-  col <- df[[var]]
-  mn <- floor(min(col)/interval) * interval
-  mx <- ceiling(max(col)/interval) * interval
-  if (max(col) == mx)
-    mx <- ceiling(max(col)/interval + 1) * interval
-  col_band <- cut(col, breaks = seq(mn, mx, interval), right = right)
-  if (missing(labels)) {
-    l <- levels(col_band)
-    r <- gregexpr("[0-9]+", l, perl = TRUE)
-    m <- regmatches(l, r)
-    s <- as.integer(sapply(m, function(x) x[1L]))
-    e <- as.integer(sapply(m, function(x) x[2L])) - 1
-    labels <- sprintf("%d-%d", s, e)
-  }
-  levels(col_band) <- labels
-  if (missing(col_nm))
-    col_nm <- sprintf("%s_band", var)
-  set(df, j = col_nm, value = col_band)
-  setcolafter_(df, col_nm, var)
-}
-
 
 set_age_band <- function(df, age_var, interval = 5, right = FALSE, col_nm = "age_band", labels) {
   age_var <- match_cols(df, vapply(substitute(age_var), deparse, "character"))
@@ -74,7 +53,7 @@ set_age_band <- function(df, age_var, interval = 5, right = FALSE, col_nm = "age
   mx <- ceiling(max(age)/interval) * interval
   if (max(age) == mx)
     mx <- ceiling(max(age)/interval + 1) * interval
-  age_band <- cut(age, breaks = seq(mn, mx, interval), right = right)
+  age_band <- cut(age, breaks = seq(mn, mx, interval), right = right, dig.lab = 5)
   if (missing(labels)) {
     l <- levels(age_band)
     r <- gregexpr("[0-9]+", l, perl = TRUE)
