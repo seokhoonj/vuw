@@ -125,7 +125,7 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
         ymax_err <- deparse(substitute(ymax_err))
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
                            function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
-        geom_errorbar(aes(!!!args_err), alpha = .8)
+        geom_errorbar(aes(!!!args_err), position = position_dodge2(preserve = "single"), alpha = .8)
       }) +
     list(
       if (!missing(label)) {
@@ -147,7 +147,7 @@ ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
       if (!missing(ymax_err)) {
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
                            function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
-        geom_errorbar(aes(!!!args_err), alpha = .8)
+        geom_errorbar(aes(!!!args_err), position = position_dodge2(preserve = "single"), alpha = .8)
       }) +
     list(
       if (!missing(label)) {
