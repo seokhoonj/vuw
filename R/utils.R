@@ -1,7 +1,7 @@
 
 # utils -------------------------------------------------------------------
 
-add_folder <- function(folder = c("dev", "data", "info", "output", "R", "raw", "report", "rules")) {
+add_folder <- function(folder = c("dev", "data", "info", "inst", "output", "R", "raw", "report", "rules")) {
   width <- max(nchar(folder))
   for (i in seq_along(folder)) {
     if (!file.exists(folder[i])) {
