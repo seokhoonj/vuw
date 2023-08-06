@@ -1,9 +1,9 @@
 Package: vuw
-Type: Package
 Title: Virtual Underwriting
 Version: 0.0.0.9000
-Authors@: c(person("Seokhoon", "Joo", role = c("aut", "cre"), email = "seokhoonj@gmail.com"))
-Date: 2022-02-22
+Authors@R: 
+    person(given = "Seokhoon", family = "Joo", email = "seokhoonj@gmail.com", 
+           role = c("aut", "cre"))
 Description: A virtual loss ratio simulation is performed based on the claim cohort data and 
              an adjusted underwriting model is established according to the result of the simulation.
              The model considers disease codes and risk rates.
@@ -11,11 +11,19 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0)
-Imports: data.table (>= 1.13.0), openssl (>= 1.4.1), openxlsx (>= 4.2.3), 
-         stringi (>= 1.7.6), stringr (>= 1.4.0), lubridate (>= 1.8.0), 
-         scales (>= 1.1.1), epiR (>= 2.0.26), ggplot2 (>= 3.3.3), 
-         RColorBrewer (>= 1.1), plotly (>= 4.10.0), reticulate (>= 1.25)
-Suggests: 
-    testthat (>= 3.0.0)
-Config/testthat/edition: 3
-RoxygenNote: 7.1.2
+Imports: 
+    data.table (>= 1.13.0), 
+    epiR (>= 2.0.26), 
+    ggplot2 (>= 3.3.3), 
+    gridExtra (>= 2.3),
+    lubridate (>= 1.8.0), 
+    openssl (>= 1.4.1), 
+    openxlsx (>= 4.2.3), 
+    plotly (>= 4.10.0), 
+    reticulate (>= 1.25),
+    scales (>= 1.1.1), 
+    stringi (>= 1.7.6), 
+    stringr (>= 1.4.0), 
+    RColorBrewer (>= 1.1)
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

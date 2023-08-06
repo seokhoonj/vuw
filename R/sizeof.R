@@ -4,11 +4,13 @@
 #' Object size
 #'
 #' This function calculates the object size
-#' @title Object size
+#'
 #' @param x object
 #' @param unit size unit; "B", "KB", "MB", "GB"
 #' @examples
-#' sizeof(iris, unit = "kb")
+#' \dontrun{
+#' sizeof(x = globalenv(), unit = "kb")
+#' }
 #' @export
 sizeof <- function(x, unit) UseMethod("sizeof")
 
@@ -18,10 +20,10 @@ sizeof.default <- function(x, unit = "mb") {
   class <- paste0(class(x), collapse = ",")
   type  <- typeof(x)
   size  <- object.size(x)[1L]
-  e     <- switch(tolower(unit), b = 0, kb = 1, mb = 2, gb = 3)
+  power <- switch(tolower(unit), b = 0, kb = 1, mb = 2, gb = 3)
   data.table(class = class,
              type  = type,
-             size  = round(size / (2^10)^e, 3),
+             size  = round(size / (2^10)^power, 3),
              unit  = toupper(unit))
 }
 
@@ -32,11 +34,11 @@ sizeof.data.frame <- function(x, unit = "mb") {
   class <- sapply(x, class)
   type  <- sapply(x, typeof)
   size  <- c(sapply(x, function(s) object.size(s)), object.size(x))
-  e     <- switch(tolower(unit), b = 0, kb = 1, mb = 2, gb = 3)
+  power <- switch(tolower(unit), b = 0, kb = 1, mb = 2, gb = 3)
   data.table(col   = c(col,   "total"),
              class = c(class, "total"),
              type  = c(type,  "total"),
-             size  = round(size / (2^10)^e, 3),
+             size  = round(size / (2^10)^power, 3),
              unit  = toupper(unit))
 }
 
@@ -48,9 +50,9 @@ sizeof.environment <- function(x, unit = "mb") {
   class <- sapply(env, function(s) paste0(class(get(s, envir = x)), collapse = ","))
   size  <- sapply(env, function(s) object.size(get(s, envir = x)))
   sizes <- c(size, sum(size))
-  m   <- switch(tolower(unit), b = 0, kb = 1, mb = 2, gb = 3)
+  power <- switch(tolower(unit), b = 0, kb = 1, mb = 2, gb = 3)
   data.table(obj   = c(names(size), "total"),
              class = c(class, "total"),
-             size  = round(sizes / (2^10)^m, 3),
+             size  = round(sizes / (2^10)^power, 3),
              unit  = toupper(unit))
 }

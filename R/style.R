@@ -6,7 +6,7 @@ decimal <- function(x, digit = 1) sprintf(paste0("%.", digit, "f"), x)
 theme_view <- function(family = "Comic Sans MS",
                        x.size  =   NULL , y.size =    NULL, t.size =    NULL, s.size =    NULL, l.size =    NULL,
                        x.face  = "plain", y.face = "plain", t.face = "plain", s.face = "plain", l.face = "plain",
-                       x.angle =    0, y.angle =    0, # y.comma = TRUE,
+                       x.angle =    0, y.angle =    0,
                        x.hjust =   .5, x.vjust =   .5,
                        y.hjust = NULL, y.vjust = NULL,
                        legend.key.height = NULL,
@@ -27,14 +27,13 @@ theme_view <- function(family = "Comic Sans MS",
       legend.position = legend.position,
       panel.background = panel.background
     )
-    # if (y.comma) scale_y_continuous(labels = comma)
   )
 }
 
 theme_shiny <- function(family = "Comic Sans MS",
                         x.size  =      12, y.size =      12, t.size =      12, s.size =      12, l.size =      12,
                         x.face  = "plain", y.face = "plain", t.face = "plain", s.face = "plain", l.face = "plain",
-                        x.angle =    0, y.angle =    0, # y.comma = TRUE,
+                        x.angle =    0, y.angle =    0,
                         x.hjust =   .5, x.vjust =   .5,
                         y.hjust = NULL, y.vjust = NULL,
                         legend.key.height = NULL,
@@ -83,7 +82,6 @@ theme_save <- function(family = "Comic Sans MS",
       legend.position = legend.position,
       panel.background  = panel.background
     )
-    # if (y.comma) scale_y_continuous(labels = comma)
   )
 }
 

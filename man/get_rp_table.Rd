@@ -19,5 +19,7 @@ get_rp_table(xlsxFile, sheet, risk_range, rate_range, skipEmptyRows = TRUE)
 This function convert the risk premium table in the excel file to a new format
 }
 \examples{
-get_rp_tbl(xlsxFile, sheet, c("D2", "S2"), c("D3", "S104"))
+\dontrun{
+get_rp_table(xlsxFile, sheet, c("D2", "S2"), c("D3", "S104"))
+}
 }

@@ -13,7 +13,7 @@ PROSTATECANCER         <- "C61"
 BLADDERCANCER          <- "C67"
 SKINCANCER             <- "C44"
 THYROIDCANCER          <- "C73"
-CIS                    <- "D0[0-79]" # 제자리암 (carcinoma in situ)
+CIS                    <- "D0[0-79]" # Carcinoma in situ
 BORDERLINETUMOR        <- "D3[7-9]|D4[0-4]|D47[026-9]|D48"
 STROKE                 <- "I6[0-356]" # 뇌졸중
 ANGINA                 <- "I20" # 협심증

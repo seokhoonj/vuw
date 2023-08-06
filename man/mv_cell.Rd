@@ -17,5 +17,5 @@ mv_cell(x, r, c)
 This function converts cell range to numeric rows and columns values
 }
 \examples{
-nu_cell(x = "A1", r = 1, c = 3)
+mv_cell(x = "A1", r = 1, c = 3)
 }

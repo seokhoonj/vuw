@@ -18,5 +18,5 @@ the return type is a character vector
 This function pulled the covered kcd code from the kcd code vector
 }
 \examples{
-pull_cvd_kcd("A05|B03", kcd_book$code)
+pull_cvd_kcd("A05|B03", kcd_book$kcd)
 }

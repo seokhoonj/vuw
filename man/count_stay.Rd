@@ -16,5 +16,5 @@ count_stay(df, id_var, from_var, to_var)
 \item{to_var}{end date}
 }
 \description{
-This function count unique length of stay between `from_var` to `to_var`.
+This function count unique length of stay between \code{from_var} to \code{to_var}.
 }

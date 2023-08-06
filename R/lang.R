@@ -1,7 +1,13 @@
 
-is_korean <- function(x) grepl("[ㄱ-ㅎㅏ-ㅣ가-힣]", x, perl = TRUE)
 is_english <- function(x) grepl("[a-zA-Z]", x, perl = TRUE)
-is_japanese <- function(x) grepl("[一-龯ぁ-んァ-ン]", x, perl = TRUE)
+is_korean <- function(x) {
+  korean <- c(91, 12593, 45, 12622, 12623, 45, 12643, 44032, 45, 55203, 93)
+  grepl(korean, x, perl = TRUE)
+}
+is_japanese <- function(x) {
+  japanese <- intToUtf8(c(91, 19968, 45, 40879, 12353, 45, 12435, 12449, 45, 12531, 93))
+  grepl(japanese, x, perl = TRUE)
+}
 
 set_translate <- function() {
   # use_python(__python_path__)

@@ -24,13 +24,13 @@ strat_sampling(
 
 \item{replace}{replacement}
 
+\item{contain0}{non-sampling}
+
 \item{verbose}{messages}
 
-\item{method}{approximation method}
+\item{method}{messages}
 
 \item{seed}{random seed}
-
-\item{zero}{non-sampling}
 }
 \description{
 Common stratified sampling technique

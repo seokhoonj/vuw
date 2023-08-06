@@ -1,5 +1,5 @@
 
-.onLoad <- function(libname, pkgname) {
+.onAttach <- function(libname, pkgname) {
   packageStartupMessage("Written by Joo, Seokhoon. (Note, kcd terms arguments are monthly-basis)")
   options(scipen = 14)
   options(vuw.eps = 1e-8)
@@ -12,8 +12,4 @@
   options(vuw.three.colors2 = c("#8DD3C7", "#80B1D3", "#FB8072"))
   if (Sys.info()[["sysname"]] == "Linux")
     Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
-}
-
-.onUnload <- function(libpath) {
-  library.dynam.unload("vuw", libpath)
 }

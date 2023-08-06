@@ -242,7 +242,7 @@ stay_plot <- function(df, id_var, kcd_var, stay_var, kcd_code = "M51", digit, st
   setnames(z, c(id_var, kcd_var, stay_var), c("id", "kcd", "stay"))
   z <- split_merge_var(z, kcd)[grepl(kcd_code, kcd)]
   if (!missing(digit))
-    z[, kcd := substr(kcd, 1, digit)]
+    z[, `:=`(kcd, substr(kcd, 1, digit))]
   if (logscale) {
     label <- str_pad(stay_cut, width = max(nchar(stay_cut)))
     annotation <- vector(mode = "list", length = length(stay_cut))
@@ -253,7 +253,7 @@ stay_plot <- function(df, id_var, kcd_var, stay_var, kcd_code = "M51", digit, st
       geom_histogram() +
       geom_vline(xintercept = log(stay_cut), color = "red", lty = "dashed") +
       annotation +
-      scale_x_continuous(labels = function(x) round(exp(x)), limit = range(log(z$stay), na.rm = TRUE)) +
+      scale_x_continuous(labels = function(x) round(exp(x)), limits = range(log(z$stay), na.rm = TRUE)) +
       scale_y_continuous(labels = comma) +
       facet_wrap(~ kcd, scales = scales, ncol = ncol) +
       ylab("count") +

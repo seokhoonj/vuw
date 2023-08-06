@@ -1,11 +1,11 @@
-
 #' To the a1 style column from an r1c1 style column
 #'
 #' This function coverts an r1c1 style column to the a1 column
+#'
 #' @param x a r1c1 style column
-#' @export
 #' @examples
 #' to_a1_col(1)
+#' @export
 to_a1_col <- function(x) {
   tbl <- seq_along(LETTERS)
   names(tbl) <- LETTERS
@@ -37,10 +37,11 @@ to_a1_col <- function(x) {
 #' To the r1c1 style column from an a1 style column
 #'
 #' This function coverts an a1 style column to the r1c1 column
+#'
 #' @param x a a1 style column
-#' @export
 #' @examples
 #' to_r1c1_col("A")
+#' @export
 to_r1c1_col <- function(x) {
   tbl <- seq_along(LETTERS)
   names(tbl) <- LETTERS
@@ -54,12 +55,13 @@ to_r1c1_col <- function(x) {
 #' Add rows and columns from a cell
 #'
 #' This function converts cell range to numeric rows and columns values
+#'
 #' @param x a cell (a1 style)
 #' @param r row
 #' @param c col
-#' @export
 #' @examples
-#' nu_cell(x = "A1", r = 1, c = 3)
+#' mv_cell(x = "A1", r = 1, c = 3)
+#' @export
 mv_cell <- function(x, r, c) {
   tbl <- seq_along(LETTERS)
   names(tbl) <- LETTERS
@@ -77,11 +79,12 @@ mv_cell <- function(x, r, c) {
 #' Numeric value of columns, rows
 #'
 #' This function converts cell range to numeric rows and columns values
+#'
 #' @param x a cell (a1 style)
 #' @param y a cell (a1 style)
-#' @export
 #' @examples
 #' nu_cell(x = "A1", y = "C3")
+#' @export
 nu_cell <- function(x, y) {
   r1 <- as.integer(pull_code("[0-9]+", x))
   r2 <- as.integer(pull_code("[0-9]+", y))
@@ -94,11 +97,12 @@ nu_cell <- function(x, y) {
 #' Distance between two cells
 #'
 #' This function calculates distance between two cells
+#'
 #' @param x a cell (a1 style)
 #' @param y a cell (a1 style)
-#' @export
 #' @examples
 #' di_cell(x = "A1", y = "C3")
+#' @export
 di_cell <- function(x, y) {
   r1 <- as.integer( pull_code("[0-9]+", x))
   r2 <- as.integer( pull_code("[0-9]+", y))
@@ -113,13 +117,16 @@ di_cell <- function(x, y) {
 #' Get risk premium table in the excel file
 #'
 #' This function convert the risk premium table in the excel file to a new format
+#'
 #' @param xlsxFile file name character
 #' @param sheet character
 #' @param risk_rng vector
 #' @param rate_rng vector
-#' @export
 #' @examples
-#' get_rp_tbl(xlsxFile, sheet, c("D2", "S2"), c("D3", "S104"))
+#' \dontrun{
+#' get_rp_table(xlsxFile, sheet, c("D2", "S2"), c("D3", "S104"))
+#' }
+#' @export
 get_rp_table <- function(xlsxFile, sheet, risk_range, rate_range, skipEmptyRows = TRUE) {
   rate_range <- nu_cell(rate_range[1L], rate_range[2L])
   rate_dat <- readWorkbook(xlsxFile = xlsxFile,

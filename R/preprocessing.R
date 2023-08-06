@@ -105,15 +105,15 @@ calc_bmi <- function(height, weight) {
   weight / (height / 100)^2
 }
 
-judge_bmi <- function(x) {
-  factor(ifelse(x < 18.5, "低体重(痩せ型)",
-                ifelse(x < 25, "普通体重",
-                       ifelse(x < 30, "肥満(1度)",
-                              ifelse(x < 35, "肥満(2度)",
-                                     ifelse(x < 40, "肥満(3度)", "肥満(4度)"))))),
-         levels = c("低体重(痩せ型)", "普通体重", "肥満(1度)", "肥満(2度)", "肥満(3度)", "肥満(4度)")
-  )
-}
+# judge_bmi <- function(x) {
+#   factor(ifelse(x < 18.5, "低体重(痩せ型)",
+#                 ifelse(x < 25, "普通体重",
+#                        ifelse(x < 30, "肥満(1度)",
+#                               ifelse(x < 35, "肥満(2度)",
+#                                      ifelse(x < 40, "肥満(3度)", "肥満(4度)"))))),
+#          levels = c("低体重(痩せ型)", "普通体重", "肥満(1度)", "肥満(2度)", "肥満(3度)", "肥満(4度)")
+#   )
+# }
 
 # kcd code functions ------------------------------------------------------
 

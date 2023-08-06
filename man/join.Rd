@@ -13,6 +13,8 @@ join(..., by, all = FALSE, all.x = all, all.y = all, sort = TRUE)
 
 \item{all}{logical; all = L is shorthand for all.x = L and all.y = L, where L is either TRUE or FALSE.}
 
+\item{all.x}{logical; if TRUE, then extra rows will be added to the output, one for each row in x that has no matching row in y. These rows will have NAs in those columns that are usually filled with values from y. The default is FALSE, so that only rows with data from both x and y are included in the output.}
+
 \item{all.y}{logical; analogous to all.x.}
 
 \item{sort}{logical. Should the result be sorted on the by columns?}

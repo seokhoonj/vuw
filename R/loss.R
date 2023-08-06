@@ -1,13 +1,13 @@
-
-#' Pull covered kcd code
-#'
-#' This function pulled the covered kcd code from the kcd code vector
-#' @param cvd_kcd covered kcd code. regular expression
-#' @param kcd kcd code vector
-#' @return the return type is a character vector
-#' @examples
-#' pull_cvd_kcd("A05|B03", kcd_book$code)
-#' @export
+##' Pull covered kcd code
+##'
+##' This function pulled the covered kcd code from the kcd code vector
+##'
+##' @param cvd_kcd covered kcd code. regular expression
+##' @param kcd kcd code vector
+##' @return the return type is a character vector
+##' @examples
+##' pull_cvd_kcd("A05|B03", kcd_book$kcd)
+##' @export
 pull_cvd_kcd <- function(cvd_kcd, kcd) {
   m <- length(kcd); n <- length(cvd_kcd)
   z <- strings(c(m, n))
@@ -19,15 +19,16 @@ pull_cvd_kcd <- function(cvd_kcd, kcd) {
   return(z)
 }
 
-#' Check covered kcd code
-#'
-#' This function checks the covered kcd code from the kcd code vector
-#' @param cvd_kcd covered kcd code vector
-#' @param kcd kcd code vector
-#' @return the return type is a binary matrix
-#' @examples
-#' head(check_cvd_kcd(c("A00", "A01", "A02"), kcd_book$kcd), 20)
-#' @export
+##' Check covered kcd code
+##'
+##' This function checks the covered kcd code from the kcd code vector
+##'
+##' @param cvd_kcd covered kcd code vector
+##' @param kcd kcd code vector
+##' @return the return type is a binary matrix
+##' @examples
+##' head(check_cvd_kcd(c("A00", "A01", "A02"), kcd_book$kcd), 20)
+##' @export
 check_cvd_kcd <- function(cvd_kcd, kcd) {
   m <- length(kcd); n <- length(cvd_kcd)
   z <- zeros(c(m, n))
@@ -40,11 +41,12 @@ check_cvd_kcd <- function(cvd_kcd, kcd) {
 #' Check surgery level
 #'
 #' This function checks the covered surgery level from the surgery level vector
-#' @param level covered surgery level
-#' @param kcd surgery level vector
+#'
+#' @param cvd_level covered surgery level
+#' @param level surgery level vector
 #' @return the return type is a binary matrix
 #' @examples
-#' head(check_sur_lvl(c(1, 2, 3, 4, 5), c(1, 1, 3, 2, 4, 5, 2, 3, 2, 5)), 20)
+#' head(check_cvd_level(c(1, 2, 3, 4, 5), c(1, 1, 3, 2, 4, 5, 2, 3, 2, 5)), 20)
 #' @export
 check_cvd_level <- function(cvd_level, level) {
   m <- length(level); n <- length(cvd_level)
@@ -60,6 +62,7 @@ check_cvd_level <- function(cvd_level, level) {
 #' This function overlaps two matrices with same dimension by a binary vector.\cr
 #' There are two claim methods, one for one-time payment and the other for continuous payments.\cr
 #' Therefore, we have to combine the two matrices separately according to whether it is a one-time payment or continuous payments.
+#'
 #' @param clm     a matrix. Claim matrix
 #' @param clm_1st a matrix. Claim matrix only the first claim is 1 and the rest are 0 for each column and each row id
 #' @param col     a binary vector. it is 1 if it is one-time payment, it is 0 if it is continuous payment
@@ -74,10 +77,9 @@ overlap_matrix <- function(clm, clm_1st, col) {
 
 #' Differences between start and end
 #'
-#' @param udate Date
-#' @param sdate Date
-#' @param ncol  integer. The number of columns you need to create
-#' @param mon   integer. The months
+#' @param start A date Date
+#' @param end  A date Date
+#' @param group A numeric period
 #' @return Period matrix
 #' @examples
 #' @export

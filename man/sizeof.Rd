@@ -21,11 +21,10 @@ sizeof(x, unit)
 \item{unit}{size unit; "B", "KB", "MB", "GB"}
 }
 \description{
-Object size
-}
-\details{
 This function calculates the object size
 }
 \examples{
-sizeof(iris, unit = "kb")
+\dontrun{
+sizeof(x = globalenv(), unit = "kb")
+}
 }

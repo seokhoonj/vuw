@@ -1,20 +1,26 @@
 
 # sampling ----------------------------------------------------------------
 
-random_sampling <- function(x, size, replace = TRUE, prob = NULL) {
-  x[sample.int(length(x), size, replace, prob)]
+random_sampling <- function(x, size, replace = TRUE, prob = NULL, seed = 123) {
+  if (is.vector(x))
+    return(x[sample.int(length(x), size, replace, prob)])
+  if (is.data.frame(x))
+    return(x[sample.int(nrow(x), size, replace, prob),])
+  x_name <- deparse(substitute(x))
+  stop(x_name, " is not a vector or data.frame.", call. = FALSE)
 }
 
 #' Stratified Sampling
 #'
 #' Common stratified sampling technique
+#'
 #' @param df data.table object
 #' @param group_var group variable
 #' @param size sampling size
-#' @param method approximation method
 #' @param replace replacement
-#' @param zero non-sampling
+#' @param contain0 non-sampling
 #' @param verbose messages
+#' @param method messages
 #' @param seed random seed
 #' @export
 strat_sampling <- function(df, group_var, size, replace = TRUE, contain0 = FALSE,
@@ -36,10 +42,14 @@ strat_sampling <- function(df, group_var, size, replace = TRUE, contain0 = FALSE
   # sampling proportion
   if (verbose) {
     cat(draw_line(), "\n")
-    cat(sprintf("Target prop: %.2f %% ( method = %s, replace = %s )\n", size * 100, method, replace))
-    cat(sprintf("Population : %s unit\n", str_pad(comma(sum(group$n)), width = 14, pad = " ")))
-    cat(sprintf("Sample     : %s unit\n", str_pad(comma(sum(group$s)), width = 14, pad = " ")))
-    cat(sprintf("Actual prop: %.2f %%\n", sum(group$s) / sum(group$n) * 100))
+    cat(sprintf("Target prop: %.2f %% ( method = %s, replace = %s )\n",
+                size * 100, method, replace))
+    cat(sprintf("Population : %s unit\n",
+                str_pad(comma(sum(group$n)), width = 14, pad = " ")))
+    cat(sprintf("Sample     : %s unit\n",
+                str_pad(comma(sum(group$s)), width = 14, pad = " ")))
+    cat(sprintf("Actual prop: %.2f %%\n",
+                sum(group$s) / sum(group$n) * 100))
     cat(draw_line(), "\n")
     print(cbind(group, prop = sprintf("%.2f %%", group$p * 100)))
     cat(draw_line(), "\n")

@@ -7,13 +7,11 @@
 diff_period(start, end, group = 1)
 }
 \arguments{
-\item{udate}{Date}
+\item{start}{A date Date}
 
-\item{sdate}{Date}
+\item{end}{A date Date}
 
-\item{ncol}{integer. The number of columns you need to create}
-
-\item{mon}{integer. The months}
+\item{group}{A numeric period}
 }
 \value{
 Period matrix

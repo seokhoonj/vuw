@@ -7,9 +7,9 @@
 check_cvd_level(cvd_level, level)
 }
 \arguments{
-\item{level}{covered surgery level}
+\item{cvd_level}{covered surgery level}
 
-\item{kcd}{surgery level vector}
+\item{level}{surgery level vector}
 }
 \value{
 the return type is a binary matrix
@@ -18,5 +18,5 @@ the return type is a binary matrix
 This function checks the covered surgery level from the surgery level vector
 }
 \examples{
-head(check_sur_lvl(c(1, 2, 3, 4, 5), c(1, 1, 3, 2, 4, 5, 2, 3, 2, 5)), 20)
+head(check_cvd_level(c(1, 2, 3, 4, 5), c(1, 1, 3, 2, 4, 5, 2, 3, 2, 5)), 20)
 }
