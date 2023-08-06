@@ -1,6 +1,14 @@
 
 # utils -------------------------------------------------------------------
 
+utils::globalVariables(c(
+  "CI333", "CI10", "CANCER", "GENERALCANCER", "SMALLCANCER", "PSEUDOCANCER",
+  "BREASTCANCER", "UTERICANCER", "PROSTATECANCER", "BLADDERCANCER",
+  "SKINCANCER", "THYROIDCANCER", "CIS", "BORDERLINETUMOR", "STROKE", "ANGINA",
+  "CIRRHOSIS", "VALVE", "HIV", "DIABETES", "HYPERTENSION", "ACCIDENT",
+  "DECLINE", "CARDITIS", "AMI", "IHD", "CEREBROVASCULARDISEASE"
+))
+
 add_folder <- function(folder = c("dev", "data", "info", "inst", "output", "R", "raw", "report", "rules")) {
   width <- max(nchar(folder))
   for (i in seq_along(folder)) {
@@ -21,7 +29,7 @@ get_options <- function(param) {
   options()[sub_names]
 }
 
-get_files <- function(pattern, folder = getwd())
+get_files <- function(pattern = "", folder = getwd())
   sort(dir(folder)[grepl(pattern, dir(folder))])
 
 load_rds <- function(file, path, refhook = NULL) {
@@ -50,7 +58,7 @@ assert_class <- function(obj, class) {
 
 match_class <- function(df, dtype) {
   if (missing(dtype))
-    stop("no 'dtype' argument")
+    stop("no 'dtype' argument", call. = FALSE)
   dtype <- dtypes[match(tolower(dtype),
     c("integer", "numeric", "character", "list", "date"),
     nomatch = 0L)]
@@ -230,6 +238,7 @@ set_prop_ <- function(df, cols, sum_col) {
 #' @param ... data frames, or objects to be coerced to one.
 #' @param by specifications of the columns used for merging.
 #' @param all logical; all = L is shorthand for all.x = L and all.y = L, where L is either TRUE or FALSE.
+#' @param all.x logical; if TRUE, then extra rows will be added to the output, one for each row in x that has no matching row in y. These rows will have NAs in those columns that are usually filled with values from y. The default is FALSE, so that only rows with data from both x and y are included in the output.
 #' @param all.y logical; analogous to all.x.
 #' @param sort  logical. Should the result be sorted on the by columns?
 join <- function(..., by, all = FALSE, all.x = all, all.y = all, sort = TRUE) {
@@ -303,7 +312,7 @@ proc_time <- function(expr) {
 
 # word --------------------------------------------------------------------
 
-break_word <- function(x, len = 15) {
+break_word <- function(x, len = 15, collapse = "\n") {
   n <- ceiling(nchar(x) / len)
   v <- vector(mode = "character", length = length(n))
   for (j in 1:length(v)) {
@@ -311,7 +320,7 @@ break_word <- function(x, len = 15) {
     for (i in 1:length(w)) {
       w[i] <- substr(x[j], len*(i-1)+1, len*i)
     }
-    v[j] <- paste0(w, collapse = "\n")
+    v[j] <- paste0(w, collapse = collapse)
   }
   v
 }
