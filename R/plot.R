@@ -102,7 +102,8 @@ ggmix_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
 }
 
 
-ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
+ggline <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
+                   group = NULL, color = NULL, fill = NULL,
                    label, linetype = "solid", family = "Comic Sans MS",
                    size = 4, angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
@@ -113,7 +114,16 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = N
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
-    geom_line(linetype = linetype) + list(
+    geom_line(linetype = linetype) +
+    list(
+      if (!missing(ymax_err)) {
+        ymin_err <- deparse(substitute(ymin_err))
+        ymax_err <- deparse(substitute(ymax_err))
+        args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
+                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
+        geom_errorbar(aes(!!!args_err), position = position_dodge2(preserve = "single"), alpha = .5)
+      }) +
+    list(
       if (!missing(label)) {
         label <- deparse(substitute(label))
         geom_text(aes(label = .data[[label]]),
@@ -128,7 +138,14 @@ ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = 
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
-    geom_line(linetype = linetype) + list(
+    geom_line(linetype = linetype) +
+    list(
+      if (!missing(ymax_err)) {
+        args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
+                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
+        geom_errorbar(aes(!!!args_err), position = position_dodge2(preserve = "single"), alpha = .5)
+      }) +
+    list(
       if (!missing(label)) {
         geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
