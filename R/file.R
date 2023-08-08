@@ -14,6 +14,7 @@ create_library_r <- function(file = "library.R", path) {
     "plotly",
     "readxl",
     "rintrojs",
+	"scales",
     "shiny",
     "shinyBS",
     "shinycssloaders",
