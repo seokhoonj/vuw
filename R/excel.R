@@ -164,28 +164,28 @@ get_rp_table <- function(xlsxFile, sheet, risk_range, rate_range, skipEmptyRows 
 }
 
 write_data <- function(wb, sheet, data, rc = c(1L, 1L), rowNames = TRUE,
-                       fontName = "Malgun Gothic", borderColour = "#4F81BD",
+                       fontName = "Comic Sans MS", borderColour = "#000000",
                        widths = 8.43) {
   headerStyle1 <- createStyle(
     fontName = fontName,
     fontSize = 14,
-    fontColour = "#FFFFFF",
+    fontColour = "#000000",
     halign = "center",
     valign = "center",
-    fgFill = "#4F81BD",
+    fgFill = "#E6E6E7",
     border = "TopRightBottom",
-    borderColour = "#000000",
+    borderColour = borderColour,
     borderStyle = c("thick", "thin", "double")
   )
   headerStyle2 <- createStyle(
     fontName = fontName,
     fontSize = 14,
-    fontColour = "#FFFFFF",
+    fontColour = "#000000",
     halign = "center",
     valign = "center",
-    fgFill = "#4F81BD",
+    fgFill = "#E6E6E7",
     border = "TopBottom",
-    borderColour = "#000000",
+    borderColour = borderColour,
     borderStyle = c("thick", "double")
   )
   bodyStyle1  <- createStyle(
@@ -201,13 +201,13 @@ write_data <- function(wb, sheet, data, rc = c(1L, 1L), rowNames = TRUE,
   footerStyle1 <- createStyle(
     fontName = fontName,
     border = "TopRightBottom",
-    borderColour = c(borderColour, borderColour, "#000000"),
+    borderColour = borderColour,
     borderStyle = c("thin", "thin", "thick")
   )
   footerStyle2 <- createStyle(
     fontName = fontName,
     border = "TopBottom",
-    borderColour = c(borderColour, "#000000"),
+    borderColour = borderColour,
     borderStyle = c("thin", "thick")
   )
 
