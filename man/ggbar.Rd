@@ -23,6 +23,39 @@ ggbar(
   vjust = 0.5
 )
 }
+\arguments{
+\item{data}{a data.frame}
+
+\item{x}{an expression variable}
+
+\item{y}{an expression variable}
+
+\item{ymin}{an expression variable}
+
+\item{ymax}{an expression variable}
+
+\item{ymin_err}{an expression variable}
+
+\item{ymax_err}{an expression variable}
+
+\item{group}{an expression variable}
+
+\item{color}{an expression variable}
+
+\item{fill}{an expression variable}
+
+\item{label}{an expression variable}
+
+\item{family}{a string}
+
+\item{size}{a numeric}
+
+\item{angle}{a numeric}
+
+\item{hjust}{a numeric}
+
+\item{vjust}{a numeric}
+}
 \description{
 Draw a simple bar plot quickly and easily
 }
