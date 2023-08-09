@@ -66,7 +66,6 @@ check_cvd_level <- function(cvd_level, level) {
 #' @param clm     a matrix. Claim matrix
 #' @param clm_1st a matrix. Claim matrix only the first claim is 1 and the rest are 0 for each column and each row id
 #' @param col     a binary vector. it is 1 if it is one-time payment, it is 0 if it is continuous payment
-#' @examples
 #' @export
 overlap_matrix <- function(clm, clm_1st, col) {
   if (any(col == 1))
@@ -81,7 +80,6 @@ overlap_matrix <- function(clm, clm_1st, col) {
 #' @param end  A date Date
 #' @param group A numeric period
 #' @return Period matrix
-#' @examples
 #' @export
 diff_period <- function(start, end, group = 1) {
   assert_class(start, "Date")

@@ -352,7 +352,6 @@ monthly_merge_var_ <- function(df, id_var, merge_var, from_var, to_var) {
 #' @param id_var id variables
 #' @param from_var start date
 #' @param to_var end date
-#' @examples
 #' @export
 count_stay <- function(df, id_var, from_var, to_var) {
   id_var   <- match_cols(df, vapply(substitute(id_var)  , deparse, "character"))
