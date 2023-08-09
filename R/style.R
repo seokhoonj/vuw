@@ -12,7 +12,7 @@ theme_view <- function(family = "Comic Sans MS",
                        legend.key.height = NULL,
                        legend.key.width = NULL,
                        legend.position = "right",
-                       panel.background = element_rect()) {
+                       panel.background = NULL) { # original default: panel.background = element_rect()
   list(
     theme(
       text  = element_text(family = family),
@@ -41,7 +41,7 @@ theme_shiny <- function(family = "Comic Sans MS",
                         legend.key.height = NULL,
                         legend.key.width = NULL,
                         legend.position = "right",
-                        panel.background = element_rect()) {
+                        panel.background = NULL) { # original default: panel.background = element_rect()
   list(
     theme(
       text  = element_text(family = family),
@@ -70,7 +70,7 @@ theme_save <- function(family = "Comic Sans MS",
                        legend.key.height = NULL,
                        legend.key.width = NULL,
                        legend.position = "right",
-                       panel.background = element_rect()) {
+                       panel.background = NULL) { # original default: panel.background = element_rect()
   list(
     theme(
       text  = element_text(family = family),
