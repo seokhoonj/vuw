@@ -8,7 +8,9 @@ create_library_r <- function(file = "library.R", path) {
     "data.table",
     "devtools",
     "ecos",
+    "grid",
     "gridExtra",
+    "igraph",
     "kosis",
     "openxlsx",
     "plotly",
@@ -21,7 +23,9 @@ create_library_r <- function(file = "library.R", path) {
     "shinydashboard",
     "shinyjs",
     "shinyWidgets",
+    "stringr",
     "tibble",
+    "visNetwork",
     "vuw"
   )
   cat(
