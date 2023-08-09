@@ -25,6 +25,7 @@ theme_view <- function(family = "Comic Sans MS",
       legend.key.height = legend.key.height,
       legend.key.width = legend.key.width,
       legend.position = legend.position,
+      panel.border = element_rect(colour = "black", fill = NA),
       panel.background = panel.background,
       strip.background = element_rect(colour = "black")
     )
@@ -53,6 +54,7 @@ theme_shiny <- function(family = "Comic Sans MS",
       legend.key.height = legend.key.height,
       legend.key.width  = legend.key.width,
       legend.position   = legend.position,
+      panel.border = element_rect(colour = "black", fill = NA),
       panel.background  = panel.background,
       strip.background = element_rect(colour = "black")
     )
@@ -81,6 +83,7 @@ theme_save <- function(family = "Comic Sans MS",
       legend.key.height = legend.key.height,
       legend.key.width = legend.key.width,
       legend.position = legend.position,
+      panel.border = element_rect(colour = "black", fill = NA),
       panel.background  = panel.background,
       strip.background = element_rect(colour = "black")
     )
