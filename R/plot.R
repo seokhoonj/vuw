@@ -291,6 +291,58 @@ ggpie_ <- function(data, y, group, family = "Comic Sans MS", size = 4, unit = 10
     theme_void()
 }
 
+ggtable <- function(data, x, y, label, family = "Comic Sans MS",
+                    size = 4, angle = 0, hjust = .5, vjust = .5) {
+  x <- match_cols(data, deparse(substitute(x)))
+  y <- match_cols(data, deparse(substitute(y)))
+  label <- match_cols(data, deparse(substitute(label)))
+
+  if (is.character(data[[x]]))
+    data[[x]] <- as.factor(data[[x]])
+  if (is.character(data[[y]]))
+    data[[y]] <- as.factor(data[[y]])
+
+  stopifnot(is.factor(data[[x]]), is.factor(data[[y]]))
+
+  xlvl <- levels(data[[x]])
+  ylvl <- levels(data[[y]])
+  xlen <- length(xlvl)
+  ylen <- length(ylvl)
+  data[[x]] <- as.numeric(data[[x]])
+  data[[y]] <- as.numeric(data[[y]])
+  ggplot(data, aes(x = .data[[x]], y = .data[[y]])) +
+    geom_text(aes(label = .data[[label]]), size = size, family = family,
+              angle = angle, hjust = hjust, vjust = vjust) +
+    geom_vline(xintercept = seq(1, 1+xlen) - .5, linetype = "dashed") +
+    geom_hline(yintercept = seq(1, 1+ylen) - .5, linetype = "dashed") +
+    scale_x_continuous(breaks = seq(1, xlen), label = xlvl, position = "top") +
+    scale_y_reverse(breaks = seq(1, ylen), label = ylvl)
+}
+
+ggtable_ <- function(data, x, y, label, family = "Comic Sans MS",
+                    size = 4, angle = 0, hjust = .5, vjust = .5) {
+  if (is.character(data[[x]]))
+    data[[x]] <- as.factor(data[[x]])
+  if (is.character(data[[y]]))
+    data[[y]] <- as.factor(data[[y]])
+
+  stopifnot(is.factor(data[[x]]), is.factor(data[[y]]))
+
+  xlvl <- levels(data[[x]])
+  ylvl <- levels(data[[y]])
+  xlen <- length(xlvl)
+  ylen <- length(ylvl)
+  data[[x]] <- as.numeric(data[[x]])
+  data[[y]] <- as.numeric(data[[y]])
+  ggplot(data, aes(x = .data[[x]], y = .data[[y]])) +
+    geom_text(aes(label = .data[[label]]), size = size, family = family,
+              angle = angle, hjust = hjust, vjust = vjust) +
+    geom_vline(xintercept = seq(1, 1+xlen) - .5, linetype = "dashed") +
+    geom_hline(yintercept = seq(1, 1+ylen) - .5, linetype = "dashed") +
+    scale_x_continuous(breaks = seq(1, xlen), label = xlvl, position = "top") +
+    scale_y_reverse(breaks = seq(1, ylen), label = ylvl)
+}
+
 get_legend <- function(plot) {
   gtable <- ggplot_gtable(ggplot_build(plot))
   guide <- which(sapply(gtable$grobs, function(x) x$name) == "guide-box")
