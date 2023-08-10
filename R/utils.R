@@ -2,11 +2,18 @@
 # utils -------------------------------------------------------------------
 
 utils::globalVariables(c(
-  "CI333", "CI10", "CANCER", "GENERALCANCER", "SMALLCANCER", "PSEUDOCANCER",
-  "BREASTCANCER", "UTERICANCER", "PROSTATECANCER", "BLADDERCANCER",
-  "SKINCANCER", "THYROIDCANCER", "CIS", "BORDERLINETUMOR", "STROKE", "ANGINA",
-  "CIRRHOSIS", "VALVE", "HIV", "DIABETES", "HYPERTENSION", "ACCIDENT",
-  "DECLINE", "CARDITIS", "AMI", "IHD", "CEREBROVASCULARDISEASE"
+  "ACCIDENT", "AMI", "ANGINA",
+  "BLADDERCANCER", "BORDERLINETUMOR", "BREASTCANCER",
+  "CARDITIS", "CANCER", "CEREBROVASCULARDISEASE", "CI10", "CI333", "CIRRHOSIS", "CIS",
+  "DECLINE", "DIABETES",
+  "GENERALCANCER",
+  "HIV", "HYPERTENSION",
+  "IHD",
+  "PROSTATECANCER", "PSEUDOCANCER",
+  "SKINCANCER", "SMALLCANCER", "STROKE",
+  "THYROIDCANCER",
+  "UTERICANCER",
+  "VALVE",
 ))
 
 add_folder <- function(folder = c("dev", "data", "info", "inst", "output", "R", "raw", "report", "rules")) {

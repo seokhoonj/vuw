@@ -27,7 +27,7 @@ DECLINE                <- "I12|A22|A810|B22|D550|D552|D560|D561|D562|D563|D564|D
 CARDITIS               <- "I3[0-38]|I4[01]" # 주요 심장의 염증
 AMI                    <- "I2[0-3]" # acute myocardial infarction
 IHD                    <- "I2[0-5]" # ischaemic heart diseases
-CEREBROVASCULARDISEASE <- "I6[0-9]"
+CEREBROVASCULARDISEASE <- "I6[0-9]|G46"
 
 # diz_book <- data.table(matrix(c(
 #   "CI333"                 , "C[0-9][0-9]|D0[0-79]|D4[56]|D47[1345]|I0[89]|I2[0-3]|I3[4-9]|I6[0-3]|K70[23]|K717|K74|K761|T82|Z95"
