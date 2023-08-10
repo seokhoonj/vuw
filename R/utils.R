@@ -13,7 +13,7 @@ utils::globalVariables(c(
   "SKINCANCER", "SMALLCANCER", "STROKE",
   "THYROIDCANCER",
   "UTERICANCER",
-  "VALVE",
+  "VALVE"
 ))
 
 add_folder <- function(folder = c("dev", "data", "info", "inst", "output", "R", "raw", "report", "rules")) {
