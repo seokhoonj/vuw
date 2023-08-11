@@ -33,7 +33,7 @@ theme_view <- function(family = "Comic Sans MS",
 }
 
 theme_shiny <- function(family = "Comic Sans MS",
-                        x.size  =      12, y.size =      12, t.size =      12, s.size =      12, l.size =      12,
+                        x.size  =      12, y.size =      12, t.size =      14, s.size =      14, l.size =      12,
                         x.face  = "plain", y.face = "plain", t.face = "plain", s.face = "plain", l.face = "plain",
                         x.angle =    0, y.angle =    0,
                         x.hjust =   .5, x.vjust =   .5,
@@ -41,7 +41,8 @@ theme_shiny <- function(family = "Comic Sans MS",
                         legend.key.height = NULL,
                         legend.key.width = NULL,
                         legend.position = "right",
-                        panel.background = NULL) { # original default: panel.background = element_rect()
+                        panel.background = NULL,
+                        plot.background.fill = "#ECF0F5") { # original default: panel.background = element_rect()
   list(
     theme(
       text  = element_text(family = family),
@@ -56,7 +57,11 @@ theme_shiny <- function(family = "Comic Sans MS",
       legend.position   = legend.position,
       panel.border = element_rect(colour = "black", fill = NA),
       panel.background  = panel.background,
-      strip.background = element_rect(colour = "black")
+      strip.background = element_rect(colour = "black"),
+      plot.background = element_rect(
+        fill = plot.background.fill,
+        colour = plot.background.fill
+      )
     )
   )
 }
