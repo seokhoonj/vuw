@@ -57,15 +57,4 @@ install_packages <- function(packages) {
       stop("Installing '", pkg, "' is failed.")
   }
 
-  # suppressPackageStartupMessages({
-  #   if (!require(vuw))         devtools::install_github("seokhoonj/vuw"         , upgrade = "never")
-  #   if (!require(lineprof))    devtools::install_github("hadley/lineprof"       , upgrade = "never")
-  #   if (!require(ggbiplot))    devtools::install_github("vqv/ggbiplot"          , upgrade = "never")
-  #   if (!require(ggradar))     devtools::install_github("ricardo-bion/ggradar"  , upgrade = "never")
-  #   if (!require(ggsankey))    devtools::install_github("davidsjoberg/ggsankey" , upgrade = "never")
-  #   if (!require(ggtech))      devtools::install_github("ricardo-bion/ggtech"   , upgrade = "never")
-  #   if (!require(gganatogram)) devtools::install_github("jespermaag/gganatogram", upgrade = "never")
-  #   if (!require(twidlr))      devtools::install_github("drsimonj/twidlr"       , upgrade = "never")
-  #   if (!require(KoNLP))       devtools::install_github("haven-jeon/KoNLP", upgrade = "never", INSTALL_opts = c("--no-multiarch"))
-  # })
 }
