@@ -12,7 +12,7 @@ is_japanese <- function(x) {
 set_translate <- function() {
   # use_python(__python_path__)
   source_python(
-    paste(system.file(package = "vuw"), "inst/python/jap2kor.py", sep = "/"),
+    paste(system.file(package = "vuw"), "python/jap2kor.py", sep = "/"),
     envir = globalenv()
   )
 }
