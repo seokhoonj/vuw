@@ -1,3 +1,5 @@
+## @export
+# jap2kor <- NULL
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("Written by Joo, Seokhoon. (Note, kcd terms arguments are monthly-basis)")
@@ -12,10 +14,13 @@
   options(vuw.three.colors2 = c("#8DD3C7", "#80B1D3", "#FB8072"))
   if (Sys.info()[["sysname"]] == "Linux")
     Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
-  source_python(
-    paste(system.file(package = "vuw"), "python/jap2kor.py", sep = "/"),
-    envir = environment()
-  )
+  # source_python(
+  #   paste(system.file(package = "vuw"), "python/jap2kor.py", sep = "/"),
+  #   envir = environment()
+  # )
+  # jap2kor <<- reticulate::py_run_file(system.file("python", "jap2kor.py", package = "vuw"))
+  jap2kor <<- reticulate::import_from_path(system.file("python", "jap2kor.py", package = "vuw"),
+                                           delay_load = TRUE)
 #   user_permission <- utils::askYesNo("Install miniconda? downloads 50MB and takes time")
 #   if (isTRUE(user_permission)) {
 #     reticulate::install_miniconda()
