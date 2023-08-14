@@ -12,4 +12,14 @@
   options(vuw.three.colors2 = c("#8DD3C7", "#80B1D3", "#FB8072"))
   if (Sys.info()[["sysname"]] == "Linux")
     Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
+  source_python(
+    paste(system.file(package = "vuw"), "python/jap2kor.py", sep = "/"),
+    envir = environment()
+  )
+#   user_permission <- utils::askYesNo("Install miniconda? downloads 50MB and takes time")
+#   if (isTRUE(user_permission)) {
+#     reticulate::install_miniconda()
+#   } else {
+#     message("You should run `reticulate::install_miniconda()` before using this package")
+#   }
 }
