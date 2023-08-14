@@ -1,5 +1,7 @@
 ##' @export
-jap2kor <- NULL
+jap2kor4uni <- function(data, api_key_id, api_key) {
+  return(jap2kor$jap2kor4uni(data, api_key_id, api_key))
+}
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("Written by Joo, Seokhoon. (Note, kcd terms arguments are monthly-basis)")
