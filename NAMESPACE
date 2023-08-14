@@ -347,3 +347,5 @@ export(IHD)
 export(CEREBROVASCULARDISEASE)
 
 export(create_library_r)
+
+export(jap2kor4uni)
