@@ -1,5 +1,5 @@
-## @export
-# jap2kor <- NULL
+##' @export
+jap2kor <- NULL
 
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage("Written by Joo, Seokhoon. (Note, kcd terms arguments are monthly-basis)")
