@@ -19,8 +19,8 @@
   #   envir = environment()
   # )
   # jap2kor <<- reticulate::py_run_file(system.file("python", "jap2kor.py", package = "vuw"))
-  jap2kor <<- reticulate::import_from_path(system.file("python", "jap2kor.py", package = "vuw"),
-                                           delay_load = TRUE)
+  jap2kor <<- reticulate::import_from_path(
+    "jap2kor", path = system.file("python", package = "vuw"), delay_load = TRUE)
 #   user_permission <- utils::askYesNo("Install miniconda? downloads 50MB and takes time")
 #   if (isTRUE(user_permission)) {
 #     reticulate::install_miniconda()
