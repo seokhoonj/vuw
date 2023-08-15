@@ -5,8 +5,8 @@ import numpy as np
 import pandas as pd
 from numbers import Number
 
-def jap2kor0(text, api_key_id, api_key):
-    '''simple jap2kor0'''
+def ja2ko0(text, api_key_id, api_key):
+    '''simple ja2ko0'''
     text = urllib.parse.quote(text)
     data = "source=ja&target=ko&text=" + text
     url = "https://naveropenapi.apigw.ntruss.com/nmt/v1/translation"
@@ -23,12 +23,12 @@ def jap2kor0(text, api_key_id, api_key):
         translated_text = "Error Code:" + rescode
     return translated_text
 
-def jap2kor(text_obj, api_key_id, api_key):
-    '''generalized jap2kor0'''
+def ja2ko(text_obj, api_key_id, api_key):
+    '''generalized ja2ko0'''
     if isinstance(text_obj, Number):
         translated = text_obj
     if isinstance(text_obj, str):
-        translated = jap2kor0(text_obj, api_key_id, api_key)
+        translated = ja2ko0(text_obj, api_key_id, api_key)
     if isinstance(text_obj, (list, np.ndarray, pd.Series)):
         translated = []
         for text in text_obj:
@@ -54,12 +54,12 @@ def jap2kor(text_obj, api_key_id, api_key):
             translated.append(translated_text)
     return translated
 
-def jap2kor4dat(data, api_key_id, api_key):
-    '''jap2kor for data'''
-    return data.apply(lambda x: jap2kor(x, api_key_id, api_key))
+def ja2ko4dat(data, api_key_id, api_key):
+    '''ja2ko for data'''
+    return data.apply(lambda x: ja2ko(x, api_key_id, api_key))
 
-def jap2kor4uni(data, api_key_id, api_key):
-    '''jap2kor for unique data columns'''
+def ja2ko4uni(data, api_key_id, api_key):
+    '''ja2ko for unique data columns'''
     columns = data.columns
     data_unique = []
     translated = []
@@ -68,14 +68,14 @@ def jap2kor4uni(data, api_key_id, api_key):
         if np.nan in column_data_unique:
             column_data_unique.remove(np.nan)
         data_unique.append(column_data_unique)
-        translated_text = jap2kor(column_data_unique, api_key_id, api_key)
+        translated_text = ja2ko(column_data_unique, api_key_id, api_key)
         translated.append(translated_text)
         print(column)
     translated_data = pd.DataFrame()
     for i, _ in enumerate(columns):
         translated_data = pd.concat([
             translated_data, 
-            pd.DataFrame({columns[i]+'_jap': data_unique[i], columns[i]+'_kor': translated[i]})], axis=1)
+            pd.DataFrame({columns[i]+'_ja': data_unique[i], columns[i]+'_ko': translated[i]})], axis=1)
     return translated_data
 
 def read_sheets(path):
