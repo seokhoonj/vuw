@@ -20,7 +20,6 @@ Imports:
     openssl (>= 1.4.1), 
     openxlsx (>= 4.2.3), 
     plotly (>= 4.10.0), 
-    reticulate (>= 1.25),
     scales (>= 1.1.1), 
     stringi (>= 1.7.6), 
     stringr (>= 1.4.0), 

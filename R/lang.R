@@ -9,14 +9,6 @@ is_japanese <- function(x) {
   grepl(japanese, x, perl = TRUE)
 }
 
-set_translate <- function() {
-  # use_python(__python_path__)
-  source_python(
-    paste(system.file(package = "vuw"), "python/jap2kor.py", sep = "/"),
-    envir = environment()
-  )
-}
-
 clean_zen <- function(x) {
   if (Encoding(x[1]) != "UTF-8")
     x <- iconv(x, from = "", to = "UTF-8")
