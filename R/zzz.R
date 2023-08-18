@@ -15,9 +15,6 @@
   toset <- !(names(op.vuw) %in% names(op))
   if (any(toset)) options(op.vuw[toset])
 
-  if (Sys.info()[["sysname"]] == "Linux")
-    Sys.setlocale("LC_MESSAGES", "en_US.UTF-8")
-
   invisible()
 }
 
