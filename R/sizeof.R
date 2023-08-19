@@ -1,11 +1,8 @@
-
-# sizeof ------------------------------------------------------------------
-
 #' Object size
 #'
 #' This function calculates the object size
 #'
-#' @param x object
+#' @param x object vector, data.frame, environment, ...
 #' @param unit size unit; "B", "KB", "MB", "GB"
 #' @examples
 #' \dontrun{

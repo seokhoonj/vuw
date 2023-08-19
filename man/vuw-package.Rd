@@ -6,10 +6,7 @@
 \alias{vuw-package}
 \title{vuw: Virtual Underwriting}
 \description{
-A virtual loss ratio simulation is performed based on the claim cohort data and an adjusted underwriting model is established according to the result of the simulation. The model considers disease codes and risk rates.
-}
-\details{
-This package is to make for a virtual underwriting process.
+This package is for a virtual underwriting project.
 }
 \author{
 \strong{Maintainer}: Seokhoon Joo \email{seokhoonj@gmail.com}

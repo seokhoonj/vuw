@@ -16,7 +16,7 @@ sizeof(x, unit)
 \method{sizeof}{environment}(x, unit = "mb")
 }
 \arguments{
-\item{x}{object}
+\item{x}{object vector, data.frame, environment, ...}
 
 \item{unit}{size unit; "B", "KB", "MB", "GB"}
 }

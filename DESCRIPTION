@@ -1,6 +1,6 @@
 Package: vuw
 Title: Virtual Underwriting
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "Seokhoon", family = "Joo", email = "seokhoonj@gmail.com", 
            role = c("aut", "cre"))

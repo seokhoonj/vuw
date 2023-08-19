@@ -8,9 +8,7 @@
 
 ## Installation
 
-You can install the development version of vuw from [GitHub](https://github.com/seokhoonj) with:
-
 ``` r
-# install.packages("devtools")
+# install dev version
 devtools::install_github("seokhoonj/vuw")
 ```
