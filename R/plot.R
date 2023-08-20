@@ -20,8 +20,9 @@
 ##' @param vjust a numeric
 ##' @export
 ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
-                  group = NULL, color = NULL, fill = NULL,
-                  label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
+                  group = NULL, color = NULL, fill = NULL, barcolor = "transparent",
+                  label, family = "Comic Sans MS", size = 4, angle = 0,
+                  hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
   group <- if (!is.null(substitute(group))) deparse(substitute(group))
@@ -30,7 +31,8 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
-    geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
+    geom_bar(stat = "identity", position = position_dodge2(preserve = "single"),
+             color = barcolor) +
     list(
       if (!missing(ymax_err)) {
         ymin_err <- deparse(substitute(ymin_err))
@@ -49,12 +51,14 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
 }
 
 ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
-                   group = NULL, color = NULL, fill = NULL,
-                   label, family = "Comic Sans MS", size = 4, angle = 0, hjust = .5, vjust = .5) {
+                   group = NULL, color = NULL, fill = NULL, barcolor = "transparent",
+                   label, family = "Comic Sans MS", size = 4, angle = 0,
+                   hjust = .5, vjust = .5) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
-    geom_bar(stat = "identity", position = position_dodge2(preserve = "single")) +
+    geom_bar(stat = "identity", position = position_dodge2(preserve = "single"),
+             color = barcolor) +
     list(
       if (!missing(ymax_err)) {
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
@@ -70,8 +74,9 @@ ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
 }
 
 ggmix <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
-                  color = NULL, fill = NULL, label, family = "Comic Sans MS",
-                  size = 4, angle = 0, hjust = 0.5, vjust = 0.5, reverse = TRUE) {
+                  color = NULL, fill = NULL, barcolor = "transparent", label,
+                  family = "Comic Sans MS", size = 4, angle = 0, hjust = 0.5,
+                  vjust = 0.5, reverse = TRUE) {
   x     <- deparse(substitute(x))
   y     <- deparse(substitute(y))
   group <- if (!is.null(substitute(group))) deparse(substitute(group))
@@ -89,8 +94,9 @@ ggmix <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
 }
 
 ggmix_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
-                   color = NULL, fill = NULL, label, family = "Comic Sans MS",
-                   size = 4, angle = 0, hjust = 0.5, vjust = 0.5, reverse = TRUE) {
+                   color = NULL, fill = NULL, barcolor = "transparent", label,
+                   family = "Comic Sans MS", size = 4, angle = 0, hjust = 0.5,
+                   vjust = 0.5, reverse = TRUE) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
