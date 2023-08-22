@@ -42,7 +42,7 @@ theme_shiny <- function(family = "Comic Sans MS",
                         legend.key.width = NULL,
                         legend.position = "right",
                         panel.background = NULL,
-                        plot.background.fill = "#ECF0F5") { # original default: panel.background = element_rect()
+                        plot.background.fill = "transparent") { # original default: panel.background = element_rect() #ECF0F5
   list(
     theme(
       text  = element_text(family = family),
