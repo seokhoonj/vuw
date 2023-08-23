@@ -62,6 +62,8 @@ export(ggdensity)
 export(ggdensity_)
 export(ggpie)
 export(ggpie_)
+export(ggtable)
+export(ggtable_)
 export(get_legend)
 export(data2treemap)
 
