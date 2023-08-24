@@ -21,12 +21,14 @@ create_library_r <- function(file = "library.R", path) {
     "shinyBS",
     "shinycssloaders",
     "shinydashboard",
+    "shinyFiles",
     "shinyjs",
     "shinyWidgets",
     "stringr",
     "tibble",
     "visNetwork",
-    "vuw"
+    "vuw",
+    "writexl"
   )
   cat(
     "\nsuppressPackageStartupMessages({",
