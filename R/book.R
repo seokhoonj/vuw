@@ -190,14 +190,14 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
 
   # plot
   if (plot) {
-    colours <- rev(scales::hue_pal()(2)) # show_col(hue_pal()(2))
-
-    g1 <- ggplot(m[risk != "ratio"], aes(x = age, y = rate, ymin = 0, group = label, linetype = risk)) +
+    g1 <- ggplot(m[risk != "ratio"], aes(x = age, y = rate, ymin = 0,
+                                         group = label, linetype = risk)) +
       geom_line() +
       scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
-      scale_y_continuous(labels = function(x) if (max(m[risk != "ratio"]$rate) <= 1)
+      scale_y_continuous(labels = function(x)
+        if (max(m[risk != "ratio"]$rate, na.rm = TRUE) <= 1)
         sprintf("%.2f%%", x * 100) else sprintf("%.2f", x)) +
-      scale_color_manual(values = colours) +
+      scale_color_manual(values = "vuw.two.colors1") +
       facet_wrap(~ gender, scales = scales) +
       theme(legend.position = "top")
 
