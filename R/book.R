@@ -197,7 +197,7 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
       scale_y_continuous(labels = function(x)
         if (max(m[risk != "ratio"]$rate, na.rm = TRUE) <= 1)
         sprintf("%.2f%%", x * 100) else sprintf("%.2f", x)) +
-      scale_color_manual(values = "vuw.two.colors1") +
+      scale_color_manual(values = options()[["vuw.two.colors1"]]) +
       facet_wrap(~ gender, scales = scales) +
       theme(legend.position = "top")
 
