@@ -112,10 +112,13 @@ get_risk <- function(risk_info, x) {
 }
 
 get_rider_info <- function(claim_info) {
+  rn <- main_category <- sub_category <- rider_category <- rider <- proportion <- NULL
   unique(claim_info[, .(rn, main_category, sub_category, rider_category, rider, proportion)])
 }
 
-risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y", age_unit = 10, logscale = FALSE, facet = TRUE, max_label = TRUE, family = "Comic Sans MS") {
+risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
+                      age_unit = 10, logscale = FALSE, facet = TRUE,
+                      max_label = TRUE, family = "Comic Sans MS") {
   assert_class(risk_info$gender, "factor")
   if (missing(x)) {
     hprint(unique(risk_info[, .(risk)]))
@@ -176,7 +179,6 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
   set(z, j = "rate_x_prop", value = z$rate_x / (z$rate_x + z$rate_y))
   set(z, j = "rate_y_prop", value = z$rate_y / (z$rate_x + z$rate_y))
   set(z, j = "ratio", value = z$rate_x / z$rate_y)
-
   m <- melt(
     z,
     id.vars       = c("age", "gender"),
@@ -188,34 +190,49 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
   set(m, i = which(m$risk == "rate_y"), j = "risk", value = risk2)
   set(m, j = "label", value = paste(m$risk, "(", m$gender, ")"))
 
-  # plot
   if (plot) {
+    values <- options()[["vuw.two.colors1"]]
     g1 <- ggplot(m[risk != "ratio"], aes(x = age, y = rate, ymin = 0,
-                                         group = label, linetype = risk)) +
+                                         group = label, color = gender,
+                                         linetype = risk)) +
       geom_line() +
       scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
       scale_y_continuous(labels = function(x)
         if (max(m[risk != "ratio"]$rate, na.rm = TRUE) <= 1)
-        sprintf("%.2f%%", x * 100) else sprintf("%.2f", x)) +
-      scale_color_manual(values = options()[["vuw.two.colors1"]]) +
+          sprintf("%.2f%%", x * 100) else sprintf("%.2f", x)) +
+      scale_color_manual(values = values) +
       facet_wrap(~ gender, scales = scales) +
-      theme(legend.position = "top")
+      theme_shiny(legend.position = "bottom")
 
-    g2 <- ggplot(m[risk == "ratio"], aes(x = age, y = rate, ymin = 0, group = gender, col = gender)) +
+    legend <- get_legend(g1)
+
+    g1 <- g1 + theme_shiny(legend.position = "none")
+
+    g2 <- ggplot(m[risk == "ratio"], aes(x = age, y = rate, ymin = 0,
+                                         group = gender, color = gender)) +
       geom_line() +
       geom_hline(yintercept = 1, color = "red", linetype = "dashed") +
       scale_x_continuous(n.breaks = floor(unilen(m$age) / age_unit)) +
-      scale_color_manual(values = colours) +
+      scale_color_manual(values = values) +
       ylab("ratio") +
       facet_wrap(~ risk) +
-      theme(legend.position = "top", plot.title = element_text(size = 7, hjust = .5))
+      theme_shiny(legend.position = "none")
 
-    g <- grid.arrange(g1, g2, widths = c(1, 1, 1),
-                      layout_matrix = cbind(1, 1, 2),
-                      top = grid::textGrob(bquote("Risk Ratio = " ~ frac(.(risk1), .(risk2)))))
-    print(g)
+    top <- grid::textGrob(
+      bquote("Risk Ratio = " ~ frac(.(risk1), .(risk2))),
+      gp = grid::gpar(fontfamily = "Comic Sans MS", size = 14)
+    )
+
+    p <- arrangeGrob(
+      top,
+      arrangeGrob(
+        ggplotGrob(g1), ggplotGrob(g2),
+        ncol = 2, widths = c(6.5, 3.5)
+      ), legend, nrow = 3, heights = c(1.5, 7.5, 1)
+    )
+    print(grid.arrange(p))
   }
-  return(z)
+  invisible(z)
 }
 
 amt_plot <- function(amt_mix, label = TRUE) {
@@ -260,4 +277,3 @@ amt_plot <- function(amt_mix, label = TRUE) {
   grid.arrange(p)
   invisible(p)
 }
-
