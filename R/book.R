@@ -170,7 +170,8 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
 }
 
 ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
-                       scales = "fixed", age_unit = 10, plot = TRUE, family = "Comic Sans MS") {
+                       scales = "fixed", age_unit = 10, plot = TRUE,
+                       family = "Comic Sans MS") {
   x <- risk_info[risk == risk1]
   y <- risk_info[risk == risk2]
   z <- merge(x, y, by = c("gender", "age"), all.x = TRUE)
@@ -202,7 +203,7 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
           sprintf("%.2f%%", x * 100) else sprintf("%.2f", x)) +
       scale_color_manual(values = values) +
       facet_wrap(~ gender, scales = scales) +
-      theme_shiny(legend.position = "bottom")
+      theme_shiny()
 
     legend <- get_legend(g1)
 
@@ -220,15 +221,15 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
 
     top <- grid::textGrob(
       bquote("Risk Ratio = " ~ frac(.(risk1), .(risk2))),
-      gp = grid::gpar(fontfamily = "Comic Sans MS", size = 14)
+      gp = grid::gpar(fontfamily = family, size = 16)
     )
 
     p <- arrangeGrob(
       top,
       arrangeGrob(
-        ggplotGrob(g1), ggplotGrob(g2),
-        ncol = 2, widths = c(6.5, 3.5)
-      ), legend, nrow = 3, heights = c(1.5, 7.5, 1)
+        ggplotGrob(g1), ggplotGrob(g2), legend,
+        ncol = 3, widths = c(5, 3, 2)
+      ), nrow = 2, heights = c(2, 8)
     )
     print(grid.arrange(p))
   }
@@ -260,15 +261,16 @@ amt_plot <- function(amt_mix, label = TRUE) {
     coord_flip() +
     theme_test() +
     theme_view(x.size = 0, x.angle = 90, legend.position = "right")
-  # legend
+
   legend <- get_legend(g2)
   g2 <- g2 + theme_view(x.size = 0, legend.position = "none")
-  # top
+
   top <- textGrob(
     sprintf("Distribution of face amount\n%s",
     if (length(match_cols(amt_mix, "rider")) == 1) amt_mix$rider[1L] else "Specific Rider"),
     gp = gpar(fontfamily = "Comic Sans MS", size = 14)
   )
+
   p <- arrangeGrob(
     top, arrangeGrob(
       ggplotGrob(g1), ggplotGrob(g2), legend,
