@@ -20,15 +20,18 @@
 ##' @param vjust a numeric
 ##' @export
 ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
-                  group = NULL, color = NULL, fill = NULL, barcolor = "transparent",
-                  label, family = "Comic Sans MS", size = 4, angle = 0,
+                  group = NULL, color = NULL, fill = NULL,
+                  barcolor = "transparent", text, label,
+                  family = "Comic Sans MS", size = 4, angle = 0,
                   hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
   group <- if (!is.null(substitute(group))) deparse(substitute(group))
   color <- if (!is.null(substitute(color))) deparse(substitute(color))
   fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
-  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+  text  <- if (!is.null(substitute(text)))  deparse(substitute(text))
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
+                      color = color, fill = fill, text = text),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single"),
@@ -38,86 +41,108 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
         ymin_err <- deparse(substitute(ymin_err))
         ymax_err <- deparse(substitute(ymax_err))
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
-                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
-        geom_errorbar(aes(!!!args_err), position = position_dodge2(preserve = "single"), alpha = .5)
+                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x)
+                           else x)
+        geom_errorbar(aes(!!!args_err),
+                      position = position_dodge2(preserve = "single"),
+                      alpha = .5)
       }) +
     list(
       if (!missing(label)) {
         label <- deparse(substitute(label))
         geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
-                  family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
+                  family = family, size = size, angle = angle, hjust = hjust,
+                  vjust = vjust)
       })
 }
 
 ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
-                   group = NULL, color = NULL, fill = NULL, barcolor = "transparent",
-                   label, family = "Comic Sans MS", size = 4, angle = 0,
-                   hjust = .5, vjust = .5) {
-  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+                   group = NULL, color = NULL, fill = NULL,
+                   barcolor = "transparent", text, label,
+                   family = "Comic Sans MS", size = 4, angle = 0, hjust = .5,
+                   vjust = .5) {
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
+                      color = color, fill = fill),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single"),
              color = barcolor) +
     list(
       if (!missing(ymax_err)) {
-        args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
-                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
-        geom_errorbar(aes(!!!args_err), position = position_dodge2(preserve = "single"), alpha = .5)
+        args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err,
+                                text = text),
+                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x)
+                           else x)
+        geom_errorbar(aes(!!!args_err),
+                      position = position_dodge2(preserve = "single"),
+                      alpha = .5)
       }) +
     list(
       if (!missing(label)) {
         geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
-                  family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
+                  family = family, size = size, angle = angle, hjust = hjust,
+                  vjust = vjust)
       })
 }
 
 ggmix <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
-                  color = NULL, fill = NULL, barcolor = "transparent", label,
-                  family = "Comic Sans MS", size = 4, angle = 0, hjust = 0.5,
-                  vjust = 0.5, reverse = TRUE) {
+                  color = NULL, fill = NULL, barcolor = "transparent", text,
+                  label, family = "Comic Sans MS", size = 4, angle = 0,
+                  hjust = 0.5, vjust = 0.5, reverse = TRUE) {
   x     <- deparse(substitute(x))
   y     <- deparse(substitute(y))
   group <- if (!is.null(substitute(group))) deparse(substitute(group))
   color <- if (!is.null(substitute(color))) deparse(substitute(color))
   fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
-  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+  text  <- if (!is.null(substitute(text)))  deparse(substitute(text))
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
+                      color = color, fill = fill, text = text),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
-    geom_bar(stat = "identity", position = position_fill(vjust = 0.5, reverse = reverse)) +
+    geom_bar(stat = "identity",
+             position = position_fill(vjust = 0.5, reverse = reverse)) +
     list(if (!missing(label)) {
       label <- deparse(substitute(label))
-      geom_text(aes(label = .data[[label]]), position = position_fill(vjust = 0.5, reverse = reverse), family = family, size = size,
-                angle = angle, hjust = hjust, vjust = vjust, color = "#FAF9F6")
+      geom_text(aes(label = .data[[label]]),
+                position = position_fill(vjust = 0.5, reverse = reverse),
+                family = family, size = size, angle = angle, hjust = hjust,
+                vjust = vjust, color = "#FAF9F6")
     })
 }
 
 ggmix_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
-                   color = NULL, fill = NULL, barcolor = "transparent", label,
-                   family = "Comic Sans MS", size = 4, angle = 0, hjust = 0.5,
-                   vjust = 0.5, reverse = TRUE) {
-  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+                   color = NULL, fill = NULL, barcolor = "transparent", text,
+                   label, family = "Comic Sans MS", size = 4, angle = 0,
+                   hjust = 0.5, vjust = 0.5, reverse = TRUE) {
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
+                      color = color, fill = fill, text = text),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
-    geom_bar(stat = "identity", position = position_fill(vjust = 0.5, reverse = reverse)) +
+    geom_bar(stat = "identity",
+             position = position_fill(vjust = 0.5, reverse = reverse)) +
     list(if (!missing(label)) {
-      geom_text(aes(label = .data[[label]]), position = position_fill(vjust = 0.5, reverse = reverse), family = family, size = size,
-                angle = angle, hjust = hjust, vjust = vjust, color = "#FAF9F6")
+      geom_text(aes(label = .data[[label]]),
+                position = position_fill(vjust = 0.5, reverse = reverse),
+                family = family, size = size, angle = angle, hjust = hjust,
+                vjust = vjust, color = "#FAF9F6")
     })
 }
 
 
 ggline <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
-                   group = NULL, color = NULL, fill = NULL,
-                   label, linetype = "solid", family = "Comic Sans MS",
-                   size = 4, angle = 0, hjust = .5, vjust = .5) {
+                   group = NULL, color = NULL, fill = NULL, text, label,
+                   linetype = "solid", family = "Comic Sans MS", size = 4,
+                   angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
   y <- deparse(substitute(y))
   group <- if (!is.null(substitute(group))) deparse(substitute(group))
   color <- if (!is.null(substitute(color))) deparse(substitute(color))
   fill  <- if (!is.null(substitute(fill)))  deparse(substitute(fill))
-  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+  text  <- if (!is.null(substitute(text)))  deparse(substitute(text))
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
+                      color = color, fill = fill, text = text),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_line(linetype = linetype) +
@@ -126,40 +151,51 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
         ymin_err <- deparse(substitute(ymin_err))
         ymax_err <- deparse(substitute(ymax_err))
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
-                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
-        geom_errorbar(aes(!!!args_err), position = position_dodge2(preserve = "single"), alpha = .5)
+                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x)
+                           else x)
+        geom_errorbar(aes(!!!args_err),
+                      position = position_dodge2(preserve = "single"),
+                      alpha = .5)
       }) +
     list(
       if (!missing(label)) {
         label <- deparse(substitute(label))
         geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
-                  family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
+                  family = family, size = size, angle = angle, hjust = hjust,
+                  vjust = vjust)
       })
 }
 
-ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL, color = NULL, fill = NULL,
-                    label, linetype = "solid", family = "Comic Sans MS",
-                    size = 4, angle = 0, hjust = .5, vjust = .5) {
-  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group, color = color, fill = fill),
+ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
+                    color = NULL, fill = NULL, text, label, linetype = "solid",
+                    family = "Comic Sans MS", size = 4, angle = 0, hjust = .5,
+                    vjust = .5) {
+  args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
+                      color = color, fill = fill, text = text),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
   ggplot(data = data, aes(!!!args)) +
     geom_line(linetype = linetype) +
     list(
       if (!missing(ymax_err)) {
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
-                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
-        geom_errorbar(aes(!!!args_err), position = position_dodge2(preserve = "single"), alpha = .5)
+                           function(x) if (!is.null(x) & !is.numeric(x)) sym(x)
+                           else x)
+        geom_errorbar(aes(!!!args_err),
+                      position = position_dodge2(preserve = "single"),
+                      alpha = .5)
       }) +
     list(
       if (!missing(label)) {
         geom_text(aes(label = .data[[label]]),
                   position = position_dodge2(width = .9, preserve = "single"),
-                  family = family, size = size, angle = angle, hjust = hjust, vjust = vjust)
+                  family = family, size = size, angle = angle, hjust = hjust,
+                  vjust = vjust)
       })
 }
 
-ggdensity <- function(data, x, facet, probs = .95, logscale = F, digits = 0, scales = "free_y", family = "Comic Sans MS") {
+ggdensity <- function(data, x, facet, probs = .95, logscale = F, digits = 0,
+                      scales = "free_y", family = "Comic Sans MS") {
   x <- match_cols(data, vapply(substitute(x), deparse, "character"))
   if (logscale)
     data[[x]] <- log(data[[x]] + 1)
