@@ -95,21 +95,27 @@ theme_save <- function(family = "Comic Sans MS",
   )
 }
 
-scale_gender_manual <- function(x, gender = c("1", "2"), colors = "vuw.two.colors1", guide = "legend") {
+scale_gender_manual <- function(x, gender = c("1", "2"), colors = "vuw.two.colors1",
+                                guide = "legend") {
+  values <- options()[[colors]]
   list(
     if (unilen(x) == 2) {
-      scale_color_manual(values = options()[[colors]], guide = guide)
+      scale_color_manual(values = values, guide = guide)
     } else if (unique(x) == gender[1L]) {
-      scale_color_manual(values = options()[[colors]][1L], guide = guide)
+      scale_color_manual(values = values[1L], guide = guide)
     } else if (unique(x) == gender[2L]) {
-      scale_color_manual(values = options()[[colors]][2L], guide = guide)
+      scale_color_manual(values = values[2L], guide = guide)
+    } else {
+      scale_color_manual(values = "grey30", guide = guide)
     },
     if (unilen(x) == 2) {
-      scale_fill_manual(values = options()[[colors]], guide = guide)
+      scale_fill_manual(values = values, guide = guide)
     } else if (unique(x) == gender[1L]) {
-      scale_fill_manual(values = options()[[colors]][1L], guide = guide)
+      scale_fill_manual(values = values[1L], guide = guide)
     } else if (unique(x) == gender[2L]) {
-      scale_fill_manual(values = options()[[colors]][2L], guide = guide)
+      scale_fill_manual(values = values[2L], guide = guide)
+    } else {
+      scale_fill_manual(values = "grey30", guide = guide)
     }
   )
 }
