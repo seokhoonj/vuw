@@ -18,6 +18,7 @@ cut_age <- function(x, interval = 5, right = FALSE) {
   e <- as.integer(sapply(m, function(x) x[2L]))-1
   g <- sprintf("%d-%d", s, e)
   levels(z) <- g
+  z <- ordered(z)
   return(z)
 }
 
@@ -42,7 +43,7 @@ set_band <- function(df, var, breaks, interval = 5, right = FALSE, col_nm, label
   levels(col_band) <- labels
   if (missing(col_nm))
     col_nm <- sprintf("%s_band", var)
-  set(df, j = col_nm, value = col_band)
+  set(df, j = col_nm, value = ordered(col_band))
   setcolafter_(df, col_nm, var)
 }
 
@@ -63,7 +64,7 @@ set_age_band <- function(df, age_var, interval = 5, right = FALSE, col_nm = "age
     labels <- sprintf("%d-%d", s, e)
   }
   levels(age_band) <- labels
-  set(df, j = col_nm, value = age_band)
+  set(df, j = col_nm, value = ordered(age_band))
   setcolafter_(df, col_nm, age_var)
 }
 
@@ -74,7 +75,7 @@ set_age_cut <- function(df, age_var, age_cut = 60) {
   r <- sprintf("%s-", age_cut)
   age_cut <- ifelse(age < age_cut, l, r)
   levels(age_cut) <- c(l, r)
-  set(df, j = "age_cut", value = age_cut)
+  set(df, j = "age_cut", value = ordered(age_cut))
   setcolafter_(df, "age_cut", age_var)
 }
 
@@ -88,16 +89,17 @@ set_hos_band <- function(df, hos_var, breaks = c(0, 1, 2, 8, 16, 22, 31)) {
   hos_band_var <- sprintf("%s_band", hos_var)
   hos_band <- cut(hos, breaks = breaks, right = F)
   levels(hos_band) <- labels
-  set(df, j = hos_band_var, value = hos_band)
+  set(df, j = hos_band_var, value = ordered(hos_band))
   setcolafter_(df, hos_band_var, hos_var)
 }
 
 set_sur_band <- function(df, sur_var) {
   sur_var <- match_cols(df, vapply(substitute(sur_var), deparse, "character"))
   sur <- df[[sur_var]]
+  sur <- ifelse(sur == 0, "0", ifelse(sur == 1, "1", ifelse(sur == 2, "2", ifelse(sur >= 3, "3+", sur))))
+  sur <- factor(sur, levels = c("0", "1", "2", "3+"), ordered = TRUE)
   sur_band_var <- sprintf("%s_band", sur_var)
-  set(df, j = sur_band_var, value = factor(
-    ifelse(sur == 0, "0", ifelse(sur == 1, "1", ifelse(sur == 2, "2", ifelse(sur >= 3, "3+", sur))))))
+  set(df, j = sur_band_var, value = sur)
   setcolafter_(df, sur_band_var, sur_var)
 }
 
