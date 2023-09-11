@@ -175,7 +175,7 @@ relative_risk_test <- function(data, group_var = c("gender", "age_band"), value_
   z[, rr  := ifelse(inc1 > inc0, inc1 / inc0 - 1, 0)]
   z[, or  := (tp/fp) / (fn/tn) - 1]
   z$pvalue <- pvalue
-  z$confident <- ifelse(pvalue < .025, 1, 0)
+  z$reject <- ifelse(pvalue < .025, 1, 0)
   return(z)
 }
 
