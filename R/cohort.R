@@ -152,6 +152,33 @@ id_with_kcd_terms <- function(df, id_var, kcd_var, from_var, to_var, udate, ...)
   return(z)
 }
 
+relative_risk_test <- function(data, group_var = c("gender", "age_band"), value_var = c("decl")) {
+  dt <- data[data$excl == 0 & data$claim == 1,]
+  formula <- formula(sprintf("%s ~ %s", paste(group_var, collapse = " + "), value_var))
+  dt_n <- dcast(dt, formula, value.var = "n", fun.aggregate = sum)
+  replace_na_with_zero(dt_n)
+  setnames(dt_n, c("0", "1"), c("n01", "n11"))
+  dt_nsum <- dcast(dt, formula, value.var = "nsum", fun.aggregate = sum)
+  replace_na_with_zero(dt_nsum)
+  setnames(dt_nsum, c("0", "1"), c("nsum0", "nsum1"))
+  dt_nsum[dt_n, on = group_var, `:=`(n01 = i.n01, n11 = i.n11)]
+  dt_nsum[, n00 := nsum0 - n01]
+  dt_nsum[, n10 := nsum1 - n11]
+  rm_cols(dt_nsum, .(nsum0, nsum1))
+  setnames(dt_nsum, c("n11", "n01", "n10", "n00"), c("tp", "fn", "fp", "tn"))
+  cols <- c(group_var, "tp", "fn", "fp", "tn")
+  z <- dt_nsum[, ..cols]
+  m <- array(t(as.matrix(z[, c("tp", "fn", "fp", "tn")])), dim = c(2L, 2L, nrow(z)))
+  pvalue <- sapply(1:nrow(z), function(x) fisher.test(m[,, x])$p.value)
+  z[, inc0 := fn / (fn + tn)]
+  z[, inc1 := tp / (tp + fp)]
+  z[, rr  := ifelse(inc1 > inc0, inc1 / inc0 - 1, 0)]
+  z[, or  := (tp/fp) / (fn/tn) - 1]
+  z$pvalue <- pvalue
+  z$confident <- ifelse(pvalue < .025, 1, 0)
+  return(z)
+}
+
 kcd_in_months <- function (df, id_var, kcd_var, from_var, to_var, udate, start, end,
                            kcd_code, col) {
   id_var   <- match_cols(df, vapply(substitute(id_var)  , deparse, "character"))
