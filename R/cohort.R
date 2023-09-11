@@ -172,7 +172,7 @@ relative_risk_test <- function(data, group_var = c("gender", "age_band"), value_
   pvalue <- sapply(1:nrow(z), function(x) fisher.test(m[,, x])$p.value)
   z[, inc0 := fn / (fn + tn)]
   z[, inc1 := tp / (tp + fp)]
-  z[, rr  := ifelse(inc1 > inc0, inc1 / inc0 - 1, 0)]
+  z[, rr  := (inc1 / inc0) - 1]
   z[, or  := (tp/fp) / (fn/tn) - 1]
   z$pvalue <- pvalue
   z$reject <- factor(ifelse(pvalue < .025, 1, 0), levels = c(0, 1))
