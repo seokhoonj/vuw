@@ -147,7 +147,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
       list(if (max_label) {
         geom_label(data = risk_info_b, aes(label = label), family = family, colour = "black", alpha = .3, hjust = -.1, vjust = 1.2)
       }) +
-      scale_gender_manual(risk_info$gender) +
+      scale_gender_manual(risk_info$gender)[[1L]] +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
       scale_y_continuous(labels = function(x) sprintf("%.4f", exp(x))) +
       list(if (facet) {
@@ -159,7 +159,7 @@ risk_plot <- function(risk_info, x, nrow = NULL, ncol = NULL, scales = "free_y",
       list(if (max_label) {
         geom_label(data = risk_info_b, aes(label = label), family = family, colour = "black", alpha = .3, hjust = -.1, vjust = 1.2)
       }) +
-      scale_gender_manual(risk_info$gender) +
+      scale_gender_manual(risk_info$gender)[[1L]] +
       scale_x_continuous(n.breaks = floor(unilen(risk_info$age) / age_unit)) +
       scale_y_continuous(labels = function(x) sprintf("%.4f", x)) +
       list(if (facet) {
