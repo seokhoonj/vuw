@@ -25,10 +25,11 @@ get_info <- function(x) {
   nrows <- nrow(x)
   n <- sapply(x, function(x) sum(!is.na(x)))
   missing <- sapply(x, function(x) sum(is.na(x)))
+  zero <- sapply(x, function(x) sum(x == 0, na.rm = TRUE))
   distinct <- sapply(x, unilen)
   mode <- sapply(x, get_mode)
-  data.table(column, class, type, n, missing, distinct,
-             prop = 1-missing/nrows, mode)
+  data.table(column, class, type, n, missing, zero, distinct,
+             prop = 1-missing/nrows, nzprop = 1-zero/nrows, mode)
 }
 
 prop_table <- function(x, digits = 2) {
