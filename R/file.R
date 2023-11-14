@@ -25,6 +25,7 @@ create_library_r <- function(file = "library.R", path) {
     "shinydashboard",
     "shinyFiles",
     "shinyjs",
+    "shinymodules",
     "shinyWidgets",
     "stringr",
     "tibble",
