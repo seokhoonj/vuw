@@ -37,7 +37,7 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single"),
              color = barcolor) +
     list(
-      if (!missing(ymax_err)) {
+      if (!(missing(ymin_err) & missing(ymax_err))) {
         ymin_err <- deparse(substitute(ymin_err))
         ymax_err <- deparse(substitute(ymax_err))
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
@@ -69,7 +69,7 @@ ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
     geom_bar(stat = "identity", position = position_dodge2(preserve = "single"),
              color = barcolor) +
     list(
-      if (!missing(ymax_err)) {
+      if (!(missing(ymin_err) & missing(ymax_err))) {
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err,
                                 text = text),
                            function(x) if (!is.null(x) & !is.numeric(x)) sym(x)
@@ -147,7 +147,7 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
   ggplot(data = data, aes(!!!args)) +
     geom_line(linetype = linetype) +
     list(
-      if (!missing(ymax_err)) {
+      if (!(missing(ymin_err) & missing(ymax_err))) {
         ymin_err <- deparse(substitute(ymin_err))
         ymax_err <- deparse(substitute(ymax_err))
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
@@ -177,7 +177,7 @@ ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
   ggplot(data = data, aes(!!!args)) +
     geom_line(linetype = linetype) +
     list(
-      if (!missing(ymax_err)) {
+      if (!(missing(ymin_err) & missing(ymax_err))) {
         args_err <- lapply(list(x = x, ymin = ymin_err, ymax = ymax_err),
                            function(x) if (!is.null(x) & !is.numeric(x)) sym(x)
                            else x)
