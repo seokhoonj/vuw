@@ -167,10 +167,10 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
       })
 }
 
-ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
-                    color = NULL, fill = NULL, text, label, linetype = "solid",
-                    family = "Comic Sans MS", size = 4, angle = 0, hjust = .5,
-                    vjust = .5) {
+ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
+                    group = NULL, color = NULL, fill = NULL, text, label,
+                    linetype = "solid", family = "Comic Sans MS", size = 4,
+                    angle = 0, hjust = .5, vjust = .5) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
                       color = color, fill = fill, text = text),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
