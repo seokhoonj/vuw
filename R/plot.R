@@ -21,7 +21,7 @@
 ##' @export
 ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
                   group = NULL, color = NULL, fill = NULL,
-                  barcolor = "transparent", text, label,
+                  barcolor = "transparent", text = NULL, label,
                   family = "Comic Sans MS", size = 4, angle = 0,
                   hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
@@ -59,7 +59,7 @@ ggbar <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
 
 ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
                    group = NULL, color = NULL, fill = NULL,
-                   barcolor = "transparent", text, label,
+                   barcolor = "transparent", text = NULL, label,
                    family = "Comic Sans MS", size = 4, angle = 0, hjust = .5,
                    vjust = .5) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
@@ -88,9 +88,9 @@ ggbar_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
 }
 
 ggmix <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
-                  color = NULL, fill = NULL, barcolor = "transparent", text,
-                  label, family = "Comic Sans MS", size = 4, angle = 0,
-                  hjust = 0.5, vjust = 0.5, reverse = TRUE) {
+                  color = NULL, fill = NULL, barcolor = "transparent",
+                  text = NULL, label, family = "Comic Sans MS", size = 4,
+                  angle = 0, hjust = 0.5, vjust = 0.5, reverse = TRUE) {
   x     <- deparse(substitute(x))
   y     <- deparse(substitute(y))
   group <- if (!is.null(substitute(group))) deparse(substitute(group))
@@ -113,9 +113,9 @@ ggmix <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
 }
 
 ggmix_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
-                   color = NULL, fill = NULL, barcolor = "transparent", text,
-                   label, family = "Comic Sans MS", size = 4, angle = 0,
-                   hjust = 0.5, vjust = 0.5, reverse = TRUE) {
+                   color = NULL, fill = NULL, barcolor = "transparent",
+                   text = NULL, label, family = "Comic Sans MS", size = 4,
+                   angle = 0, hjust = 0.5, vjust = 0.5, reverse = TRUE) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
                       color = color, fill = fill, text = text),
                  function(x) if (!is.null(x) & !is.numeric(x)) sym(x) else x)
@@ -132,7 +132,7 @@ ggmix_ <- function(data, x, y, ymin = NULL, ymax = NULL, group = NULL,
 
 
 ggline <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
-                   group = NULL, color = NULL, fill = NULL, text, label,
+                   group = NULL, color = NULL, fill = NULL, text = NULL, label,
                    linetype = "solid", family = "Comic Sans MS", size = 4,
                    angle = 0, hjust = .5, vjust = .5) {
   x <- deparse(substitute(x))
@@ -168,7 +168,7 @@ ggline <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
 }
 
 ggline_ <- function(data, x, y, ymin = NULL, ymax = NULL, ymin_err, ymax_err,
-                    group = NULL, color = NULL, fill = NULL, text, label,
+                    group = NULL, color = NULL, fill = NULL, text = NULL, label,
                     linetype = "solid", family = "Comic Sans MS", size = 4,
                     angle = 0, hjust = .5, vjust = .5) {
   args <- lapply(list(x = x, y = y, ymin = ymin, ymax = ymax, group = group,
@@ -362,7 +362,7 @@ ggtable <- function(data, x, y, label, family = "Comic Sans MS",
 }
 
 ggtable_ <- function(data, x, y, label, family = "Comic Sans MS",
-                    size = 4, angle = 0, hjust = .5, vjust = .5) {
+                     size = 4, angle = 0, hjust = .5, vjust = .5) {
   if (is.character(data[[x]]))
     data[[x]] <- as.factor(data[[x]])
   if (is.character(data[[y]]))
