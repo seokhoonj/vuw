@@ -15,6 +15,8 @@ ggbar(
   group = NULL,
   color = NULL,
   fill = NULL,
+  barcolor = "transparent",
+  text = NULL,
   label,
   family = "Comic Sans MS",
   size = 4,

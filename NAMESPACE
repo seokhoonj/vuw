@@ -310,6 +310,7 @@ export(theme_view)
 export(theme_shiny)
 export(theme_save)
 export(scale_gender_manual)
+export(scale_uym_gradientn)
 
 export(get_period_inforce)
 export(get_period_inforce_by_policy_ym)
