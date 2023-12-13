@@ -120,11 +120,11 @@ scale_gender_manual <- function(x, gender = c("1", "2"), colors = "vuw.two.color
   )
 }
 
-scale_uym_gradientn <- function(data, uym, elp) {
+scale_uym_gradientn <- function(data, uym, elp, by = 12) {
   uym <- deparse(substitute(uym))
   elp <- deparse(substitute(elp))
   to <- max(data[[elp]])
-  mon <- seq(from = 0, to = to, by = 12)
+  mon <- seq(from = 0, to = to, by = by)
   start <- min(data[[uym]])
   breaks <- add_mon(start, mon)
   scale_color_gradientn(colours = rainbow(length(mon)), breaks = breaks)
