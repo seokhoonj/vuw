@@ -236,27 +236,31 @@ ratio_plot <- function(risk_info, risk1, risk2, nrow = NULL, ncol = NULL,
   invisible(z)
 }
 
-amt_plot <- function(amt_mix, count.label = TRUE, prop.label = TRUE) {
+amt_plot <- function(amt_mix, count.label.size = 4, prop.label.size = 4, top.label.size = 14, theme = "view") {
   has_cols(amt_mix, c("gender", "age_band", "amount", "n", "nsum", "prop"))
   amt_mix_uni <- unique(amt_mix[, .(gender, age_band, nsum)])
   amt_mix_uni[, label := comma(nsum)]
   ymax <- max(amt_mix_uni$n * 1.1)
   width <- nchar(max(amt_mix$amount))
-  count.size <- ifelse(count.label, 4, 0)
-  prop.size <- ifelse(prop.label, 4, 0)
   g1 <- ggbar(amt_mix_uni,
               x = age_band, y = nsum, ymax = ymax * 1.1,
               group = gender, fill = gender, label = label,
-              size = count.size, hjust = -.1) +
+              size = count.label.size, hjust = -.1) +
     scale_gender_manual(amt_mix_uni$gender) +
     scale_y_continuous(labels = comma) +
     facet_wrap(~ gender, ncol = 1) +
     xlab("age band") +
     coord_flip() +
     theme_test() +
-    theme_view(x.size = 0, legend.position = "none")
+    list(if (theme == "view") {
+      theme_view(x.size = 0, legend.position = "none")
+    } else if (theme == "save") {
+      theme_save(x.size = 0, legend.position = "none")
+    } else if (theme == "shiny") {
+      theme_shiny(x.size = 0, legend.position = "none")
+    })
   g2 <- ggmix(amt_mix, x = age_band, y = prop, group = amount, fill = amount,
-              label = label, size = prop.size) +
+              label = label, size = prop.label.size) +
     scale_fill_gradient(low = "#56B1F7", high = "#132B43",
                         labels = function(x) str_pad(format(x, big.mark = ",",
                                                             scientific = F),
@@ -265,7 +269,13 @@ amt_plot <- function(amt_mix, count.label = TRUE, prop.label = TRUE) {
     xlab("") +
     coord_flip() +
     theme_test() +
-    theme_view(x.size = 0, x.angle = 90, legend.position = "right")
+    list(if (theme == "view") {
+      theme_view(x.size = 0, x.angle = 90, legend.position = "right")
+    } else if (theme == "save") {
+      theme_save(x.size = 0, x.angle = 90, legend.position = "right")
+    } else if (theme == "shiny") {
+      theme_shiny(x.size = 0, x.angle = 90, legend.position = "right")
+    })
 
   legend <- get_legend(g2)
   g2 <- g2 + theme_view(x.size = 0, legend.position = "none")
@@ -273,7 +283,7 @@ amt_plot <- function(amt_mix, count.label = TRUE, prop.label = TRUE) {
   top <- textGrob(
     sprintf("Distribution of face amount\n%s",
     if (length(match_cols(amt_mix, "rider")) == 1) amt_mix$rider[1L] else "Specific Rider"),
-    gp = gpar(fontfamily = "Comic Sans MS", size = 14)
+    gp = gpar(fontfamily = "Comic Sans MS", size = top.label.size)
   )
 
   p <- arrangeGrob(
