@@ -438,5 +438,5 @@ data2treemap <- function(df, group_var, value_var, fig = TRUE,
     attr(props, "fig") <- g
     print(g)
   }
-  return(props)
+  return(g)
 }
