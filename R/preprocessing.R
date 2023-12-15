@@ -451,7 +451,7 @@ summarise_decl <- function(decl_out, decl_hos, decl_sur, id_var, kcd_var, kcd_n_
   decl_elp_hos_sur <- decl_all[type %in% c("hos", "sur"), .(elp_hos_sur = max(get(to_var))), id_kcd_var]
   decl_elp_hos_sur[, `:=`(elp_hos_sur, as.numeric(udate - elp_hos_sur))]
   decl_elp <- decl_all[, .(elp = max(get(to_var))), id_kcd_var]
-  decl_elp[, `:=`(elp, as.numeric(udate - elp))]
+  decl_elp[, `:=`(elp, as.numeric(udate - elp) + 1)]
   z[decl_hos_tot, on = id_var, `:=`(hos_tot, i.hos_tot)]
   z[decl_sur_tot, on = id_var, `:=`(sur_tot, i.sur_tot)]
   z[decl_elp_tot, on = id_var, `:=`(elp_tot, i.elp_tot)]
